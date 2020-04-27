@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>最大子段和问题</title>
+    <url>/2020/04/21/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="最大子段和问题"><a href="#最大子段和问题" class="headerlink" title="最大子段和问题"></a>最大子段和问题</h1><h2 id="递归关系分析"><a href="#递归关系分析" class="headerlink" title="递归关系分析"></a>递归关系分析</h2><p>首先定义 b[j] 表示 i 从 1 变到 j 时每个a[i]+a[i+1]+…+a[j] 比较的最大值，<br>那么数组 b[j], 1 &lt;= j &lt;= n的最大值即为a数组的最大字段和  </p>
+<p>根据b[j]的定义，我们有:<br><strong>b[j-1] &gt; 0时, b[j] = b[j-1] + a[j]<br>否则 b[j] = a[j]</strong></p>
+<p>由此有b[j]的动态规划递推式:<br><strong>1 &lt;= j &lt;= n 时, b[j] = max{b[j-1] + a[j], a[j]}</strong></p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM 101</span></span><br><span class="line"><span class="keyword">int</span> a[NUM];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxsum</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(b &gt; <span class="number">0</span>) b += a[i];</span><br><span class="line">        <span class="keyword">else</span> b = a[i];</span><br><span class="line">        <span class="keyword">if</span>(b &gt; sum) sum = b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法设计与分析</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ACM经典数塔问题</title>
     <url>/2020/04/24/ACM%E7%BB%8F%E5%85%B8%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="ACM经典数塔问题"><a href="#ACM经典数塔问题" class="headerlink" title="ACM经典数塔问题"></a>ACM经典数塔问题</h1><p>此题为动态规划法的简单训练题。  </p>
@@ -16,17 +30,23 @@
       </tags>
   </entry>
   <entry>
-    <title>最大子段和问题</title>
-    <url>/2020/04/21/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="最大子段和问题"><a href="#最大子段和问题" class="headerlink" title="最大子段和问题"></a>最大子段和问题</h1><h2 id="递归关系分析"><a href="#递归关系分析" class="headerlink" title="递归关系分析"></a>递归关系分析</h2><p>首先定义 b[j] 表示 i 从 1 变到 j 时每个a[i]+a[i+1]+…+a[j] 比较的最大值，<br>那么数组 b[j], 1 &lt;= j &lt;= n的最大值即为a数组的最大字段和  </p>
-<p>根据b[j]的定义，我们有:<br><strong>b[j-1] &gt; 0时, b[j] = b[j-1] + a[j]<br>否则 b[j] = a[j]</strong></p>
-<p>由此有b[j]的动态规划递推式:<br><strong>1 &lt;= j &lt;= n 时, b[j] = max{b[j-1] + a[j], a[j]}</strong></p>
-<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM 101</span></span><br><span class="line"><span class="keyword">int</span> a[NUM];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxsum</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(b &gt; <span class="number">0</span>) b += a[i];</span><br><span class="line">        <span class="keyword">else</span> b = a[i];</span><br><span class="line">        <span class="keyword">if</span>(b &gt; sum) sum = b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>n-皇后问题</title>
+    <url>/2020/04/27/n-%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="n-皇后问题"><a href="#n-皇后问题" class="headerlink" title="n-皇后问题"></a>n-皇后问题</h1><p>在解决n皇后问题之前，我们先说明一下回溯法</p>
+<h2 id="回溯法解决问题的一般步骤及回溯法的特征"><a href="#回溯法解决问题的一般步骤及回溯法的特征" class="headerlink" title="回溯法解决问题的一般步骤及回溯法的特征"></a>回溯法解决问题的一般步骤及回溯法的特征</h2><p>1，针对给出问题，给出解空间；  </p>
+<p>2，确定易于搜索的解空间组织结构；  </p>
+<p>3，以深度优先的方式搜索解空间，并在搜索中使用剪枝函数避免不必要的搜索。（回溯时可采用递归回溯与迭代回溯）  </p>
+<p>用回溯法解题显著特征为在搜索过程中动态产生问题的解空间（分为排列树与子集树），任何时刻，算法只保存从根结点到当前扩展结点的路径。</p>
+<h2 id="n-皇后问题的解空间"><a href="#n-皇后问题的解空间" class="headerlink" title="n-皇后问题的解空间"></a>n-皇后问题的解空间</h2><p>数组 x[i] 代表第 i 行的皇后放置在第 x[i] 列上  </p>
+<p>若显式约束为 i != j 时，x[i] != x[j]，那么显然皇后问题解空间为n!种排列，因此构造的树为排列树。</p>
+<h2 id="n-皇后问题排列树采用剪枝函数压缩结点数"><a href="#n-皇后问题排列树采用剪枝函数压缩结点数" class="headerlink" title="n-皇后问题排列树采用剪枝函数压缩结点数"></a>n-皇后问题排列树采用剪枝函数压缩结点数</h2><p>剪枝函数为：<strong>0 &lt;= i, j &lt;= n, if i != j, then x[i] != x[j] &amp;&amp; |x[i] - x[j]| != |i-j|</strong></p>
+<h2 id="采用递归算法实现回溯法解决n-皇后问题"><a href="#采用递归算法实现回溯法解决n-皇后问题" class="headerlink" title="采用递归算法实现回溯法解决n-皇后问题"></a>采用递归算法实现回溯法解决n-皇后问题</h2><p>代码如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">//判断皇后摆放是否冲突，即剪枝函数</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">place</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//从 1 到 t - 1 行分别判断是否冲突</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; t; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//若满足if判断条件则说明皇后摆放冲突</span></span><br><span class="line">        <span class="keyword">if</span>((x[i] == x[t]) || <span class="built_in">abs</span>(t - i) == <span class="built_in">abs</span>(x[t] - x[i]))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nQueensRec</span><span class="params">(<span class="keyword">int</span> x[], <span class="keyword">int</span> t, <span class="keyword">int</span> N)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//输出一个可行解</span></span><br><span class="line">    <span class="keyword">if</span>(t &gt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d, "</span>,x[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//一个一个尝试皇后的摆放</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            x[t] = i;</span><br><span class="line">            <span class="comment">//若不冲突，则继续摆放下一行的皇后</span></span><br><span class="line">            <span class="keyword">if</span>(place(x, t))</span><br><span class="line">            &#123;</span><br><span class="line">                nQueensRec(x, t + <span class="number">1</span>, N);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保存皇后的位置</span></span><br><span class="line">    <span class="keyword">int</span> x[<span class="number">9</span>];</span><br><span class="line">    nQueensRec(x, <span class="number">1</span>, <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法设计与分析</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
+        <tag>回溯法</tag>
       </tags>
   </entry>
   <entry>
