@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Java-Hashmap</title>
+    <url>/2020/05/27/Java%20Hashmap/</url>
+    <content><![CDATA[<h1 id="Java-Hashmap常用用法"><a href="#Java-Hashmap常用用法" class="headerlink" title="Java-Hashmap常用用法"></a>Java-Hashmap常用用法</h1><p>//定义map，K和V为类，不允许基本类型<br>HashMap &lt;K, V&gt; map = new HashMap&lt;K, V&gt;();</p>
+<p>//设置K键的值为V，即通过哈希函数计算出V = H(K)<br>map.put(K, V); </p>
+<p>//获取K键的值,返回值为V类型<br>map.get(K); </p>
+<p>//删除K键的值，返回的是V<br>map.remove(K);</p>
+<p>//判断是否有K键的值<br>boolean containsKey(K);</p>
+<p>//判断是否有值为V<br>boolean containsValue(V);</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ACM经典数塔问题</title>
     <url>/2020/04/24/ACM%E7%BB%8F%E5%85%B8%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="ACM经典数塔问题"><a href="#ACM经典数塔问题" class="headerlink" title="ACM经典数塔问题"></a>ACM经典数塔问题</h1><p>此题为动态规划法的简单训练题。  </p>
@@ -16,26 +33,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode-01</title>
-    <url>/2020/05/27/leetcode-01/</url>
-    <content><![CDATA[<p>#两数之和<br>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那<strong>两个</strong>整数，并返回他们的数组下标。</p>
-<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
-<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><p>最近用 java 语言写来巩固一下 java，忘得差不多了，很烦。</p>
-<p>这题没有说数组是有序的，那么首先显然是暴力法。暴力法就不用说了，看完题解之后发现还有采用哈希查找的方式，不得不复习了一下数据结构。</p>
-<p>这里直接给出解法：</p>
-<h3 id="两遍哈希表"><a href="#两遍哈希表" class="headerlink" title="两遍哈希表"></a>两遍哈希表</h3><p>第一遍将数组元素放入哈希表，第二遍通过target - nums[i]的键值搜索哈希表得到值并返回数组</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="一遍哈希表"><a href="#一遍哈希表" class="headerlink" title="一遍哈希表"></a>一遍哈希表</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意一个问题例如像{2,2,3,4,5}这样的数组，target为4<br>那么采用哈希表存储将会丢失key为2，value为1的元素，但从解法来看不影响。</p>
-]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>leetcode-easy</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Solving Equations</title>
     <url>/2020/05/04/Solving%20Equations/</url>
     <content><![CDATA[<h1 id="Solving-Equations"><a href="#Solving-Equations" class="headerlink" title="Solving Equations"></a>Solving Equations</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>任给一个等式，等式中不含有任何算术运算符，只含有数字，括号与等号；等式右边的计算没有优先规则，从左到右进行计算，有括号先计算括号内的；只能在等式中填入加，减和乘号使得等式成立。<br>例如 18 = 7 (5 3) 2，一种可能的结果为 18 = 7 + (5 - 3) * 2;<br>又例如 5 = 3 3,显然不为等式。</p>
@@ -46,23 +43,6 @@
       </categories>
       <tags>
         <tag>回溯法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java-Hashmap</title>
-    <url>/2020/05/27/Java%20Hashmap/</url>
-    <content><![CDATA[<h1 id="Java-Hashmap常用用法"><a href="#Java-Hashmap常用用法" class="headerlink" title="Java-Hashmap常用用法"></a>Java-Hashmap常用用法</h1><p>//定义map，K和V为类，不允许基本类型<br>HashMap &lt;K, V&gt; map = new HashMap&lt;K, V&gt;();</p>
-<p>//设置K键的值为V，即通过哈希函数计算出V = H(K)<br>map.put(K, V); </p>
-<p>//获取K键的值,返回值为V类型<br>map.get(K); </p>
-<p>//删除K键的值，返回的是V<br>map.remove(K);</p>
-<p>//判断是否有K键的值<br>boolean containsKey(K);</p>
-<p>//判断是否有值为V<br>boolean containsValue(V);</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -85,60 +65,23 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode-04</title>
-    <url>/2020/05/23/leetcode-04/</url>
-    <content><![CDATA[<h1 id="寻找两个有序数组的中位数"><a href="#寻找两个有序数组的中位数" class="headerlink" title="寻找两个有序数组的中位数"></a>寻找两个有序数组的中位数</h1><h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><p>给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。<br>请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。<br>你可以假设 nums1 和 nums2 不会同时为空。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先看时间复杂度，为 O(log(m + n))，那么很明显不能用二路归并法先将数组排好序，这样一来时间复杂度就来到了O(m + n)。<br>这里我们采用递归法<br>首先我们需要了解中位数的作用，在统计中，中位数被用来<br><strong>将一个集合划分为两个长度相等的子集，其中一个子集中的元素总是大于另一个子集中的元素。</strong><br>如果理解了中位数的划分作用，我们就很接近答案了。<br>首先，让我们在任一位置 i 将 A 划分成两个部分：  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      left_A             |        right_A</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br></pre></td></tr></table></figure>
-<p>由于 A 中有 m 个元素，所以我们有 m + 1 种划分的方法（i = 0 ~ m）。<br>所以有：<br>length(left_A) = i, length(right_A) = m - i.<br>当 i = 0 时，left_A 为空集，而当 i = m 时，right_A 为空集。<br>采用同样的方式，我们在任一位置 j 将 B 划分成两个部分：  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      left_B             |        right_B</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
-<p>将 left_A 和 left_B 放入一个集合，并将 right_A 和 right_B 放入另一个集合。再把这两个集合分别命名为 left_part 和 right_part：  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      left_part          |        right_part</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
-<p>如果我们可以确认：  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1, length(left_part) &#x3D; length(right_part)</span><br><span class="line">2, max(left_part) ≤ min(right_part)</span><br></pre></td></tr></table></figure>
-<p>那么我们已经将{A，B}中的所有元素划分为相同长度的两个部分，且其中一部分中的元素总是大于另一部分中的元素。那么：<br><strong>median = [max(left_part)+min(right_part)] / 2</strong><br>要确保这两个条件，我们只需要保证：  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1,i + j &#x3D; m - i + n - j（或：m - i + n - j + 1(m + n为奇数情况下））</span><br><span class="line">如果 n ≥ m，只需要使 i &#x3D; 0 ∼ m, j&#x3D; (m + n + 1) &#x2F; 2 − i  </span><br><span class="line">2,B[j−1] ≤ A[i] 以及 A[i−1] ≤ B[j]  </span><br><span class="line">ps： n ≥ m 是为了确保 j 不为负数，因为 i &#x3D; 0 ~ m。</span><br></pre></td></tr></table></figure>
-<p>所以，我们需要做的是：  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在[0, m]中搜素并找到目标对象 i，使得：  </span><br><span class="line">B[j−1] ≤ A[i] 以及 A[i−1] ≤ B[j]</span><br><span class="line">其中 j&#x3D; (m + n + 1) &#x2F; 2 − i</span><br></pre></td></tr></table></figure>
-
+    <title>leetcode-01</title>
+    <url>/2020/05/27/leetcode-01/</url>
+    <content><![CDATA[<p>#两数之和<br>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那<strong>两个</strong>整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
+<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><p>最近用 java 语言写来巩固一下 java，忘得差不多了，很烦。</p>
+<p>这题没有说数组是有序的，那么首先显然是暴力法。暴力法就不用说了，看完题解之后发现还有采用哈希查找的方式，不得不复习了一下数据结构。</p>
+<p>这里直接给出解法：</p>
+<h3 id="两遍哈希表"><a href="#两遍哈希表" class="headerlink" title="两遍哈希表"></a>两遍哈希表</h3><p>第一遍将数组元素放入哈希表，第二遍通过target - nums[i]的键值搜索哈希表得到值并返回数组</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一遍哈希表"><a href="#一遍哈希表" class="headerlink" title="一遍哈希表"></a>一遍哈希表</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意一个问题例如像{2,2,3,4,5}这样的数组，target为4<br>那么采用哈希表存储将会丢失key为2，value为1的元素，但从解法来看不影响。</p>
 ]]></content>
       <categories>
         <category>leetcode</category>
       </categories>
       <tags>
-        <tag>leetcode-hard</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode-21</title>
-    <url>/2020/05/27/leetcode-21/</url>
-    <content><![CDATA[<h1 id="合并两个有序链表"><a href="#合并两个有序链表" class="headerlink" title="合并两个有序链表"></a>合并两个有序链表</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p>
-<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><h3 id="迭代法"><a href="#迭代法" class="headerlink" title="迭代法"></a>迭代法</h3><p>看到这题应该很容易想到双指针法，这里就不多说了，直接给出代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">           ListNode head = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">           ListNode p = head;</span><br><span class="line">           <span class="keyword">while</span> (l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">if</span> (l1.val &lt;= l2.val)</span><br><span class="line">               &#123;</span><br><span class="line">                   p.next = l1;</span><br><span class="line">                   l1 = l1.next;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span></span><br><span class="line">               &#123;</span><br><span class="line">                   p.next = l2;</span><br><span class="line">                   l2 = l2.next;</span><br><span class="line">               &#125;</span><br><span class="line">                   p = p.next;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (l1 == <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               p.next = l2;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (l2 == <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               p.next = l1;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> head.next;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h3><p>递归真是一看就会，一写就废，还是得多练习啊。</p>
-<p>这个题其实就是比较两个元素谁小，小的话就接上去，那么从递归的角度来讲，假如list1[0] &lt;= list2[0]，那么可以让list1剩下的部分于list2继续比较，谁更小就接到list[0]后边</p>
-<p>所谓的递归出口，就是当l1或是l2为空时，返回剩下的元素。</p>
-<p>写成式子就是<br>list1[0] + merge(list1[1..n],list2) 当list1[0] &lt;= list2[0]时<br>list2[0] + merge(list1,list2[1..n]) otherwise</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span> (l1 == <span class="keyword">null</span>)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">return</span> l2;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (l2 == <span class="keyword">null</span>)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">return</span> l1;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (l1.val &lt;= l2.val)</span><br><span class="line">          &#123;</span><br><span class="line">              l1.next = mergeTwoLists(l1.next,l2);</span><br><span class="line">              <span class="keyword">return</span> l1;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">          &#123;</span><br><span class="line">              l2.next = mergeTwoLists(l1,l2.next);</span><br><span class="line">              <span class="keyword">return</span> l2;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
         <tag>leetcode-easy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>最大子段和问题</title>
-    <url>/2020/04/21/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="最大子段和问题"><a href="#最大子段和问题" class="headerlink" title="最大子段和问题"></a>最大子段和问题</h1><h2 id="递归关系分析"><a href="#递归关系分析" class="headerlink" title="递归关系分析"></a>递归关系分析</h2><p>首先定义 b[j] 表示 i 从 1 变到 j 时每个a[i]+a[i+1]+…+a[j] 比较的最大值，<br>那么数组 b[j], 1 &lt;= j &lt;= n的最大值即为a数组的最大字段和  </p>
-<p>根据b[j]的定义，我们有:<br><strong>b[j-1] &gt; 0时, b[j] = b[j-1] + a[j]<br>否则 b[j] = a[j]</strong></p>
-<p>由此有b[j]的动态规划递推式:<br><strong>1 &lt;= j &lt;= n 时, b[j] = max{b[j-1] + a[j], a[j]}</strong></p>
-<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM 101</span></span><br><span class="line"><span class="keyword">int</span> a[NUM];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxsum</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(b &gt; <span class="number">0</span>) b += a[i];</span><br><span class="line">        <span class="keyword">else</span> b = a[i];</span><br><span class="line">        <span class="keyword">if</span>(b &gt; sum) sum = b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法设计与分析</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -173,6 +116,63 @@
       </categories>
       <tags>
         <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-21</title>
+    <url>/2020/05/27/leetcode-21/</url>
+    <content><![CDATA[<h1 id="合并两个有序链表"><a href="#合并两个有序链表" class="headerlink" title="合并两个有序链表"></a>合并两个有序链表</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p>
+<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><h3 id="迭代法"><a href="#迭代法" class="headerlink" title="迭代法"></a>迭代法</h3><p>看到这题应该很容易想到双指针法，这里就不多说了，直接给出代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">           ListNode head = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">           ListNode p = head;</span><br><span class="line">           <span class="keyword">while</span> (l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">if</span> (l1.val &lt;= l2.val)</span><br><span class="line">               &#123;</span><br><span class="line">                   p.next = l1;</span><br><span class="line">                   l1 = l1.next;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span></span><br><span class="line">               &#123;</span><br><span class="line">                   p.next = l2;</span><br><span class="line">                   l2 = l2.next;</span><br><span class="line">               &#125;</span><br><span class="line">                   p = p.next;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (l1 == <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               p.next = l2;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (l2 == <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               p.next = l1;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> head.next;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h3><p>递归真是一看就会，一写就废，还是得多练习啊。</p>
+<p>这个题其实就是比较两个元素谁小，小的话就接上去，那么从递归的角度来讲，假如list1[0] &lt;= list2[0]，那么可以让list1剩下的部分于list2继续比较，谁更小就接到list[0]后边</p>
+<p>所谓的递归出口，就是当l1或是l2为空时，返回剩下的元素。</p>
+<p>写成式子就是<br>list1[0] + merge(list1[1..n],list2) 当list1[0] &lt;= list2[0]时<br>list2[0] + merge(list1,list2[1..n]) otherwise</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span> (l1 == <span class="keyword">null</span>)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">return</span> l2;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (l2 == <span class="keyword">null</span>)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">return</span> l1;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (l1.val &lt;= l2.val)</span><br><span class="line">          &#123;</span><br><span class="line">              l1.next = mergeTwoLists(l1.next,l2);</span><br><span class="line">              <span class="keyword">return</span> l1;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">          &#123;</span><br><span class="line">              l2.next = mergeTwoLists(l1,l2.next);</span><br><span class="line">              <span class="keyword">return</span> l2;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>leetcode-easy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode-04</title>
+    <url>/2020/05/23/leetcode-04/</url>
+    <content><![CDATA[<h1 id="寻找两个有序数组的中位数"><a href="#寻找两个有序数组的中位数" class="headerlink" title="寻找两个有序数组的中位数"></a>寻找两个有序数组的中位数</h1><h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><p>给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。<br>请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。<br>你可以假设 nums1 和 nums2 不会同时为空。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先看时间复杂度，为 O(log(m + n))，那么很明显不能用二路归并法先将数组排好序，这样一来时间复杂度就来到了O(m + n)。<br>这里我们采用递归法<br>首先我们需要了解中位数的作用，在统计中，中位数被用来<br><strong>将一个集合划分为两个长度相等的子集，其中一个子集中的元素总是大于另一个子集中的元素。</strong><br>如果理解了中位数的划分作用，我们就很接近答案了。<br>首先，让我们在任一位置 i 将 A 划分成两个部分：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      left_A             |        right_A</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br></pre></td></tr></table></figure>
+<p>由于 A 中有 m 个元素，所以我们有 m + 1 种划分的方法（i = 0 ~ m）。<br>所以有：<br>length(left_A) = i, length(right_A) = m - i.<br>当 i = 0 时，left_A 为空集，而当 i = m 时，right_A 为空集。<br>采用同样的方式，我们在任一位置 j 将 B 划分成两个部分：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      left_B             |        right_B</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
+<p>将 left_A 和 left_B 放入一个集合，并将 right_A 和 right_B 放入另一个集合。再把这两个集合分别命名为 left_part 和 right_part：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      left_part          |        right_part</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
+<p>如果我们可以确认：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1, length(left_part) &#x3D; length(right_part)</span><br><span class="line">2, max(left_part) ≤ min(right_part)</span><br></pre></td></tr></table></figure>
+<p>那么我们已经将{A，B}中的所有元素划分为相同长度的两个部分，且其中一部分中的元素总是大于另一部分中的元素。那么：<br><strong>median = [max(left_part)+min(right_part)] / 2</strong><br>要确保这两个条件，我们只需要保证：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1,i + j &#x3D; m - i + n - j（或：m - i + n - j + 1(m + n为奇数情况下））</span><br><span class="line">如果 n ≥ m，只需要使 i &#x3D; 0 ∼ m, j&#x3D; (m + n + 1) &#x2F; 2 − i  </span><br><span class="line">2,B[j−1] ≤ A[i] 以及 A[i−1] ≤ B[j]  </span><br><span class="line">ps： n ≥ m 是为了确保 j 不为负数，因为 i &#x3D; 0 ~ m。</span><br></pre></td></tr></table></figure>
+<p>所以，我们需要做的是：  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在[0, m]中搜素并找到目标对象 i，使得：  </span><br><span class="line">B[j−1] ≤ A[i] 以及 A[i−1] ≤ B[j]</span><br><span class="line">其中 j&#x3D; (m + n + 1) &#x2F; 2 − i</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>leetcode-hard</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最大子段和问题</title>
+    <url>/2020/04/21/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="最大子段和问题"><a href="#最大子段和问题" class="headerlink" title="最大子段和问题"></a>最大子段和问题</h1><h2 id="递归关系分析"><a href="#递归关系分析" class="headerlink" title="递归关系分析"></a>递归关系分析</h2><p>首先定义 b[j] 表示 i 从 1 变到 j 时每个a[i]+a[i+1]+…+a[j] 比较的最大值，<br>那么数组 b[j], 1 &lt;= j &lt;= n的最大值即为a数组的最大字段和  </p>
+<p>根据b[j]的定义，我们有:<br><strong>b[j-1] &gt; 0时, b[j] = b[j-1] + a[j]<br>否则 b[j] = a[j]</strong></p>
+<p>由此有b[j]的动态规划递推式:<br><strong>1 &lt;= j &lt;= n 时, b[j] = max{b[j-1] + a[j], a[j]}</strong></p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM 101</span></span><br><span class="line"><span class="keyword">int</span> a[NUM];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxsum</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(b &gt; <span class="number">0</span>) b += a[i];</span><br><span class="line">        <span class="keyword">else</span> b = a[i];</span><br><span class="line">        <span class="keyword">if</span>(b &gt; sum) sum = b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法设计与分析</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
