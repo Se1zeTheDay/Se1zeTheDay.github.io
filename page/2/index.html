@@ -75,6 +75,509 @@
     
     
     
+    <article id="post-leetcode-21" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/27/leetcode-21/"
+    >leetcode-21</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/27/leetcode-21/" class="article-date">
+  <time datetime="2020-05-27T05:21:41.293Z" itemprop="datePublished">2020-05-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="合并两个有序链表"><a href="#合并两个有序链表" class="headerlink" title="合并两个有序链表"></a>合并两个有序链表</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p>
+<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><h3 id="迭代法"><a href="#迭代法" class="headerlink" title="迭代法"></a>迭代法</h3><p>看到这题应该很容易想到双指针法，这里就不多说了，直接给出代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">           ListNode head = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">           ListNode p = head;</span><br><span class="line">           <span class="keyword">while</span> (l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">if</span> (l1.val &lt;= l2.val)</span><br><span class="line">               &#123;</span><br><span class="line">                   p.next = l1;</span><br><span class="line">                   l1 = l1.next;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span></span><br><span class="line">               &#123;</span><br><span class="line">                   p.next = l2;</span><br><span class="line">                   l2 = l2.next;</span><br><span class="line">               &#125;</span><br><span class="line">                   p = p.next;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (l1 == <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               p.next = l2;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (l2 == <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               p.next = l1;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> head.next;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h3><p>递归真是一看就会，一写就废，还是得多练习啊。</p>
+<p>这个题其实就是比较两个元素谁小，小的话就接上去，那么从递归的角度来讲，假如list1[0] &lt;= list2[0]，那么可以让list1剩下的部分于list2继续比较，谁更小就接到list[0]后边</p>
+<p>所谓的递归出口，就是当l1或是l2为空时，返回剩下的元素。</p>
+<p>写成式子就是<br>list1[0] + merge(list1[1..n],list2) 当list1[0] &lt;= list2[0]时<br>list2[0] + merge(list1,list2[1..n]) otherwise</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span> (l1 == <span class="keyword">null</span>)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">return</span> l2;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (l2 == <span class="keyword">null</span>)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">return</span> l1;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (l1.val &lt;= l2.val)</span><br><span class="line">          &#123;</span><br><span class="line">              l1.next = mergeTwoLists(l1.next,l2);</span><br><span class="line">              <span class="keyword">return</span> l1;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">          &#123;</span><br><span class="line">              l2.next = mergeTwoLists(l1,l2.next);</span><br><span class="line">              <span class="keyword">return</span> l2;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-Java Hashmap" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/27/Java%20Hashmap/"
+    >Java-Hashmap</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/27/Java%20Hashmap/" class="article-date">
+  <time datetime="2020-05-27T02:18:56.326Z" itemprop="datePublished">2020-05-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="Java-Hashmap常用用法"><a href="#Java-Hashmap常用用法" class="headerlink" title="Java-Hashmap常用用法"></a>Java-Hashmap常用用法</h1><p>//定义map，K和V为类，不允许基本类型<br>HashMap &lt;K, V&gt; map = new HashMap&lt;K, V&gt;();</p>
+<p>//设置K键的值为V，即通过哈希函数计算出V = H(K)<br>map.put(K, V); </p>
+<p>//获取K键的值,返回值为V类型<br>map.get(K); </p>
+<p>//删除K键的值，返回的是V<br>map.remove(K);</p>
+<p>//判断是否有K键的值<br>boolean containsKey(K);</p>
+<p>//判断是否有值为V<br>boolean containsValue(V);</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-01" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/27/leetcode-01/"
+    >leetcode-01</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/27/leetcode-01/" class="article-date">
+  <time datetime="2020-05-27T01:48:55.627Z" itemprop="datePublished">2020-05-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p>#两数之和<br>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那<strong>两个</strong>整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
+<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><p>最近用 java 语言写来巩固一下 java，忘得差不多了，很烦。</p>
+<p>这题没有说数组是有序的，那么首先显然是暴力法。暴力法就不用说了，看完题解之后发现还有采用哈希查找的方式，不得不复习了一下数据结构。</p>
+<p>这里直接给出解法：</p>
+<h3 id="两遍哈希表"><a href="#两遍哈希表" class="headerlink" title="两遍哈希表"></a>两遍哈希表</h3><p>第一遍将数组元素放入哈希表，第二遍通过target - nums[i]的键值搜索哈希表得到值并返回数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一遍哈希表"><a href="#一遍哈希表" class="headerlink" title="一遍哈希表"></a>一遍哈希表</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意一个问题例如像{2,2,3,4,5}这样的数组，target为4<br>那么采用哈希表存储将会丢失key为2，value为1的元素，但从解法来看不影响。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-哈希表" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/27/%E5%93%88%E5%B8%8C%E8%A1%A8/"
+    >哈希表</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/27/%E5%93%88%E5%B8%8C%E8%A1%A8/" class="article-date">
+  <time datetime="2020-05-27T01:24:37.833Z" itemprop="datePublished">2020-05-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="哈希表的概念"><a href="#哈希表的概念" class="headerlink" title="哈希表的概念"></a>哈希表的概念</h1><p><strong>哈希表</strong>(hash table) 又称散列表，其基本思路是，设要存储的元素个数为 n, 设置一个长度为 m(m &gt;= n) 的连续内存单元，以每个元素的关键字 ki ( 0 &lt;= i &lt;= n - 1) 为自变量 ，通过一个称为 <strong>哈希函数</strong>(hash function) 的函数 h(ki) 把 ki 映射为内存单元的地址（或下标） h(ki), 并把该元素存储在这个内存单元中。h (ki) 也称为 <strong>哈希地址</strong> (hash address)。把如此构造的线性表存储结构称为哈希表。</p>
+<p>在构建哈希表时可能存在这样的问题，两个关键字 ki和 kj(i != j)有 ki != kj ，但会出现 h(ki) = h(kj) 的情况，把这种现象叫<strong>哈希冲突</strong> (hash collisions) 。 通常把这种具有不同关键字而具有相同哈希地址的元素称为同义词 (synonym), 这种冲突也称为同义词冲突 。 在哈希表存储结构中，同义词冲突是很难避免的，除非关键字的变化区间小于等于哈希地址的变化区间，而这种情况当关键字取值不连续时是非常浪费存储空间的。通常的实际情况是关键字的取值区间远大于哈希地址的变化区间 。</p>
+<p>归纳起来，当<strong>一组数据的关键字与存储地址存在某种映射关系</strong>时，这组数据适合于采用哈希表存储。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-04" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/23/leetcode-04/"
+    >leetcode-04</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/23/leetcode-04/" class="article-date">
+  <time datetime="2020-05-23T06:50:29.285Z" itemprop="datePublished">2020-05-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="寻找两个有序数组的中位数"><a href="#寻找两个有序数组的中位数" class="headerlink" title="寻找两个有序数组的中位数"></a>寻找两个有序数组的中位数</h1><h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><p>给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。<br>请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。<br>你可以假设 nums1 和 nums2 不会同时为空。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先看时间复杂度，为 O(log(m + n))，那么很明显不能用二路归并法先将数组排好序，这样一来时间复杂度就来到了O(m + n)。<br>这里我们采用递归法<br>首先我们需要了解中位数的作用，在统计中，中位数被用来<br><strong>将一个集合划分为两个长度相等的子集，其中一个子集中的元素总是大于另一个子集中的元素。</strong><br>如果理解了中位数的划分作用，我们就很接近答案了。<br>首先，让我们在任一位置 i 将 A 划分成两个部分：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">      left_A             |        right_A</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br></pre></td></tr></table></figure>
+<p>由于 A 中有 m 个元素，所以我们有 m + 1 种划分的方法（i = 0 ~ m）。<br>所以有：<br>length(left_A) = i, length(right_A) = m - i.<br>当 i = 0 时，left_A 为空集，而当 i = m 时，right_A 为空集。<br>采用同样的方式，我们在任一位置 j 将 B 划分成两个部分：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">      left_B             |        right_B</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
+<p>将 left_A 和 left_B 放入一个集合，并将 right_A 和 right_B 放入另一个集合。再把这两个集合分别命名为 left_part 和 right_part：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      left_part          |        right_part</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
+<p>如果我们可以确认：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1, length(left_part) &#x3D; length(right_part)</span><br><span class="line">2, max(left_part) ≤ min(right_part)</span><br></pre></td></tr></table></figure>
+<p>那么我们已经将{A，B}中的所有元素划分为相同长度的两个部分，且其中一部分中的元素总是大于另一部分中的元素。那么：<br><strong>median = [max(left_part)+min(right_part)] / 2</strong><br>要确保这两个条件，我们只需要保证：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1,i + j &#x3D; m - i + n - j（或：m - i + n - j + 1(m + n为奇数情况下））</span><br><span class="line">如果 n ≥ m，只需要使 i &#x3D; 0 ∼ m, j&#x3D; (m + n + 1) &#x2F; 2 − i  </span><br><span class="line">2,B[j−1] ≤ A[i] 以及 A[i−1] ≤ B[j]  </span><br><span class="line">ps： n ≥ m 是为了确保 j 不为负数，因为 i &#x3D; 0 ~ m。</span><br></pre></td></tr></table></figure>
+<p>所以，我们需要做的是：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在[0, m]中搜素并找到目标对象 i，使得：  </span><br><span class="line">B[j−1] ≤ A[i] 以及 A[i−1] ≤ B[j]</span><br><span class="line">其中 j&#x3D; (m + n + 1) &#x2F; 2 − i</span><br></pre></td></tr></table></figure>
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-hard/" rel="tag">leetcode-hard</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-汇编" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/06/%E6%B1%87%E7%BC%96/"
+    >重拾汇编</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/06/%E6%B1%87%E7%BC%96/" class="article-date">
+  <time datetime="2020-05-06T14:38:29.925Z" itemprop="datePublished">2020-05-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B1%87%E7%BC%96/">汇编</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="32位寄存器"><a href="#32位寄存器" class="headerlink" title="32位寄存器"></a>32位寄存器</h1><p>32位CPU所含有的寄存器有：<br>4个数据寄存器(EAX、EBX、ECX和EDX)<br>2个变址和指针寄存器(ESI和EDI) 2个指针寄存器(ESP和EBP)<br>6个段寄存器(ES、CS、SS、DS、FS和GS)<br>1个指令指针寄存器(EIP) 1个标志寄存器(EFlags)</p>
+<h2 id="数据寄存器"><a href="#数据寄存器" class="headerlink" title="数据寄存器"></a>数据寄存器</h2><p>数据寄存器主要用来保存操作数和运算结果等信息，从而节省读取操作数所需占用总线和访问存储器的时间。<br>32位CPU有4个32位的通用寄存器EAX、EBX、ECX和EDX。<br>对低16位数据的存取，不会影响高16位的数据。<br>这些低16位寄存器分别命名为：AX、BX、CX和DX，它和先前的CPU中的寄存器相一致。<br>4个16位寄存器又可分割成8个独立的8位寄存器(AX：AH-AL、BX：BH-BL、CX：CH-CL、DX：DH-DL)，每个寄存器都有自己的名称，可独立存取。<br>程序员可利用数据寄存器的这种“可分可合”的特性，灵活地处理字/字节的信息。</p>
+<p>寄存器EAX通常称为累加器(Accumulator)，用累加器进行的操作可能需要更少时间。可用于乘、 除、输入/输出等操作，使用频率很高；<br>寄存器EBX称为基地址寄存器(Base Register)。它可作为存储器指针来使用；<br>寄存器ECX称为计数寄存器(Count Register)。<br>在循环和字符串操作时，要用它来控制循环次数；在位操作中，当移多位时，要用CL来指明移位的位数；<br>寄存器EDX称为数据寄存器(Data Register)。在进行乘、除运算时，它可作为默认的操作数参与运算，也可用于存放I/O的端口地址。</p>
+<p>在16位CPU中，AX、BX、CX和DX不能作为基址和变址寄存器来存放存储单元的地址，<br>在32位CPU中，其32位寄存器EAX、EBX、ECX和EDX不仅可传送数据、暂存数据保存算术逻辑运算结果，<br>而且也可作为指针寄存器，所以，这些32位寄存器更具有通用性。</p>
+<h2 id="变址寄存器"><a href="#变址寄存器" class="headerlink" title="变址寄存器"></a>变址寄存器</h2><p>32位CPU有2个32位通用寄存器ESI和EDI。<br>其低16位对应先前CPU中的SI和DI，对低16位数据的存取，不影响高16位的数据。</p>
+<p>寄存器ESI、EDI、SI和DI称为变址寄存器(Index Register)，它们主要用于存放存储单元在段内的偏移量，<br>用它们可实现多种存储器操作数的寻址方式，为以不同的地址形式访问存储单元提供方便。<br>变址寄存器不可分割成8位寄存器。作为通用寄存器，也可存储算术逻辑运算的操作数和运算结果。<br>它们可作一般的存储器指针使用。在字符串操作指令的执行过程中，对它们有特定的要求，而且还具有特殊的功能。</p>
+<h2 id="指针寄存器"><a href="#指针寄存器" class="headerlink" title="指针寄存器"></a>指针寄存器</h2><p>其低16位对应先前CPU中的BP和SP，对低16位数据的存取，不影响高16位的数据。<br>32位CPU有2个32位通用寄存器EBP和ESP。<br>它们主要用于访问堆栈内的存储单元，并且规定：<br>EBP为基指针(Base Pointer)寄存器，用它可直接存取堆栈中的数据；<br>ESP为堆栈指针(Stack Pointer)寄存器，用它只可访问栈顶。</p>
+<p>寄存器EBP、ESP、BP和SP称为指针寄存器(Pointer Register)，主要用于存放堆栈内存储单元的偏移量，<br>用它们可实现多种存储器操作数的寻址方式，为以不同的地址形式访问存储单元提供方便。<br>指针寄存器不可分割成8位寄存器。作为通用寄存器，也可存储算术逻辑运算的操作数和运算结果。</p>
+<h2 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h2><p>段寄存器是根据内存分段的管理模式而设置的。内存单元的物理地址由段寄存器的值和一个偏移量组合而成<br>的，这样可用两个较少位数的值组合成一个可访问较大物理空间的内存地址。<br>CPU内部的段寄存器：</p>
+<p>ECS——代码段寄存器(Code Segment Register)，其值为代码段的段值；<br>EDS——数据段寄存器(Data Segment Register)，其值为数据段的段值；<br>EES——附加段寄存器(Extra Segment Register)，其值为附加数据段的段值；<br>ESS——堆栈段寄存器(Stack Segment Register)，其值为堆栈段的段值；<br>EFS——附加段寄存器(Extra Segment Register)，其值为附加数据段的段值；<br>EGS——附加段寄存器(Extra Segment Register)，其值为附加数据段的段值。</p>
+<p>在16位CPU系统中，它只有4个段寄存器，所以，程序在任何时刻至多有4个正在使用的段可直接访问；在32位<br>微机系统中，它有6个段寄存器，所以，在此环境下开发的程序最多可同时访问6个段。</p>
+<p>32位CPU有两个不同的工作方式：实方式和保护方式。在每种方式下，段寄存器的作用是不同的。有关规定简<br>单描述如下：</p>
+<p>实方式： 前4个段寄存器CS、DS、ES和SS与先前CPU中的所对应的段寄存器的含义完全一致，内存单元的逻辑<br>地址仍为“段值：偏移量”的形式。为访问某内存段内的数据，必须使用该段寄存器和存储单元的偏移量。<br>保护方式： 在此方式下，情况要复杂得多，装入段寄存器的不再是段值，而是称为“选择子”(Selector)的某个值。。</p>
+<h2 id="指令指针寄存器"><a href="#指令指针寄存器" class="headerlink" title="指令指针寄存器"></a>指令指针寄存器</h2><p>32位CPU把指令指针扩展到32位，并记作EIP，EIP的低16位与先前CPU中的IP作用相同。</p>
+<p>指令指针EIP、IP(Instruction Pointer)是存放下次将要执行的指令在代码段的偏移量。<br>在具有预取指令功能的系统中，下次要执行的指令通常已被预取到指令队列中，除非发生转移情况。<br>所以，在理解它们的功能时，不考虑存在指令队列的情况。</p>
+<h2 id="标志寄存器"><a href="#标志寄存器" class="headerlink" title="标志寄存器"></a>标志寄存器</h2><h3 id="运算结果标志位"><a href="#运算结果标志位" class="headerlink" title="运算结果标志位"></a>运算结果标志位</h3><h4 id="进位标志CF-Carry-Flag"><a href="#进位标志CF-Carry-Flag" class="headerlink" title="进位标志CF(Carry Flag)"></a>进位标志CF(Carry Flag)</h4><p>进位标志CF主要用来反映运算是否产生进位或借位。如果运算结果的最高位产生了一个进位或借位，那么，其值为1，否则其值为0。<br>使用该标志位的情况有：多字(字节)数的加减运算，无符号数的大小比较运算，移位操作，字(字节)之间移位，专门改变CF值的指令等。</p>
+<h4 id="奇偶标志PF-Parity-Flag"><a href="#奇偶标志PF-Parity-Flag" class="headerlink" title="奇偶标志PF(Parity Flag)"></a>奇偶标志PF(Parity Flag)</h4><p>奇偶标志PF用于反映运算结果中“1”的个数的奇偶性。如果“1”的个数为偶数，则PF的值为1，否则其值为0。<br>利用PF可进行奇偶校验检查，或产生奇偶校验位。在数据传送过程中，为了提供传送的可靠性，如果采用奇偶校验的方法，就可使用该标志位。</p>
+<h4 id="辅助进位标志AF-Auxiliary-Carry-Flag"><a href="#辅助进位标志AF-Auxiliary-Carry-Flag" class="headerlink" title="辅助进位标志AF(Auxiliary Carry Flag)"></a>辅助进位标志AF(Auxiliary Carry Flag)</h4><p>在发生下列情况时，辅助进位标志AF的值被置为1，否则其值为0：</p>
+<p>(1)、在字操作时，发生低字节向高字节进位或借位时；<br>(2)、在字节操作时，发生低4位向高4位进位或借位时。<br>对以上6个运算结果标志位，在一般编程情况下，标志位CF、ZF、SF和OF的使用频率较高，而标志位PF和AF的使用频率较低。</p>
+<h4 id="零标志ZF-Zero-Flag"><a href="#零标志ZF-Zero-Flag" class="headerlink" title="零标志ZF(Zero Flag)"></a>零标志ZF(Zero Flag)</h4><p>零标志ZF用来反映运算结果是否为0。如果运算结果为0，则其值为1，否则其值为0。在判断运算结果是否为0时，可使用此标志位。</p>
+<h4 id="符号标志SF-Sign-Flag"><a href="#符号标志SF-Sign-Flag" class="headerlink" title="符号标志SF(Sign Flag)"></a>符号标志SF(Sign Flag)</h4><p>符号标志SF用来反映运算结果的符号位，它与运算结果的最高位相同。在微机系统中，有符号数采用码表示法，所以，SF也就反映运算结果的正负号。运算结果为正数时，SF的值为0，否则其值为1。</p>
+<h4 id="溢出标志OF-Overflow-Flag"><a href="#溢出标志OF-Overflow-Flag" class="headerlink" title="溢出标志OF(Overflow Flag)"></a>溢出标志OF(Overflow Flag)</h4><p>溢出标志OF用于反映有符号数加减运算所得结果是否溢出。如果运算结果超过当前运算位数所能表示的范围，则称为溢出，OF的值被置为1，否则，OF的值被清为0。</p>
+<p>“溢出”和“进位”是两个不同含义的概念，不要混淆。如果不太清楚的话，请查阅《计算机组成原理》课程中的有关章节。</p>
+<h3 id="状态控制标志位"><a href="#状态控制标志位" class="headerlink" title="状态控制标志位"></a>状态控制标志位</h3><p>状态控制标志位是用来控制CPU操作的，它们要通过专门的指令才能使之发生改变。</p>
+<h4 id="追踪标志TF-Trap-Flag"><a href="#追踪标志TF-Trap-Flag" class="headerlink" title="追踪标志TF(Trap Flag)"></a>追踪标志TF(Trap Flag)</h4><p>当追踪标志TF被置为1时，CPU进入单步执行方式，即每执行一条指令，产生一个单步中断请求。这种方式主要用于程序的调试。</p>
+<p>指令系统中没有专门的指令来改变标志位TF的值，但程序员可用其它办法来改变其值。</p>
+<h4 id="中断允许标志IF-Interrupt-enable-Flag"><a href="#中断允许标志IF-Interrupt-enable-Flag" class="headerlink" title="中断允许标志IF(Interrupt-enable Flag)"></a>中断允许标志IF(Interrupt-enable Flag)</h4><p>中断允许标志IF是用来决定CPU是否响应CPU外部的可屏蔽中断发出的中断请求。<br>但不管该标志为何值，CPU都必须响应CPU外部的不可屏蔽中断所发出的中断请求，以及CPU内部产生的中断请求。<br>具体规定如下：<br>(1)、当IF=1时，CPU可以响应CPU外部的可屏蔽中断发出的中断请求；<br>(2)、当IF=0时，CPU不响应CPU外部的可屏蔽中断发出的中断请求。<br>CPU的指令系统中也有专门的指令来改变标志位IF的值。</p>
+<h4 id="方向标志DF-Direction-Flag"><a href="#方向标志DF-Direction-Flag" class="headerlink" title="方向标志DF(Direction Flag)"></a>方向标志DF(Direction Flag)</h4><p>方向标志DF用来决定在串操作指令执行时有关指针寄存器发生调整的方向。具体规定在第5.2.11节——字符串操作指令——中给出。<br>在微机的指令系统中，还提供了专门的指令来改变标志位DF的值。</p>
+<h3 id="32位标志寄存器增加的标志位"><a href="#32位标志寄存器增加的标志位" class="headerlink" title="32位标志寄存器增加的标志位"></a>32位标志寄存器增加的标志位</h3><h4 id="I-O特权标志IOPL-I-O-Privilege-Level"><a href="#I-O特权标志IOPL-I-O-Privilege-Level" class="headerlink" title="I/O特权标志IOPL(I/O Privilege Level)"></a>I/O特权标志IOPL(I/O Privilege Level)</h4><p>I/O特权标志用两位二进制位来表示，也称为I/O特权级字段。该字段指定了要求执行I/O指令的特权级。<br>如果当前的特权级别在数值上小于等于IOPL的值，那么，该I/O指令可执行，否则将发生一个保护异常。</p>
+<h4 id="嵌套任务标志NT-Nested-Task"><a href="#嵌套任务标志NT-Nested-Task" class="headerlink" title="嵌套任务标志NT(Nested Task)"></a>嵌套任务标志NT(Nested Task)</h4><p>嵌套任务标志NT用来控制中断返回指令IRET的执行。具体规定如下：</p>
+<p>(1)、当NT=0，用堆栈中保存的值恢复EFLAGS、CS和EIP，执行常规的中断返回操作；</p>
+<p>(2)、当NT=1，通过任务转换实现中断返回。</p>
+<h4 id="重启动标志RF-Restart-Flag"><a href="#重启动标志RF-Restart-Flag" class="headerlink" title="重启动标志RF(Restart Flag)"></a>重启动标志RF(Restart Flag)</h4><p>重启动标志RF用来控制是否接受调试故障。规定：RF=0时，表示“接受”调试故障，否则拒绝之。<br>在成功执行完一条指令后，处理机把RF置为0，当接受到一个非调试故障时，处理机就把它置为1。</p>
+<h4 id="虚拟8086方式标志VM-Virtual-8086-Mode"><a href="#虚拟8086方式标志VM-Virtual-8086-Mode" class="headerlink" title="虚拟8086方式标志VM(Virtual 8086 Mode)"></a>虚拟8086方式标志VM(Virtual 8086 Mode)</h4><p>如果该标志的值为1，则表示处理机处于虚拟的8086方式下的工作状态，否则，处理机处于一般保护方式下的工作状态。</p>
+<h1 id="汇编指令集合"><a href="#汇编指令集合" class="headerlink" title="汇编指令集合"></a>汇编指令集合</h1><h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><h3 id="通用数据传送指令"><a href="#通用数据传送指令" class="headerlink" title="通用数据传送指令."></a>通用数据传送指令.</h3><p>MOV 传送字或字节.<br>MOVSX 先符号扩展,再传送.<br>MOVZX 先零扩展,再传送.<br>PUSH 把字压入堆栈.<br>POP 把字弹出堆栈.<br>PUSHA 把AX,CX,DX,BX,SP,BP,SI,DI依次压入堆栈.<br>POPA 把DI,SI,BP,SP,BX,DX,CX,AX依次弹出堆栈.<br>PUSHAD 把EAX,ECX,EDX,EBX,ESP,EBP,ESI,EDI依次压入堆栈.<br>POPAD 把EDI,ESI,EBP,ESP,EBX,EDX,ECX,EAX依次弹出堆栈.<br>BSWAP 交换32位寄存器里字节的顺序<br>XCHG 交换字或字节.( 至少有一个操作数为寄存器,段寄存器不可作为操作数)<br>CMPXCHG 比较并交换操作数.( 第二个操作数必须为累加器AL/AX/EAX )<br>XADD 先交换再累加.( 结果在第一个操作数里 )<br>XLAT 字节查表转换.<br>BX 指向一张 256 字节的表的起点, AL 为表的索引值 (0-255,即 0-FFH); 返回 AL 为查表结果. ( [BX+AL]-&gt;AL )</p>
+<h3 id="输入输出端口传送指令"><a href="#输入输出端口传送指令" class="headerlink" title="输入输出端口传送指令."></a>输入输出端口传送指令.</h3><p>IN I/O端口输入. ( 语法: IN 累加器, {端口号│DX} )<br>OUT I/O端口输出. ( 语法: OUT {端口号│DX},累加器 )<br>输入输出端口由立即方式指定时, 其范围是 0-255; 由寄存器 DX 指定时,其范围是 0-65535.</p>
+<h3 id="目的地址传送指令"><a href="#目的地址传送指令" class="headerlink" title="目的地址传送指令."></a>目的地址传送指令.</h3><p>LEA 装入有效地址.<br>例: LEA DX,string ;把偏移地址存到DX.<br>LDS 传送目标指针,把指针内容装入DS.<br>例: LDS SI,string ;把段地址:偏移地址存到DS:SI.<br>LES 传送目标指针,把指针内容装入ES.<br>例: LES DI,string ;把段地址:偏移地址存到ESDI.<br>LFS 传送目标指针,把指针内容装入FS.<br>例: LFS DI,string ;把段地址:偏移地址存到FSD.<br>LGS 传送目标指针,把指针内容装入GS.<br>例: LGS DI,string ;把段地址:偏移地址存到GSDI.<br>LSS 传送目标指针,把指针内容装入SS.<br>例: LSS DI,string ;把段地址:偏移地址存到SSDI.</p>
+<h3 id="标志传送指令"><a href="#标志传送指令" class="headerlink" title="标志传送指令."></a>标志传送指令.</h3><p>LAHF 标志寄存器传送,把标志装入AH.<br>SAHF 标志寄存器传送,把AH内容装入标志寄存器.<br>PUSHF 标志入栈.<br>POPF 标志出栈.<br>PUSHD 32位标志入栈.<br>POPD 32位标志出栈.</p>
+<h2 id="算术运算指令"><a href="#算术运算指令" class="headerlink" title="算术运算指令"></a>算术运算指令</h2><p>ADD 加法.<br>ADC 带进位加法.<br>INC 加 1.<br>AAA 加法的ASCII码调整.<br>DAA 加法的十进制调整.<br>SUB 减法.<br>SBB 带借位减法.<br>DEC 减 1.<br>NEC 求反(以 0 减之).<br>CMP 比较.(两操作数作减法,仅修改标志位,不回送结果).<br>AAS 减法的ASCII码调整.<br>DAS 减法的十进制调整.<br>MUL 无符号乘法.<br>IMUL 整数乘法.</p>
+<p>以上两条,结果回送AH和AL(字节运算),或DX和AX(字运算),<br>AAM 乘法的ASCII码调整.<br>DIV 无符号除法.<br>IDIV 整数除法.<br>以上两条,结果回送:<br>商回送AL,余数回送AH, (字节运算);<br>或 商回送AX,余数回送DX, (字运算).</p>
+<p>AAD 除法的ASCII码调整.<br>CBW 字节转换为字. (把AL中字节的符号扩展到AH中去)<br>CWD 字转换为双字. (把AX中的字的符号扩展到DX中去)<br>CWDE 字转换为双字. (把AX中的字符号扩展到EAX中去)<br>CDQ 双字扩展. (把EAX中的字的符号扩展到EDX中去)</p>
+<h2 id="逻辑运算指令"><a href="#逻辑运算指令" class="headerlink" title="逻辑运算指令"></a>逻辑运算指令</h2><p>AND 与运算.<br>OR 或运算.<br>XOR 异或运算.<br>NOT 取反.<br>TEST 测试.(两操作数作与运算,仅修改标志位,不回送结果).<br>SHL 逻辑左移.<br>SAL 算术左移.(=SHL)<br>SHR 逻辑右移.<br>SAR 算术右移.(=SHR)<br>ROL 循环左移.<br>ROR 循环右移.<br>RCL 通过进位的循环左移.<br>RCR 通过进位的循环右移.<br>以上八种移位指令,其移位次数可达255次.<br>移位一次时, 可直接用操作码. 如 SHL AX,1.<br>移位&gt;1次时, 则由寄存器CL给出移位次数.<br>如 MOV CL,04<br>SHL AX,CL</p>
+<h2 id="串指令"><a href="#串指令" class="headerlink" title="串指令"></a>串指令</h2><p>DS:SI 源串段寄存器 :源串变址.<br>ES I 目标串段寄存器:目标串变址.<br>CX 重复次数计数器.<br>AL/AX 扫描值.<br>D标志 0表示重复操作中SI和DI应自动增量; 1表示应自动减量.</p>
+<p>Z标志 用来控制扫描或比较操作的结束.<br>MOVS 串传送.<br>( MOVSB 传送字符. MOVSW 传送字. MOVSD 传送双字. )<br>CMPS 串比较.<br>( CMPSB 比较字符. CMPSW 比较字. )<br>SCAS 串扫描.<br>把AL或AX的内容与目标串作比较,比较结果反映在标志位.<br>LODS 装入串.<br>把源串中的元素(字或字节)逐一装入AL或AX中.<br>( LODSB 传送字符. LODSW 传送字. LODSD 传送双字. )<br>STOS 保存串.<br>是LODS的逆过程.<br>REP 当CX/ECX&lt;&gt;0时重复.<br>REPE/REPZ 当ZF=1或比较结果相等,且CX/ECX&lt;&gt;0时重复.<br>REPNE/REPNZ 当ZF=0或比较结果不相等,且CX/ECX&lt;&gt;0时重复.<br>REPC 当CF=1且CX/ECX&lt;&gt;0时重复.<br>REPNC 当CF=0且CX/ECX&lt;&gt;0时重复.</p>
+<h2 id="程序转移指令"><a href="#程序转移指令" class="headerlink" title="程序转移指令"></a>程序转移指令</h2><h3 id="简单的条件转移指令"><a href="#简单的条件转移指令" class="headerlink" title="简单的条件转移指令"></a>简单的条件转移指令</h3><p>JZ(或jE) OPR—————结果为零转移, 测试条件ZF=1<br>JNZ(或jNE) OPR ————–结果不为零转移,测试条件ZF=0<br>JS OPR———————-结果为负转移, 测试条件SF=1<br>JNS OPR———————结果为正转移, 测试条件SF=0<br>JO OPR——————— 溢出转移, 测试条件OF=<br>JNO OPR ——————–不溢出转移 , 测试条件SF=0<br>JP OPR ———————结果为偶转移, 测试条件SF=1<br>JNP OPR ——————–结果为奇转移 , 测试条件SF=0<br>JC OPR ——————– 有进位转移 , 测试条件SF=1<br>JNC OPR ——————–无进位转移, 测试条件SF=0</p>
+<h3 id="无符号比较条件转移指令-以下指令经常是CMP-OPD-OPS后面的指令根据比较结果来实现转移"><a href="#无符号比较条件转移指令-以下指令经常是CMP-OPD-OPS后面的指令根据比较结果来实现转移" class="headerlink" title="无符号比较条件转移指令(以下指令经常是CMP OPD,OPS后面的指令根据比较结果来实现转移)"></a>无符号比较条件转移指令(以下指令经常是CMP OPD,OPS后面的指令根据比较结果来实现转移)</h3><p>JB(或JNAE) opd ————–小于或者不大于等于则转移<br>JNB(或JAE) opd—————不小于或者大于等于则转移<br>JA(或NJBE) OPD—————大于或者不小于等于则转移<br>JNA(或JBE) OPD—————不大于或者小于等于则转移</p>
+<h3 id="带符号比较条件转移指令"><a href="#带符号比较条件转移指令" class="headerlink" title="带符号比较条件转移指令"></a>带符号比较条件转移指令</h3><p>JL(或JNGE) ————–小于或者不大于等于则转移<br>JNL(或JGE)————–不小于或者大于等于则转移<br>JG(或NJLE)—————大于或者不小于等于则转移<br>JNG(或JLE)—————不大于或者小于等于则转移</p>
+<h2 id="调用子程序与返回指令"><a href="#调用子程序与返回指令" class="headerlink" title="调用子程序与返回指令"></a>调用子程序与返回指令</h2><p>CALL 子程序调用指令<br>RET 子程序返回指令</p>
+<h2 id="其它指令"><a href="#其它指令" class="headerlink" title="其它指令"></a>其它指令</h2><p>OFFSET ——————– 返回偏移地址<br>SEG ——————– 返回段地址<br>EQU(=) ——————– 等值语句<br>PURGE ——————– 解除语句<br>DUP ——————– 操作数字段用复制操作符<br>SEGMENT,ENDS ——————– 段定义指令<br>ASSUME ——————– 段地址分配指令<br>ORG ——————– 起始偏移地址设置指令<br>$ ——————–地址计数器的当前值<br>PROC，ENDP ——————– 过程定义语句<br>NAME，TITLE，END ——————– 程序开始结束语句<br>MACRO，ENDM ——————–宏定义指令<br>XLAT （TRANSLATE） ——————– 换码指令—-</p>
+<h2 id="条件标志"><a href="#条件标志" class="headerlink" title="条件标志"></a>条件标志</h2><p>ZF 零标志 – 当结果为负时,SF=1,否则,SF=0.<br>AF 辅助进位标志—运算过程中第三位有进位值,置AF=1,否则,AF=0<br>PF 奇偶标志——当结果操作数中偶数个”1”,置PF=1,否则,PF=0<br>SF 符号标志—-当结果为负时,SF=1;否则,SF=0.溢出时情形例外<br>CF 进位标志—– 最高有效位产生进位值,例如,执行加法指令时,MSB有进位,置CF=1;否则,CF=0.<br>OF 溢出标志—–若操作数结果超出了机器能表示的范围,则产生溢出,置OF=1,否则,OF=0</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/" rel="tag">汇编基础</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-Solving Equations" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -374,158 +877,13 @@
 
 </article>
     
-    <article id="post-最大子段和问题" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/21/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C%E9%97%AE%E9%A2%98/"
-    >最大子段和问题</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/21/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2020-04-21T13:57:33.279Z" itemprop="datePublished">2020-04-21</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="最大子段和问题"><a href="#最大子段和问题" class="headerlink" title="最大子段和问题"></a>最大子段和问题</h1><h2 id="递归关系分析"><a href="#递归关系分析" class="headerlink" title="递归关系分析"></a>递归关系分析</h2><p>首先定义 b[j] 表示 i 从 1 变到 j 时每个a[i]+a[i+1]+…+a[j] 比较的最大值，<br>那么数组 b[j], 1 &lt;= j &lt;= n的最大值即为a数组的最大字段和  </p>
-<p>根据b[j]的定义，我们有:<br><strong>b[j-1] &gt; 0时, b[j] = b[j-1] + a[j]<br>否则 b[j] = a[j]</strong></p>
-<p>由此有b[j]的动态规划递推式:<br><strong>1 &lt;= j &lt;= n 时, b[j] = max{b[j-1] + a[j], a[j]}</strong></p>
-<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM 101</span></span><br><span class="line"><span class="keyword">int</span> a[NUM];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxsum</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(b &gt; <span class="number">0</span>) b += a[i];</span><br><span class="line">        <span class="keyword">else</span> b = a[i];</span><br><span class="line">        <span class="keyword">if</span>(b &gt; sum) sum = b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-矩阵连乘优化" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/21/%E7%9F%A9%E9%98%B5%E8%BF%9E%E4%B9%98%E4%BC%98%E5%8C%96/"
-    >矩阵连乘优化</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/21/%E7%9F%A9%E9%98%B5%E8%BF%9E%E4%B9%98%E4%BC%98%E5%8C%96/" class="article-date">
-  <time datetime="2020-04-21T06:10:24.416Z" itemprop="datePublished">2020-04-21</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="矩阵连乘优化问题"><a href="#矩阵连乘优化问题" class="headerlink" title="矩阵连乘优化问题"></a>矩阵连乘优化问题</h1><h2 id="穷举法的问题"><a href="#穷举法的问题" class="headerlink" title="穷举法的问题"></a>穷举法的问题</h2><p>穷举法即找出每一种完全加括号方式相应需要的数乘次数    </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">设n &#x3D; 1时，p(n) &#x3D; 1</span><br><span class="line">n &gt;&#x3D; 2时，p(n) &#x3D; p(1) * p(n-1) + p(2) * p(n-2) + ... + p(n-1) * p(1)</span><br><span class="line">p(n)实际为catalan数</span><br><span class="line">p(n) &#x3D; C(n-1) 其中C(n) &#x3D; 1*(2n n)&#x2F;(n+1)     (2n n)表示从2n个元素中选出n个元素的组合数</span><br></pre></td></tr></table></figure>
-<p>时间复杂度呈指数级增长，不推荐。</p>
-<h2 id="采用动态规划法进行优化"><a href="#采用动态规划法进行优化" class="headerlink" title="采用动态规划法进行优化"></a>采用动态规划法进行优化</h2><h3 id="1，分析最优子结构特性"><a href="#1，分析最优子结构特性" class="headerlink" title="1，分析最优子结构特性"></a>1，分析最优子结构特性</h3><h3 id="2，建立递归关系"><a href="#2，建立递归关系" class="headerlink" title="2，建立递归关系"></a>2，建立递归关系</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">定义计算A[i][j]所需要的最优次数为m[i][j],p[]数组存放矩阵的维数，因为矩阵可乘必有相邻矩阵行列相等，因此用p[i-1],p[i]来表示每个矩阵Ai的维数。</span><br><span class="line">i &#x3D; j, m[i][j] &#x3D; 0</span><br><span class="line">i &lt; j, m[i][j] &#x3D; min&#123;m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j]&#125; (i &lt;&#x3D; k &lt; j)</span><br></pre></td></tr></table></figure>
-<h3 id="3，计算最优值"><a href="#3，计算最优值" class="headerlink" title="3，计算最优值"></a>3，计算最优值</h3><h3 id="4，构造最优解"><a href="#4，构造最优解" class="headerlink" title="4，构造最优解"></a>4，构造最优解</h3><h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//矩阵连乘动态规划算法</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">matrixChain</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> **p, <span class="keyword">int</span> **m, <span class="keyword">int</span> **s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//将对角线置为零，即矩阵自身数乘次数为零</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">       m[i][i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//数组的上斜对角线数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r = <span class="number">2</span>； r &lt;= n; r++)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">//每个斜对角线的行</span></span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n - r + <span class="number">1</span>; i++)</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="comment">//每个斜对角线的列</span></span><br><span class="line">         <span class="keyword">int</span> j = i + r - <span class="number">1</span>;</span><br><span class="line">         <span class="comment">//计算初值，便于比较并替换最小值</span></span><br><span class="line">         m[i][j] = m[i+<span class="number">1</span>][j] + p[i<span class="number">-1</span>] * p[i] * p[j];</span><br><span class="line">         <span class="comment">//s[i][j]用来保存断点</span></span><br><span class="line">         s[i][j] = i;</span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; j; k++)</span><br><span class="line">         &#123;</span><br><span class="line">            <span class="keyword">int</span> t = m[i][k] + m[k+<span class="number">1</span>][j] + p[i<span class="number">-1</span>] * p[k] * p[j];</span><br><span class="line">            <span class="keyword">if</span>(t &lt; m[i][j])</span><br><span class="line">            &#123;</span><br><span class="line">               m[i][j] = t;</span><br><span class="line">               s[i][j] = k;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//递归构造最优解</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">traceBack</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> **s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(i == j) <span class="keyword">return</span>;</span><br><span class="line">    traceBack(i, s[i][j], s);</span><br><span class="line">    traceBack(s[i][j] + <span class="number">1</span>, j, s);</span><br><span class="line">    <span class="comment">//输出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
   </nav>
   
 </section>
