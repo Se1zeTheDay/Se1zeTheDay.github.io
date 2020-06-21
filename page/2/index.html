@@ -75,6 +75,84 @@
     
     
     
+    <article id="post-leetcode-94" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/01/leetcode-94/"
+    >leetcode-94</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/01/leetcode-94/" class="article-date">
+  <time datetime="2020-06-01T14:02:52.806Z" itemprop="datePublished">2020-06-01</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="二叉树的中序遍历"><a href="#二叉树的中序遍历" class="headerlink" title="二叉树的中序遍历"></a>二叉树的中序遍历</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个二叉树，返回它的中序 遍历。</p>
+<p>示例:</p>
+<p>输入: [1,null,2,3]<br>   1<br>    <br>     2<br>    /<br>   3</p>
+<p>输出: [1,3,2]<br>进阶: 递归算法很简单，你可以通过迭代算法完成吗？</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><h3 id="递归法"><a href="#递归法" class="headerlink" title="递归法"></a>递归法</h3><p>递归法应该很容易，这里直接上代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (root != <span class="keyword">null</span>)</span><br><span class="line">       &#123;</span><br><span class="line">       inorderTraversal(root.left);</span><br><span class="line">       list.add(root.val);</span><br><span class="line">       inorderTraversal(root.right);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="迭代法"><a href="#迭代法" class="headerlink" title="迭代法"></a>迭代法</h3><p>迭代法以我目前的水平，只能写出循环里面的东西，在外面再加一层循环我没有想到，循环条件，一个字，难！</p>
+<p>上代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;TreeNode&gt;();s</span><br><span class="line">        TreeNode top = root;</span><br><span class="line">        <span class="keyword">while</span> (top != <span class="keyword">null</span> || !stack.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (top != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">            stack.push(top);</span><br><span class="line">            top = top.left;</span><br><span class="line">            &#125;</span><br><span class="line">            top = stack.pop();</span><br><span class="line">            list.add(top.val);</span><br><span class="line">            top = top.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-Java Stack" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -772,78 +850,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-哈希表" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/27/%E5%93%88%E5%B8%8C%E8%A1%A8/"
-    >哈希表</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/27/%E5%93%88%E5%B8%8C%E8%A1%A8/" class="article-date">
-  <time datetime="2020-05-27T01:24:37.833Z" itemprop="datePublished">2020-05-27</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="哈希表的概念"><a href="#哈希表的概念" class="headerlink" title="哈希表的概念"></a>哈希表的概念</h1><p><strong>哈希表</strong>(hash table) 又称散列表，其基本思路是，设要存储的元素个数为 n, 设置一个长度为 m(m &gt;= n) 的连续内存单元，以每个元素的关键字 ki ( 0 &lt;= i &lt;= n - 1) 为自变量 ，通过一个称为 <strong>哈希函数</strong>(hash function) 的函数 h(ki) 把 ki 映射为内存单元的地址（或下标） h(ki), 并把该元素存储在这个内存单元中。h (ki) 也称为 <strong>哈希地址</strong> (hash address)。把如此构造的线性表存储结构称为哈希表。</p>
-<p>在构建哈希表时可能存在这样的问题，两个关键字 ki和 kj(i != j)有 ki != kj ，但会出现 h(ki) = h(kj) 的情况，把这种现象叫<strong>哈希冲突</strong> (hash collisions) 。 通常把这种具有不同关键字而具有相同哈希地址的元素称为同义词 (synonym), 这种冲突也称为同义词冲突 。 在哈希表存储结构中，同义词冲突是很难避免的，除非关键字的变化区间小于等于哈希地址的变化区间，而这种情况当关键字取值不连续时是非常浪费存储空间的。通常的实际情况是关键字的取值区间远大于哈希地址的变化区间 。</p>
-<p>归纳起来，当<strong>一组数据的关键字与存储地址存在某种映射关系</strong>时，这组数据适合于采用哈希表存储。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li></ul>
 
 
     </footer>
