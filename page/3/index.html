@@ -75,6 +75,84 @@
     
     
     
+    <article id="post-leetcode-01" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/27/leetcode-01/"
+    >leetcode-01</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/27/leetcode-01/" class="article-date">
+  <time datetime="2020-05-27T01:48:55.627Z" itemprop="datePublished">2020-05-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p>#两数之和<br>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那<strong>两个</strong>整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
+<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><p>最近用 java 语言写来巩固一下 java，忘得差不多了，很烦。</p>
+<p>这题没有说数组是有序的，那么首先显然是暴力法。暴力法就不用说了，看完题解之后发现还有采用哈希查找的方式，不得不复习了一下数据结构。</p>
+<p>这里直接给出解法：</p>
+<h3 id="两遍哈希表"><a href="#两遍哈希表" class="headerlink" title="两遍哈希表"></a>两遍哈希表</h3><p>第一遍将数组元素放入哈希表，第二遍通过target - nums[i]的键值搜索哈希表得到值并返回数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一遍哈希表"><a href="#一遍哈希表" class="headerlink" title="一遍哈希表"></a>一遍哈希表</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意一个问题例如像{2,2,3,4,5}这样的数组，target为4<br>那么采用哈希表存储将会丢失key为2，value为1的元素，但从解法来看不影响。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-哈希表" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -544,7 +622,7 @@
 <p>若显式约束为 i != j 时，x[i] != x[j]，那么显然皇后问题解空间为n!种排列，因此构造的树为排列树。</p>
 <h2 id="n-皇后问题排列树采用剪枝函数压缩结点数"><a href="#n-皇后问题排列树采用剪枝函数压缩结点数" class="headerlink" title="n-皇后问题排列树采用剪枝函数压缩结点数"></a>n-皇后问题排列树采用剪枝函数压缩结点数</h2><p>剪枝函数为：<strong>0 &lt;= i, j &lt;= n, if i != j, then x[i] != x[j] &amp;&amp; |x[i] - x[j]| != |i-j|</strong></p>
 <h2 id="采用递归算法实现回溯法解决n-皇后问题"><a href="#采用递归算法实现回溯法解决n-皇后问题" class="headerlink" title="采用递归算法实现回溯法解决n-皇后问题"></a>采用递归算法实现回溯法解决n-皇后问题</h2><p>代码如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">//判断皇后摆放是否冲突，即剪枝函数</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">place</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//从 1 到 t - 1 行分别判断是否冲突</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; t; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//若满足if判断条件则说明皇后摆放冲突</span></span><br><span class="line">        <span class="keyword">if</span>((x[i] == x[t]) || <span class="built_in">abs</span>(t - i) == <span class="built_in">abs</span>(x[t] - x[i]))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nQueensRec</span><span class="params">(<span class="keyword">int</span> x[], <span class="keyword">int</span> t, <span class="keyword">int</span> N)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//输出一个可行解</span></span><br><span class="line">    <span class="keyword">if</span>(t &gt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d, "</span>,x[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//一个一个尝试皇后的摆放</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            x[t] = i;</span><br><span class="line">            <span class="comment">//若不冲突，则继续摆放下一行的皇后</span></span><br><span class="line">            <span class="keyword">if</span>(place(x, t))</span><br><span class="line">            &#123;</span><br><span class="line">                nQueensRec(x, t + <span class="number">1</span>, N);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保存皇后的位置</span></span><br><span class="line">    <span class="keyword">int</span> x[<span class="number">9</span>];</span><br><span class="line">    nQueensRec(x, <span class="number">1</span>, <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">//判断皇后摆放是否冲突，即剪枝函数</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">place</span><span class="params">(<span class="keyword">int</span> x[], <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//从 1 到 t - 1 行分别判断是否冲突</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; t; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//若满足if判断条件则说明皇后摆放冲突</span></span><br><span class="line">        <span class="keyword">if</span>((x[i] == x[t]) || <span class="built_in">abs</span>(t - i) == <span class="built_in">abs</span>(x[t] - x[i]))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nQueensRec</span><span class="params">(<span class="keyword">int</span> x[], <span class="keyword">int</span> t, <span class="keyword">int</span> N)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//输出一个可行解</span></span><br><span class="line">    <span class="keyword">if</span>(t &gt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d, "</span>,x[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//一个一个尝试皇后的摆放</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            x[t] = i;</span><br><span class="line">            <span class="comment">//若不冲突，则继续摆放下一行的皇后</span></span><br><span class="line">            <span class="keyword">if</span>(place(x, t))</span><br><span class="line">            &#123;</span><br><span class="line">                nQueensRec(x, t + <span class="number">1</span>, N);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保存皇后的位置</span></span><br><span class="line">    <span class="keyword">int</span> x[<span class="number">9</span>];</span><br><span class="line">    nQueensRec(x, <span class="number">1</span>, <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
