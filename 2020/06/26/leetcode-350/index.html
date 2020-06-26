@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    Linux常用命令 |  Se1ze_The_Day
+    leetcode-350 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-linux学习" class="article article-type-post" itemscope
+  <article id="post-leetcode-350" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Linux常用命令
+  leetcode-350
 </h1>
  
 
@@ -58,12 +58,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2020-06-17T06:47:53.194Z" itemprop="datePublished">2020-06-17</time>
+      <a href="/2020/06/26/leetcode-350/" class="article-date">
+  <time datetime="2020-06-26T03:28:32.433Z" itemprop="datePublished">2020-06-26</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
   </div>
 
       
@@ -86,37 +86,29 @@
       
 
       
-      <h1 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a>Linux常用命令</h1><h2 id="文件处理命令"><a href="#文件处理命令" class="headerlink" title="文件处理命令"></a>文件处理命令</h2><h3 id="命令格式与目录处理命令ls"><a href="#命令格式与目录处理命令ls" class="headerlink" title="命令格式与目录处理命令ls"></a>命令格式与目录处理命令ls</h3><p>ls -a 列出目录所有文件，包含以.开始的隐藏文件<br>ls -A 列出除.及..的其它文件<br>ls -r 反序排列<br>ls -t 以文件修改时间排序<br>ls -S 以文件大小排序<br>ls -h 以易读大小显示<br>ls -l 除了文件名之外，还将文件的权限、所有者、文件大小等信息详细列出来<br>ls -i iNode  </p>
-<h3 id="目录处理命令"><a href="#目录处理命令" class="headerlink" title="目录处理命令"></a>目录处理命令</h3><h3 id="文件处理命令-1"><a href="#文件处理命令-1" class="headerlink" title="文件处理命令"></a>文件处理命令</h3><h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><p>命令所在路径：/bin/touch<br>执行权限：所有用户<br>语法:touch [文件名]<br>功能描述：创建空文件<br>范例：touch haha.list  touch “program files”  </p>
-<h4 id="cat-tac"><a href="#cat-tac" class="headerlink" title="cat tac"></a>cat tac</h4><p>命令所在路径：/bin/cat<br>语法：cat [文件名]<br>功能描述：显示文件内容<br>         -n 显示行号<br>范例: cat /etc/issue<br>      cat -n /etc/services<br>tac 为反向显示  </p>
-<h4 id="more"><a href="#more" class="headerlink" title="more"></a>more</h4><p>语法: more [文件名]<br>功能描述：分页显示文件内容<br>实例： more /etc/services<br>使用 space或f 翻页<br>     enter  换行<br>     q或Q 退出  </p>
-<h4 id="less"><a href="#less" class="headerlink" title="less"></a>less</h4><p>功能描述：向上翻页或查找</p>
-<h4 id="head"><a href="#head" class="headerlink" title="head"></a>head</h4><p>功能描述：查看文件的前几行<br>语法：head -n 行数 文件路径<br>默认为10行</p>
-<h4 id="tail"><a href="#tail" class="headerlink" title="tail"></a>tail</h4><p>功能描述：查看文件的前几行<br>语法：tail -n 行数 文件路径<br>      tail -f 动态显示文件内容</p>
-<h3 id="链接命令"><a href="#链接命令" class="headerlink" title="链接命令"></a>链接命令</h3><h4 id="ln"><a href="#ln" class="headerlink" title="ln"></a>ln</h4><p>命令英文原意：link<br>命令所在路径：/bin/ln<br>语法：ln -s [原文件] [目标文件]<br>       -s 创建软链接（类似于windows快捷方式）<br>功能描述：生成链接文件<br>硬链接与cp -p区别：<br>1、硬链接文件与原文件同步更新<br>2、硬链接文件与原文件iNode值相同<br>3、硬链接不能跨分区<br>4、不能针对目录使用</p>
-<h2 id="权限管理命令"><a href="#权限管理命令" class="headerlink" title="权限管理命令"></a>权限管理命令</h2><h3 id="权限管理命令chmod"><a href="#权限管理命令chmod" class="headerlink" title="权限管理命令chmod"></a>权限管理命令chmod</h3><p>命令英文原意：change the permissions mode of a file<br>语法：chmod [{ugoa} {+-=} {rwx}] [文件或目录]<br>            [mode=421] [文件或目录]（r = 4，w = 2，x = 1）<br>            -R 递归修改<br>            将目录与其下文件权限均修改<br>功能描述：改变文件或目录权限<br>注意：<strong>对文件来说 r权限说明我们可以查看文件内容 对目录来说 可以列出目录中的内容<br>                w权限可以修改文件内容                  可以在目录中创建、删除文件<br>                x权限可以执行文件                      可以进入目录</strong></p>
-<h3 id="其他权限管理命令"><a href="#其他权限管理命令" class="headerlink" title="其他权限管理命令"></a>其他权限管理命令</h3><h4 id="chown"><a href="#chown" class="headerlink" title="chown"></a>chown</h4><p>命令英文原意：change owner<br>语法：chown [用户][文件或目录]<br>功能描述：改变文件或目录的所有者（只允许root用户改变）<br>范例 chown cmq /root/tmp/haha</p>
-<h4 id="chgrp"><a href="#chgrp" class="headerlink" title="chgrp"></a>chgrp</h4><p>命令功能：改变文件或目录的所属组</p>
-<h4 id="umask"><a href="#umask" class="headerlink" title="umask"></a>umask</h4><p>命令英文原意：the user file-creation mask<br>命令所在路径：Shell内置命令<br>执行权限：所有用户<br>语法 umask [-S]<br>     -S表示以rwx形式显示新建文件缺省权限<br>注意： <strong>touch的文件不具备可执行权限但mkdir的目录具有</strong></p>
-<h2 id="文件搜索命令"><a href="#文件搜索命令" class="headerlink" title="文件搜索命令"></a>文件搜索命令</h2><h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><p>命令名称：find<br>命令所在路径：/bin/find<br>执行权限：所有用户<br>语法：find [搜索范围][匹配条件]<br>功能描述：文件搜索<br>示例：find / -name - iname（不区分大小写） -size(参数为+多少则为大于，-多少则为小于)  -user [..]<br>      find /etc -cmin -amin -mmin(change文件属性, access访问时间, modify文件内容) -5(5分钟)<br>      -a -o 分别为连接符表示与和或<br>      -inum 文件的i结点<br>find /etc -name inittab -exec ls -l {} ;</p>
-<h3 id="locate"><a href="#locate" class="headerlink" title="locate"></a>locate</h3><p>命令所在路径：/usr/bin/locate<br>语法：locate 文件名<br>功能描述：在文件资料库中查找文件<br>示例：locate inittab<br>拓展： updatedb命令用来更新文件资料库<br>       locate -i 命令可以不区分大小写搜索文件<br>注：<strong>文件资料库不收录tmp文件夹下的文件</strong></p>
-<h3 id="which"><a href="#which" class="headerlink" title="which"></a>which</h3><p>命令路径：/usr/bin/which<br>语法：which 命令<br>功能描述：搜索命令所在目录及别名信息<br>范例：which ls</p>
-<h3 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h3><p>功能描述：搜索命令所在目录及帮助文档路径</p>
-<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><p>命令所在路径：/bin/grep<br>执行权限:所有用户<br>语法：grep -iv [指定子串][文件]<br>功能描述：在文件中搜寻字串匹配的行并输出<br>         -i 不区分大小写<br>         -v 排除指定子串<br>范例：grep mysql /root/install.log<br>      grep -v ^# /etc/inittab</p>
-<h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><h3 id="man"><a href="#man" class="headerlink" title="man"></a>man</h3><p>命令原意：manual<br>命令所在路径：/usr/bin/man<br>语法：man [命令或配置文件]<br>功能描述：获得帮助信息<br>范例：man ls<br>     查看ls命令的帮助信息<br>     man services<br>     查看配置文件services的帮助信息</p>
-<h3 id="whatis"><a href="#whatis" class="headerlink" title="whatis"></a>whatis</h3><p>功能：查看命令功能</p>
-<h3 id="apropos"><a href="#apropos" class="headerlink" title="apropos"></a>apropos</h3><p>功能：查看配置文件帮助</p>
-<h3 id="命令-–help-也可以获得帮助"><a href="#命令-–help-也可以获得帮助" class="headerlink" title="命令+ –help 也可以获得帮助"></a>命令+ –help 也可以获得帮助</h3><h3 id="info命令与man命令大同小异"><a href="#info命令与man命令大同小异" class="headerlink" title="info命令与man命令大同小异"></a>info命令与man命令大同小异</h3><h3 id="help"><a href="#help" class="headerlink" title="help"></a>help</h3><p>命令所在路径:shell内置命令<br>语法：help 命令<br>功能：获得Shell内置命令的帮助信息<br>范例 ：help umask<br>拓展：我们使用的shell为bash，shell为指令解释器</p>
-<h2 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h2><h3 id="useradd"><a href="#useradd" class="headerlink" title="useradd"></a>useradd</h3><p>命令所在路径：/usr/sbin/useradd<br>执行权限：root<br>语法：useradd 用户名<br>功能描述：添加新用户</p>
-<h3 id="passwd"><a href="#passwd" class="headerlink" title="passwd"></a>passwd</h3><p>命令所在路径：/usr/bin/passwd<br>执行权限：所有用户<br>语法：passwd 用户名<br>功能：设置用户密码</p>
-<h3 id="who"><a href="#who" class="headerlink" title="who"></a>who</h3><p>命令所在路径:/usr/bin/who<br>执行权限：所有用户<br>语法：who<br>功能：查看登录用户信息</p>
-<h3 id="w"><a href="#w" class="headerlink" title="w"></a>w</h3><p>命令所在路径：/usr/bin/w<br>执行权限：所有用户<br>语法：w<br>功能：查看登录用户详细信息</p>
-<h2 id="压缩解压命令"><a href="#压缩解压命令" class="headerlink" title="压缩解压命令"></a>压缩解压命令</h2><h3 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h3><p>命令英文原意：GNU zip<br>命令所在路径：/bin/gzip<br>执行权限：所有用户<br>语法：gzip [文件]<br>功能描述：压缩文件(不能压缩目录)<br>压缩后文件格式：.gz</p>
-<h3 id="gunzip"><a href="#gunzip" class="headerlink" title="gunzip"></a>gunzip</h3><p>命令英文原意：GNU unzip<br>命令所在路径：/bin/gunzip<br>执行权限:所有用户<br>语法：gunzip [压缩文件]<br>功能描述：解压缩.gz的压缩文件<br>拓展：使用 gzip -d同理 </p>
-<h3 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h3><p>命令所在路径：/bin/tar<br>执行权限：所有用户<br>语法：tar 选项[-z -c -f -v] [压缩后文件名] [目录]<br>     -c 打包<br>     -v 显示详细信息<br>     -f 指定文件名<br>     -z 打包同时压缩<br>     -j 打包同时压缩bzip2<br>功能描述：打包目录<br>压缩后文件格式：.tar.gz<br>拓展：打包和压缩的区别<br>      相同点：打包和压缩都可以将多个文件生成一个文件存储<br>      不同点：压缩操作不但要生成一个文件，还要通过压缩工具对文件进行压缩，来减少文件占用的存储空间大小。</p>
-<h3 id="tar命令解压缩"><a href="#tar命令解压缩" class="headerlink" title="tar命令解压缩"></a>tar命令解压缩</h3><p>-x 解包<br>-v 显示详细信息<br>-f 指定压缩文件<br>-z 解压缩<br>-j 解压缩bzip2<br>例：tar -zxvf Japan.tar.gz</p>
-<h3 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h3><p>命令所在路径：/usr/bin/zip<br>执行权限：所有用户<br>语法：zip [-r] [压缩后的文件名] [需要压缩的文件或目录]<br>      -r 压缩目录<br>功能描述： 压缩文件或目录<br>压缩后文件格式：.zip<br>解压缩：unzip</p>
-<h3 id="bzip2"><a href="#bzip2" class="headerlink" title="bzip2"></a>bzip2</h3><p>命令所在路径：/usr/bin/bzip2<br>执行权限：所有用户<br>语法：bzip [-k] [文件]<br>      -k 产生压缩文件后保留原文件<br>功能：压缩文件(推荐压缩较大文件)<br>压缩后文件格式：.bz2<br>范例：tar -cjf ***.tar.bz2 ***<br>解压缩： bunzip2 -k [文件名.bz2]<br>        tar -xjf [文件名.tar.bz2]</p>
+      <h1 id="两个数组的交集-II"><a href="#两个数组的交集-II" class="headerlink" title="两个数组的交集 II"></a>两个数组的交集 II</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定两个数组，编写一个函数来计算它们的交集。</p>
+<p>示例 1:</p>
+<p>输入: nums1 = [1,2,2,1], nums2 = [2,2]<br>输出: [2,2]<br>示例 2:</p>
+<p>输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]<br>输出: [4,9]<br>说明：</p>
+<p>输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。<br>我们可以不考虑输出结果的顺序。<br>进阶:</p>
+<p>如果给定的数组已经排好序呢？你将如何优化你的算法？<br>如果 nums1 的大小比 nums2 小很多，哪种方法更优？<br>如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>多亏了之前做过的题目，这道题拿到手两种方法都想到了。</p>
+<h3 id="方法一：哈希映射"><a href="#方法一：哈希映射" class="headerlink" title="方法一：哈希映射"></a>方法一：哈希映射</h3><p>采用哈希表记录下数组每个元素出现的次数，由于需要节省空间，我们将长度小的那个数组添加进哈希表。</p>
+<p>首先将这个数组添加进hashmap中，value的值即为每个元素出现的次数。接着我们遍历第二个数组，检查数字在hashmap中是否存在，若存在并且计数为正，那么将该数字添加到答案并且减少hashmap中的计数。</p>
+<p>举例如图所示：</p>
+<img src="/2020/06/26/leetcode-350/350_1.jpg" class title="哈希表举例">
+
+<p>代码如下：<br>注：map的getOrDefault(key,defaultvalue)方法意为当Map集合中有这个key元素时，就使用这个元素对应的value值，否则使用定义的defaultvalue值。<br>例如：map.getOrDefault(“Algorithms”,”yes”)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] intersect(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums1.length &gt; nums2.length) &#123;</span><br><span class="line">        <span class="keyword">return</span> intersect(nums2, nums1);</span><br><span class="line">    &#125;</span><br><span class="line">    HashMap&lt;Integer, Integer&gt; m = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums1) &#123;</span><br><span class="line">        m.put(n, m.getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums2) &#123;</span><br><span class="line">        <span class="keyword">int</span> cnt = m.getOrDefault(n, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[k++] = n;</span><br><span class="line">            m.put(n, cnt - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(nums1, <span class="number">0</span>, k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法二：排序法"><a href="#法二：排序法" class="headerlink" title="法二：排序法"></a>法二：排序法</h3><p>有序数组什么都好说！</p>
+<p>具体方法为用两个指针分别指向nums1与nums2数组，接着：</p>
+<img src="/2020/06/26/leetcode-350/350_2.jpg" class title="排序法">
+<p>最后返回nums1数组的前 k 个元素即可。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] intersect(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">    Arrays.sort(nums1);</span><br><span class="line">    Arrays.sort(nums2);</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; nums1.length &amp;&amp; j &lt; nums2.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums1[i] &lt; nums2[j]) &#123;</span><br><span class="line">            ++i;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums1[i] &gt; nums2[j]) &#123;</span><br><span class="line">            ++j;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            nums1[k++] = nums1[i++];</span><br><span class="line">            ++j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(nums1, <span class="number">0</span>, k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="最后贴上自己写的代码："><a href="#最后贴上自己写的代码：" class="headerlink" title="最后贴上自己写的代码："></a>最后贴上自己写的代码：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] intersect(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">        </span><br><span class="line">        Map&lt;Integer,Integer&gt; hashmap = <span class="keyword">new</span> HashMap&lt;Integer,Integer&gt;();</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (Integer i : nums1)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (hashmap.containsKey(i))</span><br><span class="line">            &#123;</span><br><span class="line">                hashmap.put(i, hashmap.get(i) + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> hashmap.put(i, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (Integer j : nums2)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (hashmap.containsKey(j) &amp;&amp; hashmap.get(j) != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                list.add(j);</span><br><span class="line">                hashmap.put(j, hashmap.get(j) - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] ans = <span class="keyword">new</span> <span class="keyword">int</span>[list.size()];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            ans[i] = list.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
       <!-- reward -->
@@ -171,14 +163,14 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/06/17/linux%E5%AD%A6%E4%B9%A0/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/06/26/leetcode-350/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
 
 
     </footer>
@@ -189,19 +181,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/06/21/leetcode-122/" class="article-nav-link">
+      <a href="/2020/06/26/leetcode-66/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            leetcode-122
+            leetcode-66
           
         </div>
       </a>
     
     
-      <a href="/2020/06/17/leetcode-71/" class="article-nav-link">
+      <a href="/2020/06/25/leetcode-136/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-71</div>
+        <div class="article-nav-title">leetcode-136</div>
       </a>
     
   </nav>
