@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    leetcode-387 |  Se1ze_The_Day
+    leetcode-125 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-leetcode-387" class="article article-type-post" itemscope
+  <article id="post-leetcode-125" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  leetcode-387
+  leetcode-125
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/06/29/leetcode-387/" class="article-date">
-  <time datetime="2020-06-29T09:01:25.102Z" itemprop="datePublished">2020-06-29</time>
+      <a href="/2020/06/30/leetcode-125/" class="article-date">
+  <time datetime="2020-06-30T05:21:47.030Z" itemprop="datePublished">2020-06-30</time>
 </a>
       
   <div class="article-category">
@@ -86,21 +86,27 @@
       
 
       
-      <h1 id="字符串中第一个唯一字符"><a href="#字符串中第一个唯一字符" class="headerlink" title="字符串中第一个唯一字符"></a>字符串中第一个唯一字符</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。</p>
-<p>示例：</p>
-<p>s = “leetcode”<br>返回 0</p>
-<p>s = “loveleetcode”<br>返回 2</p>
-<p>提示：你可以假定该字符串只包含小写字母。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题首先遍历一遍字符串是必须的，因为不知道字符会出现在哪个位置。</p>
-<p>其次，我是想到用哈希表的，我想的是将元素添加到哈希表中之前，先判断它是否在哈希表中，如果在，那么在哈希表中删除该元素，如果不在那么就添加进哈希表。</p>
-<p>到这里为止我的思路都没有出现偏差，但是接下来我转而去想哈希表会不会保留元素插入的顺序，因为如果保留的话，那哈希表中的第一个元素就是我们想要的那个字符，但答案肯定是不会的，因为哈希表是无序的，然后到这个时候我就想放弃用哈希表了，但是如果转而考虑字符串，其实能解决，很简单。。我就是没想到————字符串本身是具有顺序的！</p>
-<p>那么一切都解决了，我们在最后遍历哈希表的时候只要对着字符串原本的顺序进行遍历，看哪个字符先在哈希表中出现，就是我们需要的答案。</p>
-<p>后来一看题解，其实没有必要去看重复元素，直接记下元素出现的次数，接着按字符串顺序遍历哈希表找出第一个出现次数为一的元素就可以了。</p>
-<p>我觉得我漏掉这个思路的原因肯定是我没有好好地去想，或者是思维有定式。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">firstUniqChar</span><span class="params">(String s)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;Character, Integer&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.get(s.charAt(i)) == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ps:在找不到下标时一般都是返回-1的。 </p>
+      <h1 id="验证回文串"><a href="#验证回文串" class="headerlink" title="验证回文串"></a>验证回文串</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。</p>
+<p>说明：本题中，我们将空字符串定义为有效的回文串。</p>
+<p>示例 1:</p>
+<p>输入: “A man, a plan, a canal: Panama”<br>输出: true<br>示例 2:</p>
+<p>输入: “race a car”<br>输出: false</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>看到判断回文串一般是用双指针，然后双指针遍历的代码一般都是这么写的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (i &lt; j)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; restrictions)</span><br><span class="line">    &#123;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; restrictions)</span><br><span class="line">    &#123;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="keyword">do</span> what;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>然后这道题的话这里有几个函数是写好的可以直接用，我之前是不知道的。</p>
+<p>一个是toLowerCase(),可以直接把字符串转换成小写的。<br>还有一个函数是真的不知道，其实我有点惊讶还有这样的函数，就是Character类下的isLetterOrDigit()函数，他可判断一个字符是数字还是字母。</p>
+<p>这些都知道之后，剩下的就好解决了。</p>
+<p>先介绍直接双指针判断是否为回文串法。</p>
+<h3 id="法一：双指针直接判断"><a href="#法一：双指针直接判断" class="headerlink" title="法一：双指针直接判断"></a>法一：双指针直接判断</h3><p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.length();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>; right = n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">while</span> (left &lt; right &amp;&amp; !Character.isLetterOrDigit(s.charAt(left))) &#123;</span><br><span class="line">                ++left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (left &lt; right &amp;&amp; !Character.isLetterOrDigit(s.charAt(right))) &#123;</span><br><span class="line">                --right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">                <span class="keyword">if</span> (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ++left;</span><br><span class="line">                --right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法二：先筛选后判断"><a href="#法二：先筛选后判断" class="headerlink" title="法二：先筛选后判断"></a>法二：先筛选后判断</h3><p>先将字符串中的除数字与字母以外的字符全部去掉，随后判断剩下的字符串是否为回文串即可。</p>
+<p>具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        StringBuffer sgood = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">int</span> length = s.length();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">            <span class="keyword">char</span> ch = s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (Character.isLetterOrDigit(ch)) &#123;</span><br><span class="line">                sgood.append(Character.toLowerCase(ch));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> n = sgood.length();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>,right = n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.toLowerCase(sgood.charAt(left)) != Character.toLowerCase(sgood.charAt(right))) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            left++;</span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后贴上自己写的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.length() == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        s= s.toLowerCase();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> j = s.length() - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (i &lt;= j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.isLetterOrDigit(s.charAt(i)) &amp;&amp; Character.isLetterOrDigit(s.charAt(j)))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (s.charAt(i) == s.charAt(j))</span><br><span class="line">                &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!Character.isLetterOrDigit(s.charAt(i)))</span><br><span class="line">                &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!Character.isLetterOrDigit(s.charAt(j)))</span><br><span class="line">                &#123;</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -154,7 +160,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/06/29/leetcode-387/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/06/30/leetcode-125/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -172,19 +178,10 @@
   
   <nav class="article-nav">
     
+    
       <a href="/2020/06/30/leetcode-242/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            leetcode-242
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2020/06/29/leetcode-7/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-7</div>
+        <div class="article-nav-title">leetcode-242</div>
       </a>
     
   </nav>

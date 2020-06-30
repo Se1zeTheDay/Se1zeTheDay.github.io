@@ -137,12 +137,25 @@
 <img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_5.jpg" class title="Vim替换或取消命令">
 <img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_6.jpg" class title="Vim搜索和替换命令">
 <img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_7.jpg" class title="Vim保存修改命令">
+<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_8.jpg" class title="Vim常用操作">
 
-
-
-
-
-
+<h2 id="软件包管理"><a href="#软件包管理" class="headerlink" title="软件包管理"></a>软件包管理</h2><h3 id="软件包的分类"><a href="#软件包的分类" class="headerlink" title="软件包的分类"></a>软件包的分类</h3><p>1，源码包（未编译，开源，速度相对较慢）<br>   1.1 脚本安装包（写好界面的源码包 install.sh)<br>2，二进制包（已编译，无法看到源码，速度相对较快）</p>
+<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_9.jpg" class title="源码包优点">
+<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_10.jpg" class title="源码包缺点">
+<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_11.jpg" class title="rpm包优点">
+<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_12.jpg" class title="rpm包缺点">
+<h3 id="RPM包管理"><a href="#RPM包管理" class="headerlink" title="RPM包管理"></a>RPM包管理</h3><p>对于yum命令和apt-get命令区别的解释：</p>
+<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_15.jpg" class title="yum与apt-get的区别">
+<h4 id="rpm命令管理"><a href="#rpm命令管理" class="headerlink" title="rpm命令管理"></a>rpm命令管理</h4><img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_13.jpg" class title="rpm包命名规则">
+<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_14.jpg" class title="rpm包依赖性">
+<h5 id="rpm包安装"><a href="#rpm包安装" class="headerlink" title="rpm包安装"></a>rpm包安装</h5><pre><code>rpm -ivh 包全名
+选项： -i(install)  安装
+      -v(verbose)  显示详细信息
+      -h(hash)    显示进度
+      --nodeps    不检测依赖性</code></pre><h5 id="rpm包升级"><a href="#rpm包升级" class="headerlink" title="rpm包升级"></a>rpm包升级</h5><pre><code>rpm -Uvh 包全名
+选项： -U(upgrade)   升级</code></pre><h5 id="rpm包卸载"><a href="#rpm包卸载" class="headerlink" title="rpm包卸载"></a>rpm包卸载</h5><pre><code>rpm -e 包名
+选项： -e(erase) 卸载
+       --nodeps 不检查依赖性</code></pre>
       
       <!-- reward -->
       
