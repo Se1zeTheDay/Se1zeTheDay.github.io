@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    leetcode-125 |  Se1ze_The_Day
+    Java中String,StringBuilder与StringBuffer的区别 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-leetcode-125" class="article article-type-post" itemscope
+  <article id="post-Java String、StringBuffer与StringBuilder" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  leetcode-125
+  Java中String,StringBuilder与StringBuffer的区别
 </h1>
  
 
@@ -58,12 +58,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/06/30/leetcode-125/" class="article-date">
-  <time datetime="2020-06-30T05:21:47.030Z" itemprop="datePublished">2020-06-30</time>
+      <a href="/2020/06/30/Java%20String%E3%80%81StringBuffer%E4%B8%8EStringBuilder/" class="article-date">
+  <time datetime="2020-06-30T06:06:01.517Z" itemprop="datePublished">2020-06-30</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
   </div>
 
       
@@ -86,27 +86,22 @@
       
 
       
-      <h1 id="验证回文串"><a href="#验证回文串" class="headerlink" title="验证回文串"></a>验证回文串</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。</p>
-<p>说明：本题中，我们将空字符串定义为有效的回文串。</p>
-<p>示例 1:</p>
-<p>输入: “A man, a plan, a canal: Panama”<br>输出: true<br>示例 2:</p>
-<p>输入: “race a car”<br>输出: false</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>看到判断回文串一般是用双指针，然后双指针遍历的代码一般都是这么写的</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (i &lt; j)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; restrictions)</span><br><span class="line">    &#123;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; restrictions)</span><br><span class="line">    &#123;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="keyword">do</span> what;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      <h1 id="Java中String-StringBuilder与StringBuffer的区别"><a href="#Java中String-StringBuilder与StringBuffer的区别" class="headerlink" title="Java中String,StringBuilder与StringBuffer的区别"></a>Java中String,StringBuilder与StringBuffer的区别</h1><h2 id="运算速度比较-通常情况下-StringBuilder-gt-StringBuffer-gt-String"><a href="#运算速度比较-通常情况下-StringBuilder-gt-StringBuffer-gt-String" class="headerlink" title="运算速度比较(通常情况下) StringBuilder &gt; StringBuffer &gt; String"></a>运算速度比较(通常情况下) StringBuilder &gt; StringBuffer &gt; String</h2><p>String是final类不能被继承且为字符串常量，而StringBuilder和StringBuffer均为字符串变量。String对象一旦创建便不可更改，而后两者是可更改的，它们只能通过构造函数来建立对象，且对象被建立以后将在内存中分配内存空间，并初始保存一个null，通过append方法向StringBuffer和StringBuilder中赋值。<br>请看如下示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"abc"</span>;</span><br><span class="line">System.out.println(str);</span><br><span class="line">str = str + <span class="string">"de"</span>;</span><br><span class="line">System.out.println(str);</span><br></pre></td></tr></table></figure>
+<p>上述代码先创建一个String对象str，并赋值abc给str，然后运行到第三行，JVM会再创建一个新的str对象，并将原有str的值和de加起来再赋值给新的str。而第一个创建的str对象被JVM的垃圾回收机制（GC）回收掉。所以str实际上并没有被更改，即String对象一旦创建就不可更改。所以Java中对String对象进行的操作实际上是一个不断创建并回收对象的过程，因此在运行速度上很慢。</p>
+<p>而StringBuilder和StringBuffer的对象是变量，对变量的操作是直接对该对象就行更改，因此不会进行反复的创建和回收。所以在运行速度上比较快。</p>
+<p>但也有如下情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"abc"</span> + <span class="string">"de"</span>;</span><br><span class="line">StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder().append(<span class="string">"abc"</span>).append(<span class="string">"de"</span>);</span><br><span class="line">System.out.println(str);</span><br><span class="line">System.out.println(stringBuilder.toString());</span><br></pre></td></tr></table></figure>
+<p><strong>上述代码中String的操作速度反而要比StringBuilder快，这是因为在JVM眼里，第1行的代码操作和下列代码是完全一样的，所以很快。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"abcde"</span>;</span><br></pre></td></tr></table></figure>
+<p>但如下的代码写法形式速度会很慢，JVM会不断地创建和回收对象来进行操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">"abc"</span>;</span><br><span class="line">String str2 = <span class="string">"de"</span>;</span><br><span class="line">String str = str1 + str2;</span><br></pre></td></tr></table></figure>
+<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h2><h3 id="StringBuilder（非线程安全）"><a href="#StringBuilder（非线程安全）" class="headerlink" title="StringBuilder（非线程安全）"></a>StringBuilder（非线程安全）</h3><p>而StringBuilder的方法没有该关键字修饰，所以不能保证线程安全性。是JDK1.5新增的，该类提供一个与StringBuffer兼容的 API，但不能保证同步，所以在性能上较高。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候（这种情况很普遍）。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同。</p>
+<h3 id="StringBuffer（线程安全的）"><a href="#StringBuffer（线程安全的）" class="headerlink" title="StringBuffer（线程安全的）"></a>StringBuffer（线程安全的）</h3><p>StringBuffer中大部分方法由synchronized关键字修饰，在必要时可对方法进行同步，因此任意特定实例上的所有操作就好像是以串行顺序发生的，该顺序与所涉及的每个线程进行的方法调用顺序一致，所以是线程安全的。类似于 String 的字符串缓冲区，但不能修改。虽然在任意时间点上它都包含某种特定的字符序列，但通过某些方法调用可以改变该序列的长度和内容。StringBuffer 上的主要操作是 append 和 insert 方法，可重载这些方法，以接受任意类型的数据。每个方法都能有效地将给定的数据转换成字符串，然后将该字符串的字符追加或插入到字符串缓冲区中。append 方法始终将这些字符添加到缓冲区的末端；而 insert 方法则在指定的点添加字符。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>String：适用于少量的字符串操作。</p>
+<p>StringBuilder：适用于单线程下在字符串缓冲区进行大量操作。</p>
+<p>StringBuffer：适用于多线程下在字符串缓冲区进行大量操作。</p>
 
-<p>然后这道题的话这里有几个函数是写好的可以直接用，我之前是不知道的。</p>
-<p>一个是toLowerCase(),可以直接把字符串转换成小写的。<br>还有一个函数是真的不知道，其实我有点惊讶还有这样的函数，就是Character类下的isLetterOrDigit()函数，他可判断一个字符是数字还是字母。</p>
-<p>这些都知道之后，剩下的就好解决了。</p>
-<p>先介绍直接双指针判断是否为回文串法。</p>
-<h3 id="法一：双指针直接判断"><a href="#法一：双指针直接判断" class="headerlink" title="法一：双指针直接判断"></a>法一：双指针直接判断</h3><p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.length();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>; right = n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">while</span> (left &lt; right &amp;&amp; !Character.isLetterOrDigit(s.charAt(left))) &#123;</span><br><span class="line">                ++left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (left &lt; right &amp;&amp; !Character.isLetterOrDigit(s.charAt(right))) &#123;</span><br><span class="line">                --right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">                <span class="keyword">if</span> (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ++left;</span><br><span class="line">                --right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="法二：先筛选后判断"><a href="#法二：先筛选后判断" class="headerlink" title="法二：先筛选后判断"></a>法二：先筛选后判断</h3><p>先将字符串中的除数字与字母以外的字符全部去掉，随后判断剩下的字符串是否为回文串即可。</p>
-<p>具体代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        StringBuffer sgood = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">int</span> length = s.length();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">            <span class="keyword">char</span> ch = s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (Character.isLetterOrDigit(ch)) &#123;</span><br><span class="line">                sgood.append(Character.toLowerCase(ch));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> n = sgood.length();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>,right = n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.toLowerCase(sgood.charAt(left)) != Character.toLowerCase(sgood.charAt(right))) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            left++;</span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最后贴上自己写的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.length() == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        s= s.toLowerCase();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> j = s.length() - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (i &lt;= j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.isLetterOrDigit(s.charAt(i)) &amp;&amp; Character.isLetterOrDigit(s.charAt(j)))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (s.charAt(i) == s.charAt(j))</span><br><span class="line">                &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!Character.isLetterOrDigit(s.charAt(i)))</span><br><span class="line">                &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!Character.isLetterOrDigit(s.charAt(j)))</span><br><span class="line">                &#123;</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -160,14 +155,14 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/06/30/leetcode-125/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/06/30/Java%20String%E3%80%81StringBuffer%E4%B8%8EStringBuilder/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
 
 
     </footer>
@@ -178,19 +173,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/06/30/Java%20String%E3%80%81StringBuffer%E4%B8%8EStringBuilder/" class="article-nav-link">
+      <a href="/2020/06/30/leetcode-8/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Java中String,StringBuilder与StringBuffer的区别
+            leetcode-8
           
         </div>
       </a>
     
     
-      <a href="/2020/06/30/leetcode-242/" class="article-nav-link">
+      <a href="/2020/06/30/leetcode-125/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-242</div>
+        <div class="article-nav-title">leetcode-125</div>
       </a>
     
   </nav>
