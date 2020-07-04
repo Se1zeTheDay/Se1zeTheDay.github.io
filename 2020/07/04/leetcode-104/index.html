@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    有限状态机 |  Se1ze_The_Day
+    leetcode-104 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-有限状态机" class="article article-type-post" itemscope
+  <article id="post-leetcode-104" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  有限状态机
+  leetcode-104
 </h1>
  
 
@@ -58,12 +58,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" class="article-date">
-  <time datetime="2020-07-01T08:52:52.596Z" itemprop="datePublished">2020-07-01</time>
+      <a href="/2020/07/04/leetcode-104/" class="article-date">
+  <time datetime="2020-07-04T02:55:29.187Z" itemprop="datePublished">2020-07-04</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
   </div>
 
       
@@ -86,27 +86,21 @@
       
 
       
-      <h2 id="有限状态机的简单介绍"><a href="#有限状态机的简单介绍" class="headerlink" title="有限状态机的简单介绍"></a>有限状态机的简单介绍</h2><p>有限状态机将一个对象的行为分解为容易处理的“块”或者状态，对象执行了某些变换对象将从一个状态变成了另一种状态，说的简单点就是状态流程图，然后这些状态的数量是有限的。</p>
-<p>举个例子说明吧：</p>
-<p>假如我们现在正在开发一款横版游戏。当前的任务是实现玩家用按键操纵女英雄。当按下向上方向键的时候，女英雄应该跳跃。那么我们可以这样实现:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">    &#123;</span><br><span class="line">        yVelocity_ = JUMP_VELOCITY;</span><br><span class="line">        setGraphics(IMAGE_JUMP);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OK，实现是实现了，但是一堆BUG。比如，我们没有防止主角“在空中跳跃“，当主角跳起来后持续按向上键，会导致她一直飘在空中。简单地修复方法可以是：添加一个 isJumping布尔值变量。当主角跳起来后，就把该变量设置为True.只有当该变量为False时，才让主角跳跃，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">    &#123;</span><br><span class="line">      isJumping_ = <span class="keyword">true</span>;</span><br><span class="line">      <span class="comment">// Jump...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>接下来，我们想实现主角的闪避动作。当主角站在地面上的时候，如果玩家按下向下方向键，则下蹲躲避，如果松开此键，则起立。代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Jump if not jumping...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (input == PRESS_DOWN)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">        &#123;</span><br><span class="line">            setGraphics(IMAGE_DUCK);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (input == RELEASE_DOWN)</span><br><span class="line">    &#123;</span><br><span class="line">        setGraphics(IMAGE_STAND);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>找找看， 这次bug又在哪里？</p>
-<p>使用这段代码，玩家可以：按向下键下蹲，按向上键则从下蹲状态跳起，英雄会在跳跃的半路上变成站立图片…….是时候增加另一个标识了……</p>
-<p>那么为什么会出现需要反复添加标记变量的问题呢，对于那些标记也可以看做一个个的状态啊，原因是上述代码执行逻辑的出发点是操作而非状态，可以用如下图表示：</p>
-<img src="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/auto_1.png" class title="状态图1">
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">用下面的代码详细说明下吧。</span><br><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">    &#123;</span><br><span class="line">      isJumping_ = <span class="keyword">true</span>;</span><br><span class="line">      <span class="comment">// Jump...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里首先判断的不是状态，是操作，也就是if( input == PRESS_UP ),这样直接导致的后果是你需要在后面的代码中判断角色之前处于什么状态，然后将状态转换到相应的另一种状态。并且从上面的图也可以看到，这种方式不可能将任意多个状态串联到一起的，当按下向上的按钮后，再按下向下的按钮这是是两个独立的分析判断。</p>
-<p>而采用有限状态机时，由于判断的出发点是状态，我们只需要关注于当前处理的状态，这样可以将整个逻辑串联成一个整体，也就是一个流程。比如起始状态是状态A，由于已经知道了当前的状态，此时如果知道操作是什么那么从状态流程图上就知道下一个状态是什么，因为一个状态执行一个操作后只能到达的状态只能是其中一种。</p>
-<p>比如下图：从状态D如果执行某一种变换，它只可能到达状态B或者状态E，而不可能即处于状态B又处于状态E。</p>
-<img src="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/auto_2.png" class title="状态图2">
+      <h1 id="二叉树的最大深度"><a href="#二叉树的最大深度" class="headerlink" title="二叉树的最大深度"></a>二叉树的最大深度</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个二叉树，找出其最大深度。</p>
+<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
+<p>说明: 叶子节点是指没有子节点的节点。</p>
+<p>示例：<br>给定二叉树 [3,9,20,null,null,15,7]，</p>
+<pre><code>3</code></pre><p>   / <br>  9  20<br>    /  <br>   15   7<br>返回它的最大深度 3 。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题不难，总的来说两个方法，深度优先遍历和广度优先遍历</p>
+<h3 id="代码量最少的方法-分治法"><a href="#代码量最少的方法-分治法" class="headerlink" title="代码量最少的方法:分治法"></a>代码量最少的方法:分治法</h3><p>代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> left_height = maxDepth(root.left);</span><br><span class="line">            <span class="keyword">int</span> right_height = maxDepth(root.right);</span><br><span class="line">            <span class="keyword">return</span> Math.max(left_height, right_height) + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>对有限状态机的介绍先到这里。</p>
-<p>那么问题来了，FSM限制了同时只能存在一种状态,那么如果角色既被冰住了又晕了怎么办？<br>还有并发状态机，多层次状态机。后续学习吧。</p>
+<p>什么时候才能写出这样的代码啊，唉</p>
+<h3 id="深度优先遍历法"><a href="#深度优先遍历法" class="headerlink" title="深度优先遍历法"></a>深度优先遍历法</h3><p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> maxdepth = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        depth(root);</span><br><span class="line">        <span class="keyword">return</span> maxdepth;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">depth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            count++;</span><br><span class="line">            maxdepth = Math.max(maxdepth, count);</span><br><span class="line">            depth(root.left);</span><br><span class="line">            depth(root.right);</span><br><span class="line">            count--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="广度优先遍历法"><a href="#广度优先遍历法" class="headerlink" title="广度优先遍历法"></a>广度优先遍历法</h3><p>这里采用队列实现。<br>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Queue&lt;Pair&lt;TreeNode, Integer&gt;&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (root != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            queue.add(<span class="keyword">new</span> Pair&lt;TreeNode, Integer&gt;(root, <span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            Pair&lt;TreeNode, Integer&gt; current = queue.poll();</span><br><span class="line">            TreeNode cur_root = current.getKey();</span><br><span class="line">            <span class="keyword">int</span> cur_depth = current.getValue();</span><br><span class="line">            depth = Math.max(cur_depth, depth);</span><br><span class="line">            <span class="keyword">if</span> (cur_root.left != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                queue.add(<span class="keyword">new</span> Pair&lt;TreeNode, Integer&gt;(cur_root.left, cur_depth + <span class="number">1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (cur_root.right != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                queue.add(<span class="keyword">new</span> Pair&lt;TreeNode, Integer&gt;(cur_root.right, cur_depth + <span class="number">1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> depth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -160,14 +154,14 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/04/leetcode-104/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="tag">有限状态机</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
 
 
     </footer>
@@ -178,19 +172,10 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/07/03/leetcode-38/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            leetcode-38
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/07/01/leetcode-28/" class="article-nav-link">
+      <a href="/2020/07/03/leetcode-14/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-28</div>
+        <div class="article-nav-title">leetcode-14</div>
       </a>
     
   </nav>

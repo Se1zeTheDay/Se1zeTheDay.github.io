@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    有限状态机 |  Se1ze_The_Day
+    leetcode-38 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-有限状态机" class="article article-type-post" itemscope
+  <article id="post-leetcode-38" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  有限状态机
+  leetcode-38
 </h1>
  
 
@@ -58,12 +58,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" class="article-date">
-  <time datetime="2020-07-01T08:52:52.596Z" itemprop="datePublished">2020-07-01</time>
+      <a href="/2020/07/03/leetcode-38/" class="article-date">
+  <time datetime="2020-07-03T03:42:17.594Z" itemprop="datePublished">2020-07-03</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
   </div>
 
       
@@ -86,27 +86,31 @@
       
 
       
-      <h2 id="有限状态机的简单介绍"><a href="#有限状态机的简单介绍" class="headerlink" title="有限状态机的简单介绍"></a>有限状态机的简单介绍</h2><p>有限状态机将一个对象的行为分解为容易处理的“块”或者状态，对象执行了某些变换对象将从一个状态变成了另一种状态，说的简单点就是状态流程图，然后这些状态的数量是有限的。</p>
-<p>举个例子说明吧：</p>
-<p>假如我们现在正在开发一款横版游戏。当前的任务是实现玩家用按键操纵女英雄。当按下向上方向键的时候，女英雄应该跳跃。那么我们可以这样实现:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">    &#123;</span><br><span class="line">        yVelocity_ = JUMP_VELOCITY;</span><br><span class="line">        setGraphics(IMAGE_JUMP);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OK，实现是实现了，但是一堆BUG。比如，我们没有防止主角“在空中跳跃“，当主角跳起来后持续按向上键，会导致她一直飘在空中。简单地修复方法可以是：添加一个 isJumping布尔值变量。当主角跳起来后，就把该变量设置为True.只有当该变量为False时，才让主角跳跃，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">    &#123;</span><br><span class="line">      isJumping_ = <span class="keyword">true</span>;</span><br><span class="line">      <span class="comment">// Jump...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>接下来，我们想实现主角的闪避动作。当主角站在地面上的时候，如果玩家按下向下方向键，则下蹲躲避，如果松开此键，则起立。代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Jump if not jumping...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (input == PRESS_DOWN)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">        &#123;</span><br><span class="line">            setGraphics(IMAGE_DUCK);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (input == RELEASE_DOWN)</span><br><span class="line">    &#123;</span><br><span class="line">        setGraphics(IMAGE_STAND);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>找找看， 这次bug又在哪里？</p>
-<p>使用这段代码，玩家可以：按向下键下蹲，按向上键则从下蹲状态跳起，英雄会在跳跃的半路上变成站立图片…….是时候增加另一个标识了……</p>
-<p>那么为什么会出现需要反复添加标记变量的问题呢，对于那些标记也可以看做一个个的状态啊，原因是上述代码执行逻辑的出发点是操作而非状态，可以用如下图表示：</p>
-<img src="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/auto_1.png" class title="状态图1">
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">用下面的代码详细说明下吧。</span><br><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">    &#123;</span><br><span class="line">      isJumping_ = <span class="keyword">true</span>;</span><br><span class="line">      <span class="comment">// Jump...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里首先判断的不是状态，是操作，也就是if( input == PRESS_UP ),这样直接导致的后果是你需要在后面的代码中判断角色之前处于什么状态，然后将状态转换到相应的另一种状态。并且从上面的图也可以看到，这种方式不可能将任意多个状态串联到一起的，当按下向上的按钮后，再按下向下的按钮这是是两个独立的分析判断。</p>
-<p>而采用有限状态机时，由于判断的出发点是状态，我们只需要关注于当前处理的状态，这样可以将整个逻辑串联成一个整体，也就是一个流程。比如起始状态是状态A，由于已经知道了当前的状态，此时如果知道操作是什么那么从状态流程图上就知道下一个状态是什么，因为一个状态执行一个操作后只能到达的状态只能是其中一种。</p>
-<p>比如下图：从状态D如果执行某一种变换，它只可能到达状态B或者状态E，而不可能即处于状态B又处于状态E。</p>
-<img src="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/auto_2.png" class title="状态图2">
+      <h1 id="外观数列"><a href="#外观数列" class="headerlink" title="外观数列"></a>外观数列</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个正整数 n（1 ≤ n ≤ 30），输出外观数列的第 n 项。</p>
+<p>注意：整数序列中的每一项将表示为一个字符串。</p>
+<p>「外观数列」是一个整数序列，从数字 1 开始，序列中的每一项都是对前一项的描述。前五项如下：</p>
+<ol>
+<li>1</li>
+<li>11</li>
+<li>21</li>
+<li>1211</li>
+<li>111221<br>第一项是数字 1</li>
+</ol>
+<p>描述前一项，这个数是 1 即 “一个 1 ”，记作 11</p>
+<p>描述前一项，这个数是 11 即 “两个 1 ” ，记作 21</p>
+<p>描述前一项，这个数是 21 即 “一个 2 一个 1 ” ，记作 1211</p>
+<p>描述前一项，这个数是 1211 即 “一个 1 一个 2 两个 1 ” ，记作 111221</p>
+<p>示例 1:</p>
+<p>输入: 1<br>输出: “1”<br>解释：这是一个基本样例。<br>示例 2:</p>
+<p>输入: 4<br>输出: “1211”<br>解释：当 n = 3 时，序列是 “21”，其中我们有 “2” 和 “1” 两组，”2” 可以读作 “12”，也就是出现频次 = 1 而 值 = 2；类似 “1” 可以读作 “11”。所以答案是 “12” 和 “11” 组合在一起，也就是 “1211”。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>我自己是用迭代写的，思路大概就是遍历str，如果前后两个元素相等那么count++，不相等就将count和该元素append到stringbuffer中，并置count为1。</p>
+<p>注意每次循环后都要更新str，并将ans置零。</p>
+<p>贴上使用循环的代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">countAndSay</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        String str = <span class="string">"1"</span>;</span><br><span class="line">        StringBuffer ans = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">char</span> count = <span class="string">'1'</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ;i &lt; str.length(); i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (i == str.length() - <span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    ans.append(count);</span><br><span class="line">                    ans.append(str.charAt(i));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (str.charAt(i) != str.charAt(i + <span class="number">1</span>))</span><br><span class="line">                &#123;</span><br><span class="line">                    ans.append(count);</span><br><span class="line">                    ans.append(str.charAt(i));</span><br><span class="line">                    count = <span class="string">'1'</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    count++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            str = <span class="keyword">new</span> String(ans);</span><br><span class="line">            ans = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">            count = <span class="string">'1'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>对有限状态机的介绍先到这里。</p>
-<p>那么问题来了，FSM限制了同时只能存在一种状态,那么如果角色既被冰住了又晕了怎么办？<br>还有并发状态机，多层次状态机。后续学习吧。</p>
-
+<p>看了题解之后发现能用递归，我总是想不到去用递归，哎。</p>
+<p>将自己的代码修改成使用递归处理后如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">countAndSay</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//递归出口</span></span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"1"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String str = countAndSay(n - <span class="number">1</span>);</span><br><span class="line">        StringBuffer ans = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">char</span> count = <span class="string">'1'</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span> ;i &lt; str.length(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == str.length() - <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ans.append(count);</span><br><span class="line">                ans.append(str.charAt(i));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (str.charAt(i) != str.charAt(i + <span class="number">1</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                ans.append(count);</span><br><span class="line">                ans.append(str.charAt(i));</span><br><span class="line">                count = <span class="string">'1'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        str = <span class="keyword">new</span> String(ans);</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -160,14 +164,14 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/03/leetcode-38/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="tag">有限状态机</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
 
 
     </footer>
@@ -178,19 +182,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/07/03/leetcode-38/" class="article-nav-link">
+      <a href="/2020/07/03/leetcode-14/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            leetcode-38
+            leetcode-14
           
         </div>
       </a>
     
     
-      <a href="/2020/07/01/leetcode-28/" class="article-nav-link">
+      <a href="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-28</div>
+        <div class="article-nav-title">有限状态机</div>
       </a>
     
   </nav>
