@@ -75,6 +75,159 @@
     
     
     
+    <article id="post-Java Hashmap" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/27/Java%20Hashmap/"
+    >Java-Hashmap</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/27/Java%20Hashmap/" class="article-date">
+  <time datetime="2020-05-27T02:18:56.326Z" itemprop="datePublished">2020-05-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="Java-Hashmap常用用法"><a href="#Java-Hashmap常用用法" class="headerlink" title="Java-Hashmap常用用法"></a>Java-Hashmap常用用法</h1><p>//定义map，K和V为类，不允许基本类型<br>HashMap &lt;K, V&gt; map = new HashMap&lt;K, V&gt;();</p>
+<p>//设置K键的值为V，即通过哈希函数计算出V = H(K)<br>map.put(K, V); </p>
+<p>//获取K键的值,返回值为V类型<br>map.get(K); </p>
+<p>//删除K键的值，返回的是V<br>map.remove(K);</p>
+<p>//判断是否有K键的值<br>boolean containsKey(K);</p>
+<p>//判断是否有值为V<br>boolean containsValue(V);</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-01" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/27/leetcode-01/"
+    >leetcode-01</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/27/leetcode-01/" class="article-date">
+  <time datetime="2020-05-27T01:48:55.627Z" itemprop="datePublished">2020-05-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p>#两数之和<br>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那<strong>两个</strong>整数，并返回他们的数组下标。</p>
+<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
+<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><p>最近用 java 语言写来巩固一下 java，忘得差不多了，很烦。</p>
+<p>这题没有说数组是有序的，那么首先显然是暴力法。暴力法就不用说了，看完题解之后发现还有采用哈希查找的方式，不得不复习了一下数据结构。</p>
+<p>这里直接给出解法：</p>
+<h3 id="两遍哈希表"><a href="#两遍哈希表" class="headerlink" title="两遍哈希表"></a>两遍哈希表</h3><p>第一遍将数组元素放入哈希表，第二遍通过target - nums[i]的键值搜索哈希表得到值并返回数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一遍哈希表"><a href="#一遍哈希表" class="headerlink" title="一遍哈希表"></a>一遍哈希表</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意一个问题例如像{2,2,3,4,5}这样的数组，target为4<br>那么采用哈希表存储将会丢失key为2，value为1的元素，但从解法来看不影响。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-哈希表" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -720,86 +873,13 @@
 
 </article>
     
-    <article id="post-矩阵连乘优化" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/21/%E7%9F%A9%E9%98%B5%E8%BF%9E%E4%B9%98%E4%BC%98%E5%8C%96/"
-    >矩阵连乘优化</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/21/%E7%9F%A9%E9%98%B5%E8%BF%9E%E4%B9%98%E4%BC%98%E5%8C%96/" class="article-date">
-  <time datetime="2020-04-21T06:10:24.416Z" itemprop="datePublished">2020-04-21</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="矩阵连乘优化问题"><a href="#矩阵连乘优化问题" class="headerlink" title="矩阵连乘优化问题"></a>矩阵连乘优化问题</h1><h2 id="穷举法的问题"><a href="#穷举法的问题" class="headerlink" title="穷举法的问题"></a>穷举法的问题</h2><p>穷举法即找出每一种完全加括号方式相应需要的数乘次数    </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">设n &#x3D; 1时，p(n) &#x3D; 1</span><br><span class="line">n &gt;&#x3D; 2时，p(n) &#x3D; p(1) * p(n-1) + p(2) * p(n-2) + ... + p(n-1) * p(1)</span><br><span class="line">p(n)实际为catalan数</span><br><span class="line">p(n) &#x3D; C(n-1) 其中C(n) &#x3D; 1*(2n n)&#x2F;(n+1)     (2n n)表示从2n个元素中选出n个元素的组合数</span><br></pre></td></tr></table></figure>
-<p>时间复杂度呈指数级增长，不推荐。</p>
-<h2 id="采用动态规划法进行优化"><a href="#采用动态规划法进行优化" class="headerlink" title="采用动态规划法进行优化"></a>采用动态规划法进行优化</h2><h3 id="1，分析最优子结构特性"><a href="#1，分析最优子结构特性" class="headerlink" title="1，分析最优子结构特性"></a>1，分析最优子结构特性</h3><h3 id="2，建立递归关系"><a href="#2，建立递归关系" class="headerlink" title="2，建立递归关系"></a>2，建立递归关系</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">定义计算A[i][j]所需要的最优次数为m[i][j],p[]数组存放矩阵的维数，因为矩阵可乘必有相邻矩阵行列相等，因此用p[i-1],p[i]来表示每个矩阵Ai的维数。</span><br><span class="line">i &#x3D; j, m[i][j] &#x3D; 0</span><br><span class="line">i &lt; j, m[i][j] &#x3D; min&#123;m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j]&#125; (i &lt;&#x3D; k &lt; j)</span><br></pre></td></tr></table></figure>
-<h3 id="3，计算最优值"><a href="#3，计算最优值" class="headerlink" title="3，计算最优值"></a>3，计算最优值</h3><h3 id="4，构造最优解"><a href="#4，构造最优解" class="headerlink" title="4，构造最优解"></a>4，构造最优解</h3><h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//矩阵连乘动态规划算法</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">matrixChain</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> **p, <span class="keyword">int</span> **m, <span class="keyword">int</span> **s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//将对角线置为零，即矩阵自身数乘次数为零</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">       m[i][i] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//数组的上斜对角线数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r = <span class="number">2</span>； r &lt;= n; r++)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">//每个斜对角线的行</span></span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n - r + <span class="number">1</span>; i++)</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="comment">//每个斜对角线的列</span></span><br><span class="line">         <span class="keyword">int</span> j = i + r - <span class="number">1</span>;</span><br><span class="line">         <span class="comment">//计算初值，便于比较并替换最小值</span></span><br><span class="line">         m[i][j] = m[i+<span class="number">1</span>][j] + p[i<span class="number">-1</span>] * p[i] * p[j];</span><br><span class="line">         <span class="comment">//s[i][j]用来保存断点</span></span><br><span class="line">         s[i][j] = i;</span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; j; k++)</span><br><span class="line">         &#123;</span><br><span class="line">            <span class="keyword">int</span> t = m[i][k] + m[k+<span class="number">1</span>][j] + p[i<span class="number">-1</span>] * p[k] * p[j];</span><br><span class="line">            <span class="keyword">if</span>(t &lt; m[i][j])</span><br><span class="line">            &#123;</span><br><span class="line">               m[i][j] = t;</span><br><span class="line">               s[i][j] = k;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//递归构造最优解</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">traceBack</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> **s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(i == j) <span class="keyword">return</span>;</span><br><span class="line">    traceBack(i, s[i][j], s);</span><br><span class="line">    traceBack(s[i][j] + <span class="number">1</span>, j, s);</span><br><span class="line">    <span class="comment">//输出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">下一页</a>
   </nav>
   
 </section>

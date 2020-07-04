@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    leetcode-104 |  Se1ze_The_Day
+    leetcode-101 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-leetcode-104" class="article article-type-post" itemscope
+  <article id="post-leetcode-101" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  leetcode-104
+  leetcode-101
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/04/leetcode-104/" class="article-date">
-  <time datetime="2020-07-04T02:55:29.187Z" itemprop="datePublished">2020-07-04</time>
+      <a href="/2020/07/04/leetcode-101/" class="article-date">
+  <time datetime="2020-07-04T07:44:53.820Z" itemprop="datePublished">2020-07-04</time>
 </a>
       
   <div class="article-category">
@@ -86,21 +86,22 @@
       
 
       
-      <h1 id="二叉树的最大深度"><a href="#二叉树的最大深度" class="headerlink" title="二叉树的最大深度"></a>二叉树的最大深度</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个二叉树，找出其最大深度。</p>
-<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
-<p>说明: 叶子节点是指没有子节点的节点。</p>
-<p>示例：<br>给定二叉树 [3,9,20,null,null,15,7]，</p>
-<pre><code>3</code></pre><p>   / <br>  9  20<br>    /  <br>   15   7<br>返回它的最大深度 3 。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题不难，总的来说两个方法，深度优先遍历和广度优先遍历</p>
-<h3 id="代码量最少的方法-分治法"><a href="#代码量最少的方法-分治法" class="headerlink" title="代码量最少的方法:分治法"></a>代码量最少的方法:分治法</h3><p>代码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> left_height = maxDepth(root.left);</span><br><span class="line">            <span class="keyword">int</span> right_height = maxDepth(root.right);</span><br><span class="line">            <span class="keyword">return</span> Math.max(left_height, right_height) + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      <h1 id="对称二叉树"><a href="#对称二叉树" class="headerlink" title="对称二叉树"></a>对称二叉树</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个二叉树，检查它是否是镜像对称的。</p>
+<p>例如，二叉树 [1,2,2,3,4,4,3] 是对称的。<br>    1<br>   / <br>  2   2<br> / \ / <br>3  4 4  3</p>
+<p>但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:<br>    1<br>   / <br>  2   2<br>   \   <br>   3    3</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题我想的是给左子树来一次先序遍历，再给右子树来一次后序遍历，接着判断两次遍历的结果是否相等，如果相等说明就是对称二叉树，但是这样做达不到锻炼的效果。</p>
+<h3 id="法一：递归"><a href="#法一：递归" class="headerlink" title="法一：递归"></a>法一：递归</h3><p>我真的要崩溃了，都知道怎么判断是不是对称，可是我怎么就想不到去设置两个指针，让他们同步往下走，一个往左一个就往右。题解的代码一如既往地简洁，我的心情也一如既往地沉重。</p>
+<p>在递归传给下一层时，两个指针都要改变，那么可以把两个指针作为函数的参数。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSymmetric</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> check(root, root);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span> &amp;&amp; q == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span> || q == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> p.val == q.val &amp;&amp; check(p.left, q.right) &amp;&amp; check(p.right, q.left); </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>什么时候才能写出这样的代码啊，唉</p>
-<h3 id="深度优先遍历法"><a href="#深度优先遍历法" class="headerlink" title="深度优先遍历法"></a>深度优先遍历法</h3><p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> maxdepth = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        depth(root);</span><br><span class="line">        <span class="keyword">return</span> maxdepth;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">depth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            count++;</span><br><span class="line">            maxdepth = Math.max(maxdepth, count);</span><br><span class="line">            depth(root.left);</span><br><span class="line">            depth(root.right);</span><br><span class="line">            count--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="法二：迭代"><a href="#法二：迭代" class="headerlink" title="法二：迭代"></a>法二：迭代</h3><p>引入队列是将递归程序改为迭代程序的常用方法，其实我觉得应该是这样的，在递归地某一层中如果要对很多对象进行操作，而且这些对象在不同的递归层数中的数目不同并且有规律，那么可以用队列来实现递归转迭代的方法，否则不需要队列也能解决，这只是我的直觉，实际问题还是要实际分析。</p>
+<p>初始化时我们把根节点入队两次。每次提取两个结点并比较它们的值（队列中每两个连续的结点应该是相等的，而且它们的子树互为镜像），然后将两个结点的左右子结点按相反的顺序插入队列中。当队列为空时，或者我们检测到树不对称（即从队列中取出两个不相等的连续结点）时，该算法结束。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSymmetric</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Queue&lt;TreeNode&gt; q = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        </span><br><span class="line">        TreeNode cur_left = root;</span><br><span class="line">        TreeNode cur_right = root;</span><br><span class="line">        </span><br><span class="line">        q.add(cur_left);</span><br><span class="line">        q.add(cur_right);</span><br><span class="line">        <span class="keyword">while</span> (!q.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            cur_left = q.poll();</span><br><span class="line">            cur_right = q.poll();</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (cur_left == <span class="keyword">null</span> &amp;&amp; cur_right == <span class="keyword">null</span>) <span class="keyword">continue</span>;;</span><br><span class="line">            <span class="keyword">if</span> (cur_left == <span class="keyword">null</span> || cur_right == <span class="keyword">null</span> || cur_left.val != cur_right.val) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            </span><br><span class="line">            q.add(cur_left.left);</span><br><span class="line">            q.add(cur_right.right);</span><br><span class="line">            </span><br><span class="line">            q.add(cur_left.right);</span><br><span class="line">            q.add(cur_right.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="广度优先遍历法"><a href="#广度优先遍历法" class="headerlink" title="广度优先遍历法"></a>广度优先遍历法</h3><p>这里采用队列实现。<br>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Queue&lt;Pair&lt;TreeNode, Integer&gt;&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (root != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            queue.add(<span class="keyword">new</span> Pair&lt;TreeNode, Integer&gt;(root, <span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            Pair&lt;TreeNode, Integer&gt; current = queue.poll();</span><br><span class="line">            TreeNode cur_root = current.getKey();</span><br><span class="line">            <span class="keyword">int</span> cur_depth = current.getValue();</span><br><span class="line">            depth = Math.max(cur_depth, depth);</span><br><span class="line">            <span class="keyword">if</span> (cur_root.left != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                queue.add(<span class="keyword">new</span> Pair&lt;TreeNode, Integer&gt;(cur_root.left, cur_depth + <span class="number">1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (cur_root.right != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                queue.add(<span class="keyword">new</span> Pair&lt;TreeNode, Integer&gt;(cur_root.right, cur_depth + <span class="number">1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> depth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>希望自己总结的递归的经验是正确的，也希望自己能够一直坚持地努力下去。</p>
+
       
       <!-- reward -->
       
@@ -154,7 +155,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/04/leetcode-104/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/04/leetcode-101/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -172,19 +173,10 @@
   
   <nav class="article-nav">
     
+    
       <a href="/2020/07/04/leetcode-98/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            leetcode-98
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2020/07/03/leetcode-14/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-14</div>
+        <div class="article-nav-title">leetcode-98</div>
       </a>
     
   </nav>

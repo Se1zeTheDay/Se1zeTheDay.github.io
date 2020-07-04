@@ -75,6 +75,183 @@
     
     
     
+    <article id="post-leetcode-217" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/25/leetcode-217/"
+    >leetcode-217</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/25/leetcode-217/" class="article-date">
+  <time datetime="2020-06-25T03:47:24.998Z" itemprop="datePublished">2020-06-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="存在重复元素"><a href="#存在重复元素" class="headerlink" title="存在重复元素"></a>存在重复元素</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个整数数组，判断是否存在重复元素。</p>
+<p>如果任意一值在数组中出现至少两次，函数返回 true 。如果数组中每个元素都不相同，则返回 false 。</p>
+<p>示例 1:</p>
+<p>输入: [1,2,3,1]<br>输出: true<br>示例 2:</p>
+<p>输入: [1,2,3,4]<br>输出: false<br>示例 3:</p>
+<p>输入: [1,1,1,3,3,4,3,2,4,2]<br>输出: true</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题拿上来以为有什么奇技淫巧，最后一看题解并没有。</p>
+<p>这道题是为了让我们了解一些基本的数据结构的概念：<br>循环不变式，线性查找，排序与哈希表</p>
+<p>接下来一边介绍方法，一边来介绍这些概念。</p>
+<h3 id="法一：朴素线性查找【超时】"><a href="#法一：朴素线性查找【超时】" class="headerlink" title="法一：朴素线性查找【超时】"></a>法一：朴素线性查找【超时】</h3><p>对于一个有 n 个整数的数组，一共有 n(n - 1) / 2 对整数，我们逐一对每一对整数进行检测查看是否相同。</p>
+<p>那么很明显的，若我们从数组尾部开始向前检测，对于第 i 个整数nums[i]，我们对前 i - 1 个元素进行查找是否有重复值。如果找到，那么返回true，否则返回false。</p>
+<p>下面介绍循环不变式的概念：<br><strong>循环不变式是指在每次迭代前和后均保持不变的性质</strong><br>我们可以根据这个性质来进行编程，那么在这个题目中循环不变式就是：<br><strong>在每次搜索开始时，搜索过的元素中不会有重复的整数。</strong></p>
+<p>写下代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsDuplicate</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] == nums[i]) <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方法时间复杂度为O(n^2),在leetcode中超时。</p>
+<h3 id="法二：排序法"><a href="#法二：排序法" class="headerlink" title="法二：排序法"></a>法二：排序法</h3><p>将数组排完序后，很容易想到，重复的元素一定是相邻的，所以只需要判断相邻的元素是否存在相等的。</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsDuplicate</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] == nums[i + <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法三：哈希表"><a href="#法三：哈希表" class="headerlink" title="法三：哈希表"></a>法三：哈希表</h3><p>对我而言，我觉得法三我要重点掌握，因为总是想不到用哈希表，肯定是对这个数据结构不够熟悉导致的</p>
+<p>这个题目用到的搜索和插入操作比较多，而哈希表进行此类操作的时候正好比较快。</p>
+<p>对于数组的普通查找时间复杂度为O(n),二分查找时间复杂度为O(logn)，但哈希表查找只需O(1),插入操作也同理。</p>
+<img src="/2020/06/25/leetcode-217/217_1.jpg" class title="哈希表">
+<p>写下代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">containsDuplicate</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    Set&lt;Integer&gt; set = <span class="keyword">new</span> Hashset&lt;&gt;(nums.length);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x: nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (set.contains(x)) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        set.add(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-189" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/24/leetcode-189/"
+    >leetcode-189</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/24/leetcode-189/" class="article-date">
+  <time datetime="2020-06-24T13:29:56.088Z" itemprop="datePublished">2020-06-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="旋转数组"><a href="#旋转数组" class="headerlink" title="旋转数组"></a>旋转数组</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</p>
+<p>示例 1:</p>
+<p>输入: [1,2,3,4,5,6,7] 和 k = 3<br>输出: [5,6,7,1,2,3,4]<br>解释:<br>向右旋转 1 步: [7,1,2,3,4,5,6]<br>向右旋转 2 步: [6,7,1,2,3,4,5]<br>向右旋转 3 步: [5,6,7,1,2,3,4]<br>示例 2:</p>
+<p>输入: [-1,-100,3,99] 和 k = 2<br>输出: [3,99,-1,-100]<br>解释:<br>向右旋转 1 步: [99,-1,-100,3]<br>向右旋转 2 步: [3,99,-1,-100]</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题首先想到的肯定是暴力法，每次数组每个元素都向后移动一个元素，总共移动k次。<br>暴力法不仔细说了，需要两个变量来保存移动时的元素</p>
+<p>这里想重点说的是一下两个方法：</p>
+<h3 id="1，环状替换法"><a href="#1，环状替换法" class="headerlink" title="1，环状替换法"></a>1，环状替换法</h3><p>这个方法我是想到的，其实挺容易想到的，但是一开始想到的时候忽略了k % n == 0的情况，也就是在一圈回来之后会回到原地，那么此时我们可以得到一个内循环中止条件，也就是此时的下标与开始时的下标相同，并且让其他元素也遍历到。用count来保存遍历过的元素数量，当count与nums.length - 1相等时，说明所有元素均已遍历到，可以结束外循环。说起来挺容易的，但是代码不好写，题解的代码很妙。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rotate</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (count &lt; nums.length)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> index = i;</span><br><span class="line">            <span class="keyword">int</span> element = nums[index];</span><br><span class="line">            <span class="keyword">int</span> temp;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">do</span></span><br><span class="line">            &#123;</span><br><span class="line">            temp = nums[(index + k) % nums.length];</span><br><span class="line">            nums[(index + k) % nums.length] = element;</span><br><span class="line">            element = temp;</span><br><span class="line">            index = (index + k) % nums.length;</span><br><span class="line">            count++;</span><br><span class="line">            &#125; <span class="keyword">while</span> (i != index);</span><br><span class="line"></span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2，反转法"><a href="#2，反转法" class="headerlink" title="2，反转法"></a>2，反转法</h3><p>这个方法我觉得是最妙的，但是不容易想到，估计也是观察出来的，我发现自己每次刷题的时候都挺浮躁的，注意力不是很集中。</p>
+<p>首先，当我们旋转数组k次时，尾部的k%n个元素会被移动到数组的头部，剩下的元素会被向后移动。</p>
+<p>具体算法举例如下图：</p>
+<img src="/2020/06/24/leetcode-189/189_1.jpg" class title="反转法">
+
+<p>接着写下代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rotate</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        k = k % nums.length;</span><br><span class="line">        reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, k, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (start &lt; end)&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[start];</span><br><span class="line">        nums[start] = nums[end];</span><br><span class="line">        nums[end] = temp;</span><br><span class="line">        start++;</span><br><span class="line">        end--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-26" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -806,166 +983,13 @@
 
 </article>
     
-    <article id="post-leetcode-207" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/03/leetcode-207/"
-    >leetcode-207</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/03/leetcode-207/" class="article-date">
-  <time datetime="2020-06-03T05:39:26.406Z" itemprop="datePublished">2020-06-03</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="课程表"><a href="#课程表" class="headerlink" title="课程表"></a>课程表</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>你这个学期必须选修 numCourse 门课程，记为 0 到 numCourse-1 。</p>
-<p>在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们：[0,1]</p>
-<p>给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习？</p>
-<p>示例 1:</p>
-<p>输入: 2, [[1,0]]<br>输出: true<br>解释: 总共有 2 门课程。学习课程 1 之前，你需要完成课程 0。所以这是可能的。<br>示例 2:</p>
-<p>输入: 2, [[1,0],[0,1]]<br>输出: false<br>解释: 总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0；并且学习课程 0 之前，你还应先完成课程 1。这是不可能的。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先题目的意思简单来说就是有向图中不能出现回路</p>
-<p>这道题我虽然不太会，但是能学到很多东西，这里采用拓扑排序加dfs判断是否有回路的算法。</p>
-<p>首先得建立邻接表，然后用dfs算法遍历图的邻接表，去判断图中是否有回路(dfs算法肯定不能直接判断只能用来遍历，这里加了个flag数组，即相当于以前的visited[]数组，不同的是，数组中0代表当前正在访问的节点，1代表已访问过，-1代表还未访问)</p>
-<p>然后就是代码的问题，为了对问题有更深的理解，我觉得还是先写下大致的过程：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dfs(adj, flag, i)</span><br><span class="line">建立邻接表</span><br><span class="line">初始化flag数组为-<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> (i指向邻接表的某一行)    <span class="comment">//以i为起点</span></span><br><span class="line">    flag[i] &lt;- <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (j遍历邻接表的第i行)</span><br><span class="line">    <span class="keyword">if</span>  flag[j] = -<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span>(!dfs(adj, flag, j))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> flag = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span> <span class="comment">//说明有回路</span></span><br><span class="line">    flag[i] &lt;- <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
-<p>实际Java代码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="keyword">int</span>[][] prerequisites)</span> </span>&#123;</span><br><span class="line">        List &lt;List&lt;Integer&gt;&gt; adj = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; i++)</span><br><span class="line">        adj.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        <span class="keyword">int</span>[] flag = <span class="keyword">new</span> <span class="keyword">int</span>[numCourses];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            flag[i] = -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span>[] cp : prerequisites)</span><br><span class="line">            adj.get(cp[<span class="number">1</span>]).add(cp[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!dfs(adj, flag, i))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; adj, <span class="keyword">int</span>[] flag, <span class="keyword">int</span> v0)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        flag[v0] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Integer i : adj.get(v0))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (flag[i] == -<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">               <span class="keyword">if</span>(!dfs(adj, flag, i))</span><br><span class="line">               &#123;</span><br><span class="line">                   <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (flag[i] == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        flag[v0] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-Java List" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/01/Java%20List/"
-    >Java-List</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/01/Java%20List/" class="article-date">
-  <time datetime="2020-06-01T14:07:51.081Z" itemprop="datePublished">2020-06-01</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="Java-List基本用法"><a href="#Java-List基本用法" class="headerlink" title="Java List基本用法"></a>Java List基本用法</h1><p>//List初始化<br>List&lt;&gt; list = new ArrayList&lt;&gt;();</p>
-<p>//添加元素方法：<br>list.add(e);<br>　　<br>//获取方法：<br>list.get(index);<br>　　<br>//按照索引删除：<br>ist.remove(index);</p>
-<p>//按照按照元素内容删除:　　<br>list.remove(Object o);</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
   </nav>
   
 </section>

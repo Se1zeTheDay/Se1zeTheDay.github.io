@@ -75,6 +75,159 @@
     
     
     
+    <article id="post-leetcode-207" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/03/leetcode-207/"
+    >leetcode-207</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/03/leetcode-207/" class="article-date">
+  <time datetime="2020-06-03T05:39:26.406Z" itemprop="datePublished">2020-06-03</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="课程表"><a href="#课程表" class="headerlink" title="课程表"></a>课程表</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>你这个学期必须选修 numCourse 门课程，记为 0 到 numCourse-1 。</p>
+<p>在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们：[0,1]</p>
+<p>给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习？</p>
+<p>示例 1:</p>
+<p>输入: 2, [[1,0]]<br>输出: true<br>解释: 总共有 2 门课程。学习课程 1 之前，你需要完成课程 0。所以这是可能的。<br>示例 2:</p>
+<p>输入: 2, [[1,0],[0,1]]<br>输出: false<br>解释: 总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0；并且学习课程 0 之前，你还应先完成课程 1。这是不可能的。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先题目的意思简单来说就是有向图中不能出现回路</p>
+<p>这道题我虽然不太会，但是能学到很多东西，这里采用拓扑排序加dfs判断是否有回路的算法。</p>
+<p>首先得建立邻接表，然后用dfs算法遍历图的邻接表，去判断图中是否有回路(dfs算法肯定不能直接判断只能用来遍历，这里加了个flag数组，即相当于以前的visited[]数组，不同的是，数组中0代表当前正在访问的节点，1代表已访问过，-1代表还未访问)</p>
+<p>然后就是代码的问题，为了对问题有更深的理解，我觉得还是先写下大致的过程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dfs(adj, flag, i)</span><br><span class="line">建立邻接表</span><br><span class="line">初始化flag数组为-<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> (i指向邻接表的某一行)    <span class="comment">//以i为起点</span></span><br><span class="line">    flag[i] &lt;- <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (j遍历邻接表的第i行)</span><br><span class="line">    <span class="keyword">if</span>  flag[j] = -<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span>(!dfs(adj, flag, j))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> flag = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span> <span class="comment">//说明有回路</span></span><br><span class="line">    flag[i] &lt;- <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<p>实际Java代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="keyword">int</span>[][] prerequisites)</span> </span>&#123;</span><br><span class="line">        List &lt;List&lt;Integer&gt;&gt; adj = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; i++)</span><br><span class="line">        adj.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        <span class="keyword">int</span>[] flag = <span class="keyword">new</span> <span class="keyword">int</span>[numCourses];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            flag[i] = -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span>[] cp : prerequisites)</span><br><span class="line">            adj.get(cp[<span class="number">1</span>]).add(cp[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!dfs(adj, flag, i))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; adj, <span class="keyword">int</span>[] flag, <span class="keyword">int</span> v0)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        flag[v0] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Integer i : adj.get(v0))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (flag[i] == -<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">               <span class="keyword">if</span>(!dfs(adj, flag, i))</span><br><span class="line">               &#123;</span><br><span class="line">                   <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (flag[i] == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        flag[v0] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-Java List" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/01/Java%20List/"
+    >Java-List</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/01/Java%20List/" class="article-date">
+  <time datetime="2020-06-01T14:07:51.081Z" itemprop="datePublished">2020-06-01</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="Java-List基本用法"><a href="#Java-List基本用法" class="headerlink" title="Java List基本用法"></a>Java List基本用法</h1><p>//List初始化<br>List&lt;&gt; list = new ArrayList&lt;&gt;();</p>
+<p>//添加元素方法：<br>list.add(e);<br>　　<br>//获取方法：<br>list.get(index);<br>　　<br>//按照索引删除：<br>ist.remove(index);</p>
+<p>//按照按照元素内容删除:　　<br>list.remove(Object o);</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-94" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -715,166 +868,13 @@
 
 </article>
     
-    <article id="post-Java Hashmap" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/27/Java%20Hashmap/"
-    >Java-Hashmap</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/27/Java%20Hashmap/" class="article-date">
-  <time datetime="2020-05-27T02:18:56.326Z" itemprop="datePublished">2020-05-27</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="Java-Hashmap常用用法"><a href="#Java-Hashmap常用用法" class="headerlink" title="Java-Hashmap常用用法"></a>Java-Hashmap常用用法</h1><p>//定义map，K和V为类，不允许基本类型<br>HashMap &lt;K, V&gt; map = new HashMap&lt;K, V&gt;();</p>
-<p>//设置K键的值为V，即通过哈希函数计算出V = H(K)<br>map.put(K, V); </p>
-<p>//获取K键的值,返回值为V类型<br>map.get(K); </p>
-<p>//删除K键的值，返回的是V<br>map.remove(K);</p>
-<p>//判断是否有K键的值<br>boolean containsKey(K);</p>
-<p>//判断是否有值为V<br>boolean containsValue(V);</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-01" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/27/leetcode-01/"
-    >leetcode-01</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/27/leetcode-01/" class="article-date">
-  <time datetime="2020-05-27T01:48:55.627Z" itemprop="datePublished">2020-05-27</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <p>#两数之和<br>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那<strong>两个</strong>整数，并返回他们的数组下标。</p>
-<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</p>
-<h2 id="解法分析"><a href="#解法分析" class="headerlink" title="解法分析"></a>解法分析</h2><p>最近用 java 语言写来巩固一下 java，忘得差不多了，很烦。</p>
-<p>这题没有说数组是有序的，那么首先显然是暴力法。暴力法就不用说了，看完题解之后发现还有采用哈希查找的方式，不得不复习了一下数据结构。</p>
-<p>这里直接给出解法：</p>
-<h3 id="两遍哈希表"><a href="#两遍哈希表" class="headerlink" title="两遍哈希表"></a>两遍哈希表</h3><p>第一遍将数组元素放入哈希表，第二遍通过target - nums[i]的键值搜索哈希表得到值并返回数组</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="一遍哈希表"><a href="#一遍哈希表" class="headerlink" title="一遍哈希表"></a>一遍哈希表</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意一个问题例如像{2,2,3,4,5}这样的数组，target为4<br>那么采用哈希表存储将会丢失key为2，value为1的元素，但从解法来看不影响。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
   </nav>
   
 </section>
