@@ -156,6 +156,12 @@
 <h5 id="查询软件包中文件安装位置"><a href="#查询软件包中文件安装位置" class="headerlink" title="查询软件包中文件安装位置"></a>查询软件包中文件安装位置</h5><p>rpm -ql 包名<br>选项： -l 列表(list)<br>      -p 查询未安装包信息(package)</p>
 <h5 id="查询系统文件属于哪个rpm包"><a href="#查询系统文件属于哪个rpm包" class="headerlink" title="查询系统文件属于哪个rpm包"></a>查询系统文件属于哪个rpm包</h5><p>rpm -qf 系统文件名<br>选项： -f 查询系统文件属于哪个软件包(file)</p>
 <h5 id="查询软件包的依赖性"><a href="#查询软件包的依赖性" class="headerlink" title="查询软件包的依赖性"></a>查询软件包的依赖性</h5><p>rpm -qR 包名<br>选项： -R  查询软件包的依赖性(requires)<br>      -p  查询未安装包的信息(package)</p>
+<h5 id="rpm包校验"><a href="#rpm包校验" class="headerlink" title="rpm包校验"></a>rpm包校验</h5><p>rpm -V 已安装的包名<br>选项： -V 校验指定RPM包中的文件(verify)<br>校验结果中的8个信息具体内容：</p>
+
+<h5 id="rpm包中文件提取"><a href="#rpm包中文件提取" class="headerlink" title="rpm包中文件提取"></a>rpm包中文件提取</h5><p>rpm2cpio 包全名 | <br>cpio -idv .文件绝对路径</p>
+<p>rpm2cpio 为将rpm包转换为cpio格式的命令</p>
+<p>cpio为标准工具，它用于创建软件档案文件和从档案文件中提取文件</p>
+<p>cpio命令：<br>cpio 选项 &lt;[文件|设备]<br>选项： -i copy-in模式，还原<br>       -d 还原时自动新建目录<br>       -v 显示还原过程</p>
 
       
       <!-- reward -->

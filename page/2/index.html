@@ -75,6 +75,279 @@
     
     
     
+    <article id="post-leetcode-8" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/30/leetcode-8/"
+    >leetcode-8</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/30/leetcode-8/" class="article-date">
+  <time datetime="2020-06-30T12:28:26.199Z" itemprop="datePublished">2020-06-30</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="字符串转换整数"><a href="#字符串转换整数" class="headerlink" title="字符串转换整数"></a>字符串转换整数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>请你来实现一个 atoi 函数，使其能将字符串转换成整数。</p>
+<p>首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。接下来的转化规则如下：</p>
+<p>如果第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字字符组合起来，形成一个有符号整数。<br>假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成一个整数。<br>该字符串在有效的整数部分之后也可能会存在多余的字符，那么这些字符可以被忽略，它们对函数不应该造成影响。<br>注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换，即无法进行有效转换。</p>
+<p>在任何情况下，若函数不能进行有效的转换时，请返回 0 。</p>
+<p>提示：</p>
+<p>本题中的空白字符只包括空格字符 ‘ ‘ 。<br>假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231,  231 − 1]。如果数值超过这个范围，请返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。</p>
+<p>示例 1:</p>
+<p>输入: “42”<br>输出: 42<br>示例 2:</p>
+<p>输入: “   -42”<br>输出: -42<br>解释: 第一个非空白字符为 ‘-‘, 它是一个负号。<br>     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。<br>示例 3:</p>
+<p>输入: “4193 with words”<br>输出: 4193<br>解释: 转换截止于数字 ‘3’ ，因为它的下一个字符不为数字。<br>示例 4:</p>
+<p>输入: “words and 987”<br>输出: 0<br>解释: 第一个非空字符是 ‘w’, 但它不是数字或正、负号。<br>     因此无法执行有效的转换。<br>示例 5:</p>
+<p>输入: “-91283472332”<br>输出: -2147483648<br>解释: 数字 “-91283472332” 超过 32 位有符号整数范围。<br>     因此返回 INT_MIN (−231) 。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题非常重要！！！！！可以说是刷到现在收获最大的题之一。</p>
+<p>我们先介绍一般的想法，按题目的意思，我们肯定先将字符串前面的空格去掉，接着判断字符串的符号，无符号则默认为正，在这些都结束之后，我们需要找之后的数字，到第一个不是数字的字符为止，接着将这些数字转换成对应的整数，还要进行溢出处理。在前天刚做完一道溢出处理的题目后，遇到这个题我还挺兴奋的。</p>
+<p>接下来先把自己写的代码贴了，前有flag判断数字中的字符，后有flag判断整数的正负，这着实使我们的代码变得十分的臃肿，那么为什么会出现这种情况，以及为什么我们要定义flag呢，具体的问题我们慢慢分析。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">myAtoi</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        StringBuffer ans = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">int</span> answer = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>; </span><br><span class="line">        <span class="keyword">while</span> (i &lt; str.length() &amp;&amp; str.charAt(i) == <span class="string">' '</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; str.length())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.isDigit(str.charAt(i)))</span><br><span class="line">            &#123;</span><br><span class="line">                ans.append(str.charAt(i));</span><br><span class="line">                flag = <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!flag &amp;&amp; (str.charAt(i) == <span class="string">'-'</span> || str.charAt(i) == <span class="string">'+'</span>))</span><br><span class="line">                &#123;</span><br><span class="line">                    ans.append(str.charAt(i));</span><br><span class="line">                    flag = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        flag = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; ans.length(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">           <span class="keyword">if</span> (ans.charAt(i) == <span class="string">'-'</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               flag = <span class="keyword">true</span>;</span><br><span class="line">               <span class="keyword">continue</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (ans.charAt(i) == <span class="string">'+'</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               flag = <span class="keyword">false</span>;</span><br><span class="line">               <span class="keyword">continue</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">else</span> </span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">if</span> (answer &gt; Integer.MAX_VALUE / <span class="number">10</span> || (answer == Integer.MAX_VALUE / <span class="number">10</span> &amp;&amp; (ans.charAt(i) - <span class="string">'0'</span>) &gt; <span class="number">7</span>)) <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">               <span class="keyword">if</span> (answer &lt; Integer.MIN_VALUE / <span class="number">10</span> || (answer == Integer.MIN_VALUE / <span class="number">10</span> &amp;&amp; (ans.charAt(i) - <span class="string">'0'</span>) &gt; <span class="number">8</span>)) <span class="keyword">return</span> Integer.MIN_VALUE;</span><br><span class="line">               <span class="keyword">if</span> (flag)</span><br><span class="line">               &#123;</span><br><span class="line">                   answer = answer * <span class="number">10</span> - (ans.charAt(i) - <span class="string">'0'</span>);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span></span><br><span class="line">               &#123;</span><br><span class="line">                   answer = answer * <span class="number">10</span> + (ans.charAt(i) - <span class="string">'0'</span>);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> answer;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>那么我们可以明显地看到，标志位的设置会使代码变得十分繁杂，但是采用这种思路又不可避免地要用到flag。在我们从字符串中取出每一位字符时，我们自然而然地会去想，如果取出的是什么什么字符，那么应该怎么去处理。举个例子，在取出加减号时，有可能是空格后的加减号，也有可能是数字中夹杂着的加减号，假如我们放在一起判断的话，就应该要加一个标志位，在第一次遇到加减号后，flag就设置为true，之后就忽略后面的加减号。当然这只是一种简单的情况，实际情况比这个更加复杂，那么代码会更加的繁杂。<br>这里我认为我写的代码用的flag不够多是因为这个事情是有一定的顺序的，或者说是有规律的，也就是一开始是空格，接着是正负号或数字，最后是乱七八槽的字母，其实这道题还是比较清晰的。</strong></p>
+<h2 id="有限状态机"><a href="#有限状态机" class="headerlink" title="有限状态机"></a>有限状态机</h2><p>那么接下来就要引入这道题一个另类的解法，采用<strong>有限状态机</strong>。</p>
+<p>什么是有限状态机呢？这里我准备再写一个博客来介绍它。</p>
+<p>这里直接简单的说一下：<br>字符串处理的题目往往会涉及到复杂的流程以及条件情况。</p>
+<p>按通常的思路，我们会去判断现在的字符是什么类型的，这在状态机中被称为条件，也就是由一个状态过渡到另一个状态所需要满足的条件，那么条件有很多，不同状态之间的条件可能是相同的，那么这样一来就不用去定义标志位了，因为本身的状态已经确定了。</p>
+<p>对于这道题而言我们定义四个状态，一个是start开始状态，第二个是遇到符号后的signed状态，第三个是进入数字后的in_number状态，最后是出数字后的end状态。<br>那么这几个有限的状态有着如图这样的关系，箭头上即写着状态转移需要的条件：</p>
+<img src="/2020/06/30/leetcode-8/8_1.jpg" class title="有限状态机图">
+<p>也可以用下面的表来进行描述：</p>
+<img src="/2020/06/30/leetcode-8/8_2.jpg" class title="有限状态机表">
+
+<p>接下来就是写代码了,照着官方java解敲的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Automaton</span> </span>&#123;</span><br><span class="line">    <span class="comment">//定义四个状态</span></span><br><span class="line">    <span class="keyword">final</span> String START = <span class="string">"start"</span>;</span><br><span class="line">    <span class="keyword">final</span> String SIGNED = <span class="string">"signed"</span>;</span><br><span class="line">    <span class="keyword">final</span> String IN_NUM = <span class="string">"in_number"</span>;</span><br><span class="line">    <span class="keyword">final</span> String END = <span class="string">"end"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//初始化状态</span></span><br><span class="line">    String state = START;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//定义状态表</span></span><br><span class="line">    Map&lt;String, String[]&gt; map;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//sign 用于记录整数的符号</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> sign = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//记录转换成的整数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">long</span> ans = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Automaton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">      <span class="comment">//记录下每个状态能到达的状态</span></span><br><span class="line">      map.put(START,<span class="keyword">new</span> String[] &#123;START,SIGNED,IN_NUM,END&#125;);</span><br><span class="line">      map.put(SIGNED,<span class="keyword">new</span> String[] &#123;END,END,IN_NUM,END&#125;);</span><br><span class="line">      map.put(IN_NUM,<span class="keyword">new</span> String[] &#123;END,END,IN_NUM,END&#125;);</span><br><span class="line">      map.put(END,<span class="keyword">new</span> String[] &#123;END,END,END,END&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//条件判断函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get_col</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (c == <span class="string">' '</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> (c == <span class="string">'+'</span> || c == <span class="string">'-'</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">if</span> (c &gt;= <span class="string">'0'</span> &amp;&amp; c &lt;= <span class="string">'9'</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//状态转移函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">get</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//通过原有的状态及条件获取新的状态</span></span><br><span class="line">      state = map.get(state)[get_col(c)];</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//判断新的状态采取什么操作</span></span><br><span class="line">      <span class="keyword">if</span> (state.equals(IN_NUM)) &#123;</span><br><span class="line">        ans = ans * <span class="number">10</span> + c - <span class="string">'0'</span>;</span><br><span class="line">        <span class="keyword">if</span> (sign == <span class="number">1</span>) &#123;</span><br><span class="line">          ans = Math.min(ans, Integer.MAX_VALUE);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">          ans = Math.min(ans, -(<span class="keyword">long</span>)Integer.MIN_VALUE);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (state.equals(SIGNED))  &#123;</span><br><span class="line">        sign = c == <span class="string">'+'</span>? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">myAtoi</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    Automaton automaton = <span class="keyword">new</span> Automaton();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str.length(); i++ ) &#123;</span><br><span class="line">      automaton.get(str.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="keyword">return</span> automaton.sign * ((<span class="keyword">int</span>)automaton.ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>希望自己能慢慢学会这个解法。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-Java String、StringBuffer与StringBuilder" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/30/Java%20String%E3%80%81StringBuffer%E4%B8%8EStringBuilder/"
+    >Java中String,StringBuilder与StringBuffer的区别</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/30/Java%20String%E3%80%81StringBuffer%E4%B8%8EStringBuilder/" class="article-date">
+  <time datetime="2020-06-30T06:06:01.517Z" itemprop="datePublished">2020-06-30</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="Java中String-StringBuilder与StringBuffer的区别"><a href="#Java中String-StringBuilder与StringBuffer的区别" class="headerlink" title="Java中String,StringBuilder与StringBuffer的区别"></a>Java中String,StringBuilder与StringBuffer的区别</h1><h2 id="运算速度比较-通常情况下-StringBuilder-gt-StringBuffer-gt-String"><a href="#运算速度比较-通常情况下-StringBuilder-gt-StringBuffer-gt-String" class="headerlink" title="运算速度比较(通常情况下) StringBuilder &gt; StringBuffer &gt; String"></a>运算速度比较(通常情况下) StringBuilder &gt; StringBuffer &gt; String</h2><p>String是final类不能被继承且为字符串常量，而StringBuilder和StringBuffer均为字符串变量。String对象一旦创建便不可更改，而后两者是可更改的，它们只能通过构造函数来建立对象，且对象被建立以后将在内存中分配内存空间，并初始保存一个null，通过append方法向StringBuffer和StringBuilder中赋值。<br>请看如下示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"abc"</span>;</span><br><span class="line">System.out.println(str);</span><br><span class="line">str = str + <span class="string">"de"</span>;</span><br><span class="line">System.out.println(str);</span><br></pre></td></tr></table></figure>
+<p>上述代码先创建一个String对象str，并赋值abc给str，然后运行到第三行，JVM会再创建一个新的str对象，并将原有str的值和de加起来再赋值给新的str。而第一个创建的str对象被JVM的垃圾回收机制（GC）回收掉。所以str实际上并没有被更改，即String对象一旦创建就不可更改。所以Java中对String对象进行的操作实际上是一个不断创建并回收对象的过程，因此在运行速度上很慢。</p>
+<p>而StringBuilder和StringBuffer的对象是变量，对变量的操作是直接对该对象就行更改，因此不会进行反复的创建和回收。所以在运行速度上比较快。</p>
+<p>但也有如下情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"abc"</span> + <span class="string">"de"</span>;</span><br><span class="line">StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder().append(<span class="string">"abc"</span>).append(<span class="string">"de"</span>);</span><br><span class="line">System.out.println(str);</span><br><span class="line">System.out.println(stringBuilder.toString());</span><br></pre></td></tr></table></figure>
+<p><strong>上述代码中String的操作速度反而要比StringBuilder快，这是因为在JVM眼里，第1行的代码操作和下列代码是完全一样的，所以很快。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"abcde"</span>;</span><br></pre></td></tr></table></figure>
+<p>但如下的代码写法形式速度会很慢，JVM会不断地创建和回收对象来进行操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">"abc"</span>;</span><br><span class="line">String str2 = <span class="string">"de"</span>;</span><br><span class="line">String str = str1 + str2;</span><br></pre></td></tr></table></figure>
+<h2 id="线程安全性"><a href="#线程安全性" class="headerlink" title="线程安全性"></a>线程安全性</h2><h3 id="StringBuilder（非线程安全）"><a href="#StringBuilder（非线程安全）" class="headerlink" title="StringBuilder（非线程安全）"></a>StringBuilder（非线程安全）</h3><p>而StringBuilder的方法没有该关键字修饰，所以不能保证线程安全性。是JDK1.5新增的，该类提供一个与StringBuffer兼容的 API，但不能保证同步，所以在性能上较高。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候（这种情况很普遍）。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同。</p>
+<h3 id="StringBuffer（线程安全的）"><a href="#StringBuffer（线程安全的）" class="headerlink" title="StringBuffer（线程安全的）"></a>StringBuffer（线程安全的）</h3><p>StringBuffer中大部分方法由synchronized关键字修饰，在必要时可对方法进行同步，因此任意特定实例上的所有操作就好像是以串行顺序发生的，该顺序与所涉及的每个线程进行的方法调用顺序一致，所以是线程安全的。类似于 String 的字符串缓冲区，但不能修改。虽然在任意时间点上它都包含某种特定的字符序列，但通过某些方法调用可以改变该序列的长度和内容。StringBuffer 上的主要操作是 append 和 insert 方法，可重载这些方法，以接受任意类型的数据。每个方法都能有效地将给定的数据转换成字符串，然后将该字符串的字符追加或插入到字符串缓冲区中。append 方法始终将这些字符添加到缓冲区的末端；而 insert 方法则在指定的点添加字符。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>String：适用于少量的字符串操作。</p>
+<p>StringBuilder：适用于单线程下在字符串缓冲区进行大量操作。</p>
+<p>StringBuffer：适用于多线程下在字符串缓冲区进行大量操作。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-125" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/30/leetcode-125/"
+    >leetcode-125</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/30/leetcode-125/" class="article-date">
+  <time datetime="2020-06-30T05:21:47.030Z" itemprop="datePublished">2020-06-30</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="验证回文串"><a href="#验证回文串" class="headerlink" title="验证回文串"></a>验证回文串</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。</p>
+<p>说明：本题中，我们将空字符串定义为有效的回文串。</p>
+<p>示例 1:</p>
+<p>输入: “A man, a plan, a canal: Panama”<br>输出: true<br>示例 2:</p>
+<p>输入: “race a car”<br>输出: false</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>看到判断回文串一般是用双指针，然后双指针遍历的代码一般都是这么写的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (i &lt; j)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; restrictions)</span><br><span class="line">    &#123;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; restrictions)</span><br><span class="line">    &#123;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="keyword">do</span> what;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后这道题的话这里有几个函数是写好的可以直接用，我之前是不知道的。</p>
+<p>一个是toLowerCase(),可以直接把字符串转换成小写的。<br>还有一个函数是真的不知道，其实我有点惊讶还有这样的函数，就是Character类下的isLetterOrDigit()函数，他可判断一个字符是数字还是字母。</p>
+<p>这些都知道之后，剩下的就好解决了。</p>
+<p>先介绍直接双指针判断是否为回文串法。</p>
+<h3 id="法一：双指针直接判断"><a href="#法一：双指针直接判断" class="headerlink" title="法一：双指针直接判断"></a>法一：双指针直接判断</h3><p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.length();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>; right = n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">while</span> (left &lt; right &amp;&amp; !Character.isLetterOrDigit(s.charAt(left))) &#123;</span><br><span class="line">                ++left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (left &lt; right &amp;&amp; !Character.isLetterOrDigit(s.charAt(right))) &#123;</span><br><span class="line">                --right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">                <span class="keyword">if</span> (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ++left;</span><br><span class="line">                --right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法二：先筛选后判断"><a href="#法二：先筛选后判断" class="headerlink" title="法二：先筛选后判断"></a>法二：先筛选后判断</h3><p>先将字符串中的除数字与字母以外的字符全部去掉，随后判断剩下的字符串是否为回文串即可。</p>
+<p>具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        StringBuffer sgood = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">int</span> length = s.length();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">            <span class="keyword">char</span> ch = s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (Character.isLetterOrDigit(ch)) &#123;</span><br><span class="line">                sgood.append(Character.toLowerCase(ch));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> n = sgood.length();</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>,right = n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.toLowerCase(sgood.charAt(left)) != Character.toLowerCase(sgood.charAt(right))) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            left++;</span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后贴上自己写的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.length() == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        s= s.toLowerCase();</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> j = s.length() - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (i &lt;= j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Character.isLetterOrDigit(s.charAt(i)) &amp;&amp; Character.isLetterOrDigit(s.charAt(j)))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (s.charAt(i) == s.charAt(j))</span><br><span class="line">                &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!Character.isLetterOrDigit(s.charAt(i)))</span><br><span class="line">                &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (!Character.isLetterOrDigit(s.charAt(j)))</span><br><span class="line">                &#123;</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-242" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -633,266 +906,6 @@
 <h2 id="解法优化"><a href="#解法优化" class="headerlink" title="解法优化"></a>解法优化</h2><p>看了题解之后发现有更好的解法的，其实能想到赋值，应该也能想到交换，也是双指针的思路，只不过换成了交换。</p>
 <p>代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">moveZeroes</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, k = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                swap(nums[k++],nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-66" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/26/leetcode-66/"
-    >leetcode-66</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/26/leetcode-66/" class="article-date">
-  <time datetime="2020-06-26T13:20:23.016Z" itemprop="datePublished">2020-06-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="加一"><a href="#加一" class="headerlink" title="加一"></a>加一</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。</p>
-<p>最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</p>
-<p>你可以假设除了整数 0 之外，这个整数不会以零开头。</p>
-<p>示例 1:</p>
-<p>输入: [1,2,3]<br>输出: [1,2,4]<br>解释: 输入数组表示数字 123。<br>示例 2:</p>
-<p>输入: [4,3,2,1]<br>输出: [4,3,2,2]<br>解释: 输入数组表示数字 4321。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这题没啥多说的，一个是注意不能忽略了进位的情况，既然能想到进位，那肯定不能忽视了全是9的情况，那需要重新建立一个数组并将第一个元素置一。</p>
-<p>另外一个就是代码的简练度问题，个人觉得想得多那肯定写的少，逻辑要清晰，想明白了再写。</p>
-<p>先贴上自己写的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] plusOne(<span class="keyword">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt;= digits.length - <span class="number">1</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (digits[digits.length - <span class="number">1</span> - i] == <span class="number">9</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                digits[digits.length - <span class="number">1</span> - i] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">            &#123; </span><br><span class="line">                digits[digits.length - <span class="number">1</span> - i]++;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i == digits.length)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span>[] ans = <span class="keyword">new</span> <span class="keyword">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">            ans[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">return</span> ans;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h2><p>其实仔细想一下，不管最后一位是9还是不是9，都需要++，那么先++，将这一位除以10的余数给原来这位数，再去判0，如果不为0，那么直接返回这个数组，为零继续这个循环，如果循环到最后一次还未结束，那么说明全为9，需要建立新数组。</p>
-<p>说白了就是找到为9和不为9时的共同点，就不用分if else了，节省了代码。</p>
-<p>优化后的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] plusOne(<span class="keyword">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] = digits[i] % <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) <span class="keyword">return</span> digits;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="keyword">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-350" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/26/leetcode-350/"
-    >leetcode-350</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/26/leetcode-350/" class="article-date">
-  <time datetime="2020-06-26T03:28:32.433Z" itemprop="datePublished">2020-06-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="两个数组的交集-II"><a href="#两个数组的交集-II" class="headerlink" title="两个数组的交集 II"></a>两个数组的交集 II</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定两个数组，编写一个函数来计算它们的交集。</p>
-<p>示例 1:</p>
-<p>输入: nums1 = [1,2,2,1], nums2 = [2,2]<br>输出: [2,2]<br>示例 2:</p>
-<p>输入: nums1 = [4,9,5], nums2 = [9,4,9,8,4]<br>输出: [4,9]<br>说明：</p>
-<p>输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。<br>我们可以不考虑输出结果的顺序。<br>进阶:</p>
-<p>如果给定的数组已经排好序呢？你将如何优化你的算法？<br>如果 nums1 的大小比 nums2 小很多，哪种方法更优？<br>如果 nums2 的元素存储在磁盘上，磁盘内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>多亏了之前做过的题目，这道题拿到手两种方法都想到了。</p>
-<h3 id="方法一：哈希映射"><a href="#方法一：哈希映射" class="headerlink" title="方法一：哈希映射"></a>方法一：哈希映射</h3><p>采用哈希表记录下数组每个元素出现的次数，由于需要节省空间，我们将长度小的那个数组添加进哈希表。</p>
-<p>首先将这个数组添加进hashmap中，value的值即为每个元素出现的次数。接着我们遍历第二个数组，检查数字在hashmap中是否存在，若存在并且计数为正，那么将该数字添加到答案并且减少hashmap中的计数。</p>
-<p>举例如图所示：</p>
-<img src="/2020/06/26/leetcode-350/350_1.jpg" class title="哈希表举例">
-
-<p>代码如下：<br>注：map的getOrDefault(key,defaultvalue)方法意为当Map集合中有这个key元素时，就使用这个元素对应的value值，否则使用定义的defaultvalue值。<br>例如：map.getOrDefault(“Algorithms”,”yes”)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] intersect(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums1.length &gt; nums2.length) &#123;</span><br><span class="line">        <span class="keyword">return</span> intersect(nums2, nums1);</span><br><span class="line">    &#125;</span><br><span class="line">    HashMap&lt;Integer, Integer&gt; m = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums1) &#123;</span><br><span class="line">        m.put(n, m.getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums2) &#123;</span><br><span class="line">        <span class="keyword">int</span> cnt = m.getOrDefault(n, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (cnt &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[k++] = n;</span><br><span class="line">            m.put(n, cnt - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(nums1, <span class="number">0</span>, k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="法二：排序法"><a href="#法二：排序法" class="headerlink" title="法二：排序法"></a>法二：排序法</h3><p>有序数组什么都好说！</p>
-<p>具体方法为用两个指针分别指向nums1与nums2数组，接着：</p>
-<img src="/2020/06/26/leetcode-350/350_2.jpg" class title="排序法">
-<p>最后返回nums1数组的前 k 个元素即可。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] intersect(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">    Arrays.sort(nums1);</span><br><span class="line">    Arrays.sort(nums2);</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; nums1.length &amp;&amp; j &lt; nums2.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums1[i] &lt; nums2[j]) &#123;</span><br><span class="line">            ++i;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (nums1[i] &gt; nums2[j]) &#123;</span><br><span class="line">            ++j;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            nums1[k++] = nums1[i++];</span><br><span class="line">            ++j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(nums1, <span class="number">0</span>, k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="最后贴上自己写的代码："><a href="#最后贴上自己写的代码：" class="headerlink" title="最后贴上自己写的代码："></a>最后贴上自己写的代码：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] intersect(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2) &#123;</span><br><span class="line">        </span><br><span class="line">        Map&lt;Integer,Integer&gt; hashmap = <span class="keyword">new</span> HashMap&lt;Integer,Integer&gt;();</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (Integer i : nums1)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (hashmap.containsKey(i))</span><br><span class="line">            &#123;</span><br><span class="line">                hashmap.put(i, hashmap.get(i) + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> hashmap.put(i, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (Integer j : nums2)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (hashmap.containsKey(j) &amp;&amp; hashmap.get(j) != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                list.add(j);</span><br><span class="line">                hashmap.put(j, hashmap.get(j) - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] ans = <span class="keyword">new</span> <span class="keyword">int</span>[list.size()];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            ans[i] = list.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-136" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/25/leetcode-136/"
-    >leetcode-136</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/25/leetcode-136/" class="article-date">
-  <time datetime="2020-06-25T07:47:26.943Z" itemprop="datePublished">2020-06-25</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="只出现一次的数字"><a href="#只出现一次的数字" class="headerlink" title="只出现一次的数字"></a>只出现一次的数字</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
-<p>说明：</p>
-<p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
-<p>示例 1:</p>
-<p>输入: [2,2,1]<br>输出: 1<br>示例 2:</p>
-<p>输入: [4,1,2,1,2]<br>输出: 4</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这个题目要求时间复杂度为O(n),说实话我一点思路都没有，解法真的难想。</p>
-<p>如果没有空间复杂度O(1)的限制，那还有挺多方法。</p>
-<p>这里简单列举几个：</p>
-<h3 id="使用集合"><a href="#使用集合" class="headerlink" title="使用集合"></a>使用集合</h3><p>1，使用集合(set)存储数字,遍历数组中的每个数字，如果集合中没有该数字，则将该数字加入集合，否则在集合中删除该元素，那么最后集合中剩下的一个元素就是只出现一次的元素。<br>2，集合取差值得到只出现一次的元素，遍历数组中的每个数字，如果集合中没有该数字，则将该数字加入集合，否则加入另外一个集合，最后将两个集合做差值得到改元素。</p>
-<h3 id="使用哈希表"><a href="#使用哈希表" class="headerlink" title="使用哈希表"></a>使用哈希表</h3><p>使用哈希表存储每个数字和该数字出现的次数，遍历哈希表即得到只出现一次的数字。</p>
-<h3 id="此题符合题意的解-位运算"><a href="#此题符合题意的解-位运算" class="headerlink" title="此题符合题意的解:位运算"></a>此题符合题意的解:位运算</h3><p>首先说明位运算的三个性质：<br>1，任何数和0做异或运算，结果仍然为原来的数，即a ⊕ 0 = a。<br>2，任何数和其自身做异或运算，结果仍然是0，即a ⊕ a = 0。<br>3，异或运算满足交换律和结合律，即 a ⊕ b ⊕ a = b ⊕ a ⊕ a = b ⊕ (a ⊕ a) = b ⊕ 0 = b。</p>
-<p>那么接下来就很容易了，只需要将数组中的所有元素进行异或运算，剩下来的那个元素就是只出现一次的元素。</p>
-<img src="/2020/06/25/leetcode-136/136_1.jpg" class title="位运算(异或运算)">
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> single = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> num : nums) &#123;</span><br><span class="line">            single ^= num;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> single;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
       
       <!-- reward -->
       
