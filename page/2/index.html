@@ -75,6 +75,179 @@
     
     
     
+    <article id="post-有限状态机" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/"
+    >有限状态机</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" class="article-date">
+  <time datetime="2020-07-01T08:52:52.596Z" itemprop="datePublished">2020-07-01</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h2 id="有限状态机的简单介绍"><a href="#有限状态机的简单介绍" class="headerlink" title="有限状态机的简单介绍"></a>有限状态机的简单介绍</h2><p>有限状态机将一个对象的行为分解为容易处理的“块”或者状态，对象执行了某些变换对象将从一个状态变成了另一种状态，说的简单点就是状态流程图，然后这些状态的数量是有限的。</p>
+<p>举个例子说明吧：</p>
+<p>假如我们现在正在开发一款横版游戏。当前的任务是实现玩家用按键操纵女英雄。当按下向上方向键的时候，女英雄应该跳跃。那么我们可以这样实现:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">    &#123;</span><br><span class="line">        yVelocity_ = JUMP_VELOCITY;</span><br><span class="line">        setGraphics(IMAGE_JUMP);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>OK，实现是实现了，但是一堆BUG。比如，我们没有防止主角“在空中跳跃“，当主角跳起来后持续按向上键，会导致她一直飘在空中。简单地修复方法可以是：添加一个 isJumping布尔值变量。当主角跳起来后，就把该变量设置为True.只有当该变量为False时，才让主角跳跃，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">    &#123;</span><br><span class="line">      isJumping_ = <span class="keyword">true</span>;</span><br><span class="line">      <span class="comment">// Jump...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们想实现主角的闪避动作。当主角站在地面上的时候，如果玩家按下向下方向键，则下蹲躲避，如果松开此键，则起立。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Jump if not jumping...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (input == PRESS_DOWN)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">        &#123;</span><br><span class="line">            setGraphics(IMAGE_DUCK);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (input == RELEASE_DOWN)</span><br><span class="line">    &#123;</span><br><span class="line">        setGraphics(IMAGE_STAND);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>找找看， 这次bug又在哪里？</p>
+<p>使用这段代码，玩家可以：按向下键下蹲，按向上键则从下蹲状态跳起，英雄会在跳跃的半路上变成站立图片…….是时候增加另一个标识了……</p>
+<p>那么为什么会出现需要反复添加标记变量的问题呢，对于那些标记也可以看做一个个的状态啊，原因是上述代码执行逻辑的出发点是操作而非状态，可以用如下图表示：</p>
+<img src="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/auto_1.png" class title="状态图1">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">用下面的代码详细说明下吧。</span><br><span class="line"><span class="keyword">void</span> Heroine::handleInput(Input input)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (input == PRESS_UP)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (!isJumping_)</span><br><span class="line">    &#123;</span><br><span class="line">      isJumping_ = <span class="keyword">true</span>;</span><br><span class="line">      <span class="comment">// Jump...</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里首先判断的不是状态，是操作，也就是if( input == PRESS_UP ),这样直接导致的后果是你需要在后面的代码中判断角色之前处于什么状态，然后将状态转换到相应的另一种状态。并且从上面的图也可以看到，这种方式不可能将任意多个状态串联到一起的，当按下向上的按钮后，再按下向下的按钮这是是两个独立的分析判断。</p>
+<p>而采用有限状态机时，由于判断的出发点是状态，我们只需要关注于当前处理的状态，这样可以将整个逻辑串联成一个整体，也就是一个流程。比如起始状态是状态A，由于已经知道了当前的状态，此时如果知道操作是什么那么从状态流程图上就知道下一个状态是什么，因为一个状态执行一个操作后只能到达的状态只能是其中一种。</p>
+<p>比如下图：从状态D如果执行某一种变换，它只可能到达状态B或者状态E，而不可能即处于状态B又处于状态E。</p>
+<img src="/2020/07/01/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/auto_2.png" class title="状态图2">
+
+<p>对有限状态机的介绍先到这里。</p>
+<p>那么问题来了，FSM限制了同时只能存在一种状态,那么如果角色既被冰住了又晕了怎么办？<br>还有并发状态机，多层次状态机。后续学习吧。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="tag">有限状态机</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-28" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/01/leetcode-28/"
+    >leetcode-28</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/01/leetcode-28/" class="article-date">
+  <time datetime="2020-07-01T05:43:08.427Z" itemprop="datePublished">2020-07-01</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="实现strStr函数"><a href="#实现strStr函数" class="headerlink" title="实现strStr函数"></a>实现strStr函数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
+<p>示例 1:</p>
+<p>输入: haystack = “hello”, needle = “ll”<br>输出: 2<br>示例 2:</p>
+<p>输入: haystack = “aaaaa”, needle = “bba”<br>输出: -1<br>说明:</p>
+<p>当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</p>
+<p>对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>匹配字符串问题，想起来数据结构课上学过kmp算法，但是学的糊里糊涂，和没学一样，于是乎就用暴力法解题吧。但是又因为不熟练，暴力法写的都零零碎碎的，哎，最终参考了别人的代码才写出来，真的太菜了。</p>
+<h3 id="法一：暴力法"><a href="#法一：暴力法" class="headerlink" title="法一：暴力法"></a>法一：暴力法</h3><p>暴力法其实就是双指针法，一快一慢，慢指针记录快指针需要回溯的位置。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>,j = <span class="number">0</span>,k = i;</span><br><span class="line">        <span class="keyword">if</span> (needle.length() == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; haystack.length() &amp;&amp; j &lt; needle.length())</span><br><span class="line">        &#123;</span><br><span class="line">           <span class="keyword">if</span> (haystack.charAt(i) == needle.charAt(j))</span><br><span class="line">           &#123;</span><br><span class="line">               i++;</span><br><span class="line">               j++;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">else</span></span><br><span class="line">           &#123;</span><br><span class="line">               i = ++k;</span><br><span class="line">               j = <span class="number">0</span>;</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (j == needle.length())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> i - j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法二：Rabin-Karp算法"><a href="#法二：Rabin-Karp算法" class="headerlink" title="法二：Rabin Karp算法"></a>法二：Rabin Karp算法</h3><p>这里就贴个图，等到时候再开一个帖细讲。</p>
+
+
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="comment">// function to convert character to integer</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">charToInt</span><span class="params">(<span class="keyword">int</span> idx, String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)s.charAt(idx) - (<span class="keyword">int</span>)<span class="string">'a'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> L = needle.length(), n = haystack.length();</span><br><span class="line">    <span class="keyword">if</span> (L &gt; n) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// base value for the rolling hash function</span></span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">26</span>;</span><br><span class="line">    <span class="comment">// modulus value for the rolling hash function to avoid overflow</span></span><br><span class="line">    <span class="keyword">long</span> modulus = (<span class="keyword">long</span>)Math.pow(<span class="number">2</span>, <span class="number">31</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute the hash of strings haystack[:L], needle[:L]</span></span><br><span class="line">    <span class="keyword">long</span> h = <span class="number">0</span>, ref_h = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; L; ++i) &#123;</span><br><span class="line">      h = (h * a + charToInt(i, haystack)) % modulus;</span><br><span class="line">      ref_h = (ref_h * a + charToInt(i, needle)) % modulus;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (h == ref_h) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//说实话这里没搞明白为什么要这么做</span></span><br><span class="line">    <span class="comment">// const value to be used often : a**L % modulus</span></span><br><span class="line">    <span class="keyword">long</span> aL = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= L; ++i) aL = (aL * a) % modulus;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> start = <span class="number">1</span>; start &lt; n - L + <span class="number">1</span>; ++start) &#123;</span><br><span class="line">      <span class="comment">// compute rolling hash in O(1) time</span></span><br><span class="line">      h = (h * a - charToInt(start - <span class="number">1</span>, haystack) * aL</span><br><span class="line">              + charToInt(start + L - <span class="number">1</span>, haystack)) % modulus;</span><br><span class="line">      <span class="keyword">if</span> (h == ref_h &amp;&amp; haystack.substring(start,start + L).equals(needle)) <span class="keyword">return</span> start;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-8" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -746,166 +919,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValidSudoku</span><span class="params">(<span class="keyword">char</span>[][] board)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建了三个哈希数组来分别保存行列以及九宫格中的元素。</span></span><br><span class="line">        HashMap&lt;Integer, Integer&gt; [] rows = <span class="keyword">new</span> HashMap[<span class="number">9</span>];</span><br><span class="line">        HashMap&lt;Integer, Integer&gt; [] columns = <span class="keyword">new</span> HashMap[<span class="number">9</span>];</span><br><span class="line">        HashMap&lt;Integer, Integer&gt; [] boxes = <span class="keyword">new</span> HashMap[<span class="number">9</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            rows[i] = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">            columns[i] = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">            boxes[i] = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; i++) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">9</span>; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">char</span> num = board[i][j];</span><br><span class="line">                <span class="keyword">if</span> (num != <span class="string">'.'</span>) </span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">int</span> n = (<span class="keyword">int</span>)num;</span><br><span class="line">                    <span class="keyword">int</span> box_index = (i / <span class="number">3</span>) * <span class="number">3</span> + j / <span class="number">3</span>;</span><br><span class="line">                    </span><br><span class="line">                    rows[i].put(n, rows[i].getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">                    columns[j].put(n, columns[j].getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">if</span> (rows[i].get(n) &gt; <span class="number">1</span> || columns[j].get(n) &gt; <span class="number">1</span> || boxes[box_index].get(n) &gt; <span class="number">1</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-278" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/27/leetcode-278/"
-    >leetcode-278</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/27/leetcode-278/" class="article-date">
-  <time datetime="2020-06-27T09:13:51.097Z" itemprop="datePublished">2020-06-27</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="第一个错误的版本"><a href="#第一个错误的版本" class="headerlink" title="第一个错误的版本"></a>第一个错误的版本</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。</p>
-<p>假设你有 n 个版本 [1, 2, …, n]，你想找出导致之后所有版本出错的第一个错误的版本。</p>
-<p>你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。</p>
-<p>示例:</p>
-<p>给定 n = 5，并且 version = 4 是第一个错误的版本。</p>
-<p>调用 isBadVersion(3) -&gt; false<br>调用 isBadVersion(5) -&gt; true<br>调用 isBadVersion(4) -&gt; true</p>
-<p>所以，4 是第一个错误的版本。 </p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这个题目比较简单，但是还是体现出我编程功底的薄弱。。。</p>
-<p>这道题所用的算法很显然，为二分法。</p>
-<p>但是有几个细节值得注意，一个是二分时若采用 (left + right) / 2 的方法计算，当int 很大时很容易溢出，我们用 left+(right−left) / 2 来代替前者。</p>
-<p>第二个细节是，假如isBadVersion(mid)为真，也就是 mid 为假版本，那么就是说 mid 之后都为假版本，并且 mid + 1 到 n 不可能是第一个错误的版本，但是mid是可能的，所以说此时应该搜索 left 到 mid ，也就是将 mid 的值给 right。</p>
-<p>写下代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The isBadVersion API is defined in the parent class VersionControl.</span></span><br><span class="line"><span class="comment">      boolean isBadVersion(int version); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> <span class="keyword">extends</span> <span class="title">VersionControl</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">firstBadVersion</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> right = n;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (left &lt; right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (isBadVersion(mid))</span><br><span class="line">            &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-283" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/27/leetcode-283/"
-    >leetcode-283</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/27/leetcode-283/" class="article-date">
-  <time datetime="2020-06-27T02:17:16.904Z" itemprop="datePublished">2020-06-27</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="移动零"><a href="#移动零" class="headerlink" title="移动零"></a>移动零</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
-<p>示例:</p>
-<p>输入: [0,1,0,3,12]<br>输出: [1,3,12,0,0]<br>说明:</p>
-<p>1，必须在原数组上操作，不能拷贝额外的数组。<br>2，尽量减少操作次数。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>哈哈哈，这题上来大概想了一想就会了，一会儿就ac了。</p>
-<p>我的思路是这样的，采用双指针(我本来不知道这就是双指针的，看了题解才知道)，遍历一遍数组将不是零的元素覆盖到数组前部，前部指针++，那么到最后非零元素全部覆盖到前面，最后只要把从慢指针到数组末尾的元素全部置零即可。</p>
-<p>贴上代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">moveZeroes</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                nums[k++] = nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; nums.length; i++) &#123;</span><br><span class="line">            nums[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="解法优化"><a href="#解法优化" class="headerlink" title="解法优化"></a>解法优化</h2><p>看了题解之后发现有更好的解法的，其实能想到赋值，应该也能想到交换，也是双指针的思路，只不过换成了交换。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">moveZeroes</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, k = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                swap(nums[k++],nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       

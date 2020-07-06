@@ -75,6 +75,195 @@
     
     
     
+    <article id="post-leetcode-71" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/17/leetcode-71/"
+    >leetcode-71</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/17/leetcode-71/" class="article-date">
+  <time datetime="2020-06-17T06:47:36.182Z" itemprop="datePublished">2020-06-17</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="简化路径"><a href="#简化路径" class="headerlink" title="简化路径"></a>简化路径</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>以 Unix 风格给出一个文件的绝对路径，你需要简化它。或者换句话说，将其转换为规范路径。</p>
+<p>在 Unix 风格的文件系统中，一个点（.）表示当前目录本身；此外，两个点 （..） 表示将目录切换到上一级（指向父目录）；两者都可以是复杂相对路径的组成部分。更多信息请参阅：Linux / Unix中的绝对路径 vs 相对路径</p>
+<p>请注意，返回的规范路径必须始终以斜杠 / 开头，并且两个目录名之间必须只有一个斜杠 /。最后一个目录名（如果存在）不能以 / 结尾。此外，规范路径必须是表示绝对路径的最短字符串。</p>
+<p>示例 1：</p>
+<p>输入：”/home/“<br>输出：”/home”<br>解释：注意，最后一个目录名后面没有斜杠。<br>示例 2：</p>
+<p>输入：”/../“<br>输出：”/“<br>解释：从根目录向上一级是不可行的，因为根是你可以到达的最高级。<br>示例 3：</p>
+<p>输入：”/home//foo/“<br>输出：”/home/foo”<br>解释：在规范路径中，多个连续斜杠需要用一个斜杠替换。<br>示例 4：</p>
+<p>输入：”/a/./b/../../c/“<br>输出：”/c”<br>示例 5：</p>
+<p>输入：”/a/../../b/../c//.//“<br>输出：”/c”<br>示例 6：</p>
+<p>输入：”/a//b////c/d//././/..”<br>输出：”/a/b/c”</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这题思路不难，但题目有点坑，像/…这种测试案例很无语。。</p>
+<p>像这种题我觉得自己对于许多java中的容器方法都不是很了解，慢慢来吧。</p>
+<p>自己写的代码(不适用于/…这种情形)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">simplifyPath</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">        Stack&lt;Character&gt; stack = <span class="keyword">new</span> Stack&lt;Character&gt;();</span><br><span class="line">        List&lt;Character&gt; list = <span class="keyword">new</span> ArrayList&lt;Character&gt;();</span><br><span class="line"></span><br><span class="line">        stack.push(path.charAt(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; path.length(); i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (path.charAt(i) == <span class="string">'/'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                     <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; stack.peek() == <span class="string">'.'</span>) </span><br><span class="line">                     &#123;</span><br><span class="line">                         stack.pop();</span><br><span class="line">                     &#125;</span><br><span class="line">                     <span class="keyword">else</span> <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; stack.peek() == <span class="string">'/'</span>)</span><br><span class="line">                     &#123;</span><br><span class="line">                         <span class="keyword">continue</span>;</span><br><span class="line">                     &#125;</span><br><span class="line">                     <span class="keyword">else</span> stack.push(path.charAt(i));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (path.charAt(i) == <span class="string">'.'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; stack.peek() == <span class="string">'.'</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        stack.pop();</span><br><span class="line">                        stack.pop();</span><br><span class="line">                        <span class="keyword">while</span>(!stack.isEmpty())</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">if</span> (stack.peek() == <span class="string">'/'</span> || stack.peek() == <span class="string">'.'</span>)</span><br><span class="line">                            &#123;</span><br><span class="line">                               <span class="keyword">break</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">else</span> stack.pop();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        stack.push(path.charAt(i));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> stack.push(path.charAt(i));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; (stack.peek() == <span class="string">'/'</span> || stack.peek() == <span class="string">'.'</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                stack.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (stack.isEmpty())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"/"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (!stack.isEmpty())</span><br><span class="line">            &#123;</span><br><span class="line">            list.add(stack.pop());</span><br><span class="line">            &#125;</span><br><span class="line">            Collections.reverse(list);</span><br><span class="line">            <span class="keyword">char</span>[] ans = <span class="keyword">new</span> <span class="keyword">char</span>[list.size()];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++)</span><br><span class="line">            &#123;</span><br><span class="line">                ans[i] = list.get(i);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> String(ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码改进"><a href="#代码改进" class="headerlink" title="代码改进"></a>代码改进</h2><p>看了大佬的题解之后，学到了挺多的。</p>
+<p>路径的简化本质上是获得每一层路径的名称</p>
+<p>字符串中的/不入栈，靠它来分割路径名称</p>
+<p>如果是 “..” 还要再判断是否为空才能弹出栈</p>
+<p>如果是 “.” 则什么也不要做</p>
+<p>如果不为空也不为 “.” 这说明当前元素是路径信息，入栈即可</p>
+<p>最后遍历完之后，先判断栈中是否有元素，没有则返回 “/”</p>
+<p>如果有元素，则使用 StringBuilder 来存放可变字符串，最后返回 ans 即可。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">simplifyPath</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">        Stack&lt;String&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="comment">// 首先将字符串以 “/” 分隔存储到新的字符数组 str 中</span></span><br><span class="line">        String[] str = path.split(<span class="string">"/"</span>);</span><br><span class="line">        <span class="keyword">for</span> (String s : str) &#123;</span><br><span class="line">            <span class="comment">// 如果数组非空,且访问到的是 “..” 则说明要返回上一级,要将当前元素出栈</span></span><br><span class="line">            <span class="keyword">if</span> ( s.equals(<span class="string">".."</span>) ) &#123;</span><br><span class="line">                <span class="comment">// 这里用到增强型 for 循环不能同时判断，需要再次判空</span></span><br><span class="line">                <span class="comment">// 而普通 for 循环则可写成( !stack.isEmpty() &amp;&amp; s.equals("..") )</span></span><br><span class="line">                <span class="keyword">if</span> ( !stack.isEmpty() ) &#123;</span><br><span class="line">                    stack.pop();</span><br><span class="line">                &#125;                </span><br><span class="line">            <span class="comment">// 如果数组非空并且当前元素不是 “.” 说明当前元素是路径信息，要入栈</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( !s.equals(<span class="string">""</span>) &amp;&amp; !s.equals(<span class="string">"."</span>) ) &#123;</span><br><span class="line">                stack.push(s);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果栈内没有元素说明没有路径信息，返回 “/” 即可</span></span><br><span class="line">        <span class="keyword">if</span> ( stack.isEmpty() ) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"/"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 这里用到 StringBuilder 操作字符串，效率高</span></span><br><span class="line">        StringBuilder ans = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; stack.size(); i++) &#123;</span><br><span class="line">            ans.append( <span class="string">"/"</span> + stack.get(i) );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-310" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/06/leetcode-310/"
+    >leetcode-310</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/06/leetcode-310/" class="article-date">
+  <time datetime="2020-06-06T14:56:00.438Z" itemprop="datePublished">2020-06-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="最小高度树"><a href="#最小高度树" class="headerlink" title="最小高度树"></a>最小高度树</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>对于一个具有树特征的无向图，我们可选择任何一个节点作为根。图因此可以成为树，在所有可能的树中，具有最小高度的树被称为最小高度树。给出这样的一个图，写出一个函数找到所有的最小高度树并返回他们的根节点。</p>
+<p>格式</p>
+<p>该图包含 n 个节点，标记为 0 到 n - 1。给定数字 n 和一个无向边 edges 列表（每一个边都是一对标签）。</p>
+<p>你可以假设没有重复的边会出现在 edges 中。由于所有的边都是无向边， [0, 1]和 [1, 0] 是相同的，因此不会同时出现在 edges 里。</p>
+<p>示例 1:</p>
+<p>输入: n = 4, edges = [[1, 0], [1, 2], [1, 3]]</p>
+<pre><code>  0
+  |
+  1
+ / \
+2   3 </code></pre><p>输出: [1]<br>示例 2:</p>
+<p>输入: n = 6, edges = [[0, 3], [1, 3], [2, 3], [4, 3], [5, 4]]</p>
+<pre><code>0  1  2
+ \ | /
+   3
+   |
+   4
+   |
+   5 </code></pre><p>输出: [3, 4]</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题我暂时想不到什么好的办法，只能用暴力法了，也就是对每一个节点进行遍历，这里采用深度优先遍历，然后记下每次遍历的最大深度值，在其中选一个最小的然后返回其下标就可以了。</p>
+<p>果不其然，超时了。。。。。</p>
+<p>我还沾沾自喜能写出来这道题，唉，好烦，先把自己的代码贴了吧，办法明天再想。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0代表未访问， 1代表已访问</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mdepth;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">findMinHeightTrees</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>[][] edges)</span> </span>&#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; adj = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; depths = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span>[] visited = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            adj.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> cp[]: edges)</span><br><span class="line">        &#123;</span><br><span class="line">            adj.get(cp[<span class="number">0</span>]).add(cp[<span class="number">1</span>]);</span><br><span class="line">            adj.get(cp[<span class="number">1</span>]).add(cp[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            mdepth = <span class="number">0</span>;</span><br><span class="line">            dfs(adj, visited, i, <span class="number">0</span>);</span><br><span class="line">            depths.add(mdepth);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                visited[j] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> min = depths.get(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (depths.get(i) &lt;= min)</span><br><span class="line">            &#123;</span><br><span class="line">                min = depths.get(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (depths.get(i) == min)</span><br><span class="line">            &#123;</span><br><span class="line">                ans.add(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; adj, <span class="keyword">int</span>[] visited, <span class="keyword">int</span> v0, <span class="keyword">int</span> depth)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        visited[v0] = <span class="number">1</span>;</span><br><span class="line">        depth++;</span><br><span class="line">        <span class="keyword">if</span> (depth &gt; mdepth)</span><br><span class="line">        &#123;</span><br><span class="line">            mdepth = depth;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i: adj.get(v0))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (visited[i] == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">               dfs(adj, visited, i, depth);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法优化"><a href="#解法优化" class="headerlink" title="解法优化"></a>解法优化</h2><p>建立好邻接表与度表</p>
+<p>从边缘开始，先找到所有度为1的节点，进队列，接着用队列处理这些节点，即在队列中将这些节点删除，并修改对应的度表，在队列为空后，再将度为1的节点进队处理。</p>
+<p>注意一次缩图要将所有度为1的节点均删除，删到最后1-2个节点时停止。</p>
+<p>代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">findMinHeightTrees</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>[][] edges)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//m用于保存n的值，便于degrees数组的遍历</span></span><br><span class="line">        <span class="keyword">int</span> m = n;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//建立队列以便对图的节点进行处理</span></span><br><span class="line">        Queue&lt;Integer&gt; q = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//建立度表</span></span><br><span class="line">        <span class="keyword">int</span>[] degrees = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//解数组</span></span><br><span class="line">        List&lt;Integer&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//邻接表的建立</span></span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; adj = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            adj.add(<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> cp[]: edges)</span><br><span class="line">        &#123;</span><br><span class="line">            adj.get(cp[<span class="number">0</span>]).add(cp[<span class="number">1</span>]);</span><br><span class="line">            adj.get(cp[<span class="number">1</span>]).add(cp[<span class="number">0</span>]);</span><br><span class="line">            degrees[cp[<span class="number">0</span>]]++;</span><br><span class="line">            degrees[cp[<span class="number">1</span>]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//度为1的节点入队</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (degrees[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                q.add(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//遍历删除最外圈度为1的节点</span></span><br><span class="line">        <span class="keyword">while</span> (m &gt; <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (!q.isEmpty())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> temp = q.poll();</span><br><span class="line">                degrees[temp] = -<span class="number">1</span>;   <span class="comment">//出队节点度置-1便于最后判断剩余节点</span></span><br><span class="line">                m--;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i: adj.get(temp))</span><br><span class="line">                &#123;</span><br><span class="line">                    degrees[i]--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (degrees[i] == <span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    q.add(i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//判断剩余节点并输出根节点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (degrees[i] &gt;= <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">               ans.add(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-210" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -684,169 +873,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-198" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/30/leetcode-198/"
-    >leetcode-198</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/30/leetcode-198/" class="article-date">
-  <time datetime="2020-05-30T13:42:34.475Z" itemprop="datePublished">2020-05-30</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="打家劫舍"><a href="#打家劫舍" class="headerlink" title="打家劫舍"></a>打家劫舍</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</p>
-<p>给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。</p>
-<p>示例 1:</p>
-<p>输入: [1,2,3,1]<br>输出: 4<br>解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。<br>偷窃到的最高金额 = 1 + 3 = 4 。</p>
-<p>示例 2:</p>
-<p>输入: [2,7,9,3,1]<br>输出: 12<br>解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。<br>偷窃到的最高金额 = 2 + 9 + 1 = 12 。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>本题第一次拿到手的时候，我想当然了，觉得很简单，以为只要偷奇数个或是偶数个就可以解决问题。<br>后来仔细一想不对啊，这样肯定不行，思前想后没有办法，偷看了一下题目的标签，好家伙，动态规划。<br>想到在算法课上学过这个，我就仔细回忆了一下，最后还是想出来了嘿嘿，快乐。</p>
-<p>我自己定义了一个visited[]数组记录是否偷过，m[i]数组表示从第一间屋子到第 i 间屋子偷到的最大值。<br>如果第 i 间屋子未被偷过，那么可以偷，即 m[i + 1] = m[i] + p[i + 1], p[i]表示价值<br>如果第 i 间屋子偷过，那么肯定不能偷第 i + 1 间,即有 m[i + 1] = max(m[i], m[i - 1] + p[i + 1])</p>
-<p>再加上边界情况的考虑，写出代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.length == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nums.length == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span>[] m = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">            <span class="keyword">int</span>[] v = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                v[i] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            m[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">if</span>  (nums[<span class="number">0</span>] &gt;= nums[<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                m[<span class="number">1</span>] = nums[<span class="number">0</span>] ;</span><br><span class="line">                v[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                m[<span class="number">1</span>] = nums[<span class="number">1</span>] ;</span><br><span class="line">                v[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= nums.length - <span class="number">2</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">               <span class="keyword">if</span> (v[i] != <span class="number">1</span>)</span><br><span class="line">               &#123;</span><br><span class="line">                   m[i + <span class="number">1</span>] = m[i] + nums[i + <span class="number">1</span>];</span><br><span class="line">                   v[i + <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span></span><br><span class="line">               &#123;</span><br><span class="line">                   <span class="keyword">if</span> (m[i] &gt;= m[i - <span class="number">1</span>] + nums[i + <span class="number">1</span>])</span><br><span class="line">                   &#123;</span><br><span class="line">                       m[i + <span class="number">1</span>] = m[i];</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">else</span></span><br><span class="line">                   &#123;</span><br><span class="line">                       m[i + <span class="number">1</span>] = m[i - <span class="number">1</span>] + nums[i + <span class="number">1</span>];</span><br><span class="line">                       v[i] = <span class="number">0</span>;</span><br><span class="line">                       v[i + <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> m[nums.length - <span class="number">1</span>];</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="解法优化"><a href="#解法优化" class="headerlink" title="解法优化"></a>解法优化</h2><p>其实仔细一想，会发现其实没必要判断第 i 间房屋是否被偷过，也就是说<strong>对于每一间房屋只有偷与不偷的说法</strong>，直接写出状态转移方程：</p>
-<p>m[i + 1] = max(m[i], m[i - 1] + p[i + 1])，i &gt;= 1 即可</p>
-<p>改进的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> length = nums.length;</span><br><span class="line">        <span class="keyword">if</span> (length == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[length];</span><br><span class="line">        dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        dp[<span class="number">1</span>] = Math.max(nums[<span class="number">0</span>], nums[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; length; i++) &#123;</span><br><span class="line">            dp[i] = Math.max(dp[i - <span class="number">2</span>] + nums[i], dp[i - <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[length - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-24" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/29/leetcode-24/"
-    >leetcode-24</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/29/leetcode-24/" class="article-date">
-  <time datetime="2020-05-29T12:57:41.830Z" itemprop="datePublished">2020-05-29</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a>两两交换链表中的节点</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</p>
-<p>你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
-<p>示例:</p>
-<p>给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题一开始我没啥好的思路，就觉得应该搞两个指针，然后交换节点，但是这样一来就有个问题，<br>设pre = head，p = head.next，接着交换，那到下一次交换pre和p的顺序就反过来了，也就是说奇偶不同，<br>这样情况就比较复杂。</p>
-<p>那我就开始想，能不能简化过程呢。有一说一，这道题我想出来还是很开心的，毕竟第一次自己分析并写出了递归的代码，  虽然中间因为想不到发了很久的呆，哈哈哈。</p>
-<p>采用递归的思想，首先不看边界情况，也就是链表为奇数个，或者直接为空。<br>我们让pre = head，p = head.next，那么交换后，想要让剩下来的链表继续交换就得把剩下的链表传到函数里，再次调用。<br>但要注意和现在的链表不能断开，因此写出head.next = swapPairs(head.next);  </p>
-<p>考虑完边界情况之后，写出代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode pre = head;</span><br><span class="line">        <span class="keyword">if</span> (pre == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode p = head.next;</span><br><span class="line">        <span class="keyword">if</span> ( p == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> pre;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( p != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">        pre.next = p.next;</span><br><span class="line">        p.next = pre;</span><br><span class="line">        head.next = swapPairs(head.next);</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>看题解之后的简化代码如下，哎，路还很长，啥时候能写出这样的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the list has no node or has only one node left.</span></span><br><span class="line">        <span class="keyword">if</span> ((head == <span class="keyword">null</span>) || (head.next == <span class="keyword">null</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Nodes to be swapped</span></span><br><span class="line">        ListNode firstNode = head;</span><br><span class="line">        ListNode secondNode = head.next;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Swapping</span></span><br><span class="line">        firstNode.next  = swapPairs(secondNode.next);</span><br><span class="line">        secondNode.next = firstNode;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Now the head is the second node</span></span><br><span class="line">        <span class="keyword">return</span> secondNode;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
 
 
     </footer>
