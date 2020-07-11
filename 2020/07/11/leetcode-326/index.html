@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    leetcode-155 |  Se1ze_The_Day
+    leetcode-326 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-leetcode-155" class="article article-type-post" itemscope
+  <article id="post-leetcode-326" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  leetcode-155
+  leetcode-326
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/10/leetcode-155/" class="article-date">
-  <time datetime="2020-07-10T13:36:23.518Z" itemprop="datePublished">2020-07-10</time>
+      <a href="/2020/07/11/leetcode-326/" class="article-date">
+  <time datetime="2020-07-11T10:59:08.916Z" itemprop="datePublished">2020-07-11</time>
 </a>
       
   <div class="article-category">
@@ -86,17 +86,32 @@
       
 
       
-      <h1 id="最小栈"><a href="#最小栈" class="headerlink" title="最小栈"></a>最小栈</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。</p>
-<p>push(x) —— 将元素 x 推入栈中。<br>pop() —— 删除栈顶的元素。<br>top() —— 获取栈顶元素。<br>getMin() —— 检索栈中的最小元素。</p>
-<p>示例:</p>
-<p>输入：<br>[“MinStack”,”push”,”push”,”push”,”getMin”,”pop”,”top”,”getMin”]<br>[[],[-2],[0],[-3],[],[],[],[]]</p>
-<p>输出：<br>[null,null,null,null,-3,null,0,-2]</p>
-<p>解释：<br>MinStack minStack = new MinStack();<br>minStack.push(-2);<br>minStack.push(0);<br>minStack.push(-3);<br>minStack.getMin();   –&gt; 返回 -3.<br>minStack.pop();<br>minStack.top();      –&gt; 返回 0.<br>minStack.getMin();   –&gt; 返回 -2.</p>
-<p>提示：</p>
-<p>pop、top 和 getMin 操作总是在 非空栈 上调用。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这题没啥说的，就是为了让你熟悉栈数据结构，并且能够用辅助栈来保存最小值。</p>
-<p>直接上代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinStack</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; stack;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; min_stack;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pointer;</span><br><span class="line">    <span class="comment">/** initialize your data structure here. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MinStack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stack = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        min_stack = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        min_stack.add(Integer.MAX_VALUE);</span><br><span class="line">        pointer = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        stack.add(x);</span><br><span class="line">        pointer++;</span><br><span class="line">        <span class="keyword">if</span> (x &lt; min_stack.get(pointer))</span><br><span class="line">        &#123;</span><br><span class="line">           min_stack.add(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            min_stack.add(min_stack.get(pointer));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            stack.remove(pointer);</span><br><span class="line">            min_stack.remove(pointer + <span class="number">1</span>);</span><br><span class="line">            pointer--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> stack.get(pointer);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> min_stack.get(pointer + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your MinStack object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * MinStack obj = new MinStack();</span></span><br><span class="line"><span class="comment"> * obj.push(x);</span></span><br><span class="line"><span class="comment"> * obj.pop();</span></span><br><span class="line"><span class="comment"> * int param_3 = obj.top();</span></span><br><span class="line"><span class="comment"> * int param_4 = obj.getMin();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+      <h1 id="3的幂"><a href="#3的幂" class="headerlink" title="3的幂"></a>3的幂</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个整数，写一个函数来判断它是否是 3 的幂次方。</p>
+<p>示例 1:</p>
+<p>输入: 27<br>输出: true<br>示例 2:</p>
+<p>输入: 0<br>输出: false<br>示例 3:</p>
+<p>输入: 9<br>输出: true<br>示例 4:</p>
+<p>输入: 45<br>输出: false<br>进阶：<br>你能不使用循环或者递归来完成本题吗？</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>对于这道题的使用递归和循环的解法，这里直接给出代码：</p>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> n % <span class="number">3</span> == <span class="number">0</span> &amp;&amp; isPowerOfThree(n / <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;       </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (n % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            n = n / <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> n == <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>递归和循环都是锻炼基本逻辑的，只有逻辑清晰才能写出漂亮而简洁的代码。</p>
+<h3 id="基准转换"><a href="#基准转换" class="headerlink" title="基准转换"></a>基准转换</h3><p>这个方法是将所给十进制整数转化为三进制，那么这样一来如果这个整数是3的整数次幂，那么它的三进制表示形式一定为1，10，100，1000…</p>
+<p>那么我们可以利用java自带的两个函数，一个是进制改变函数，一个是利用正则表达式进行匹配的函数，进行判断。</p>
+<p>对于正则表达式，这里采用”^1*&amp;”,其中^1表示以1开头，0*表示后面跟多个零,加$号表示除规定字符外不包含其他字符。</p>
+<p>那么代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.toString(n, <span class="number">3</span>).matches(<span class="string">"^10*$"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里分析一下这个算法的时间复杂度，对于转换进制函数而言一般是采用循环除法来进行进制转换，循环一次就算出一个余数，那么假设循环执行k次，也就是n要除以3^k，那么当n / 3^k = 1时,循环结束，此时有k = log3(n)，因此时间复杂度为O(log3(n)),空间复杂度也为O(log3(n))。</p>
+<h3 id="运算法"><a href="#运算法" class="headerlink" title="运算法"></a>运算法</h3><p>这个方法公式不好输入，直接贴图了。</p>
+<img src="/2020/07/11/leetcode-326/326_1.jpg" class title="对数">
+
+<h3 id="整数限制法"><a href="#整数限制法" class="headerlink" title="整数限制法"></a>整数限制法</h3><img src="/2020/07/11/leetcode-326/326_2.jpg" class title="整数限制">
+
+
+
+
+
       
       <!-- reward -->
       
@@ -150,7 +165,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/10/leetcode-155/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/11/leetcode-326/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -168,19 +183,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/07/11/leetcode-412/" class="article-nav-link">
+      <a href="/2020/07/11/leetcode-191/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            leetcode-412
+            leetcode-191
           
         </div>
       </a>
     
     
-      <a href="/2020/07/10/leetcode-384/" class="article-nav-link">
+      <a href="/2020/07/11/leetcode-412/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-384</div>
+        <div class="article-nav-title">leetcode-412</div>
       </a>
     
   </nav>

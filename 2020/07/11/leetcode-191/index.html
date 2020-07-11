@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    leetcode-155 |  Se1ze_The_Day
+    leetcode-191 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-leetcode-155" class="article article-type-post" itemscope
+  <article id="post-leetcode-191" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  leetcode-155
+  leetcode-191
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/10/leetcode-155/" class="article-date">
-  <time datetime="2020-07-10T13:36:23.518Z" itemprop="datePublished">2020-07-10</time>
+      <a href="/2020/07/11/leetcode-191/" class="article-date">
+  <time datetime="2020-07-11T13:12:50.606Z" itemprop="datePublished">2020-07-11</time>
 </a>
       
   <div class="article-category">
@@ -86,17 +86,33 @@
       
 
       
-      <h1 id="最小栈"><a href="#最小栈" class="headerlink" title="最小栈"></a>最小栈</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。</p>
-<p>push(x) —— 将元素 x 推入栈中。<br>pop() —— 删除栈顶的元素。<br>top() —— 获取栈顶元素。<br>getMin() —— 检索栈中的最小元素。</p>
-<p>示例:</p>
-<p>输入：<br>[“MinStack”,”push”,”push”,”push”,”getMin”,”pop”,”top”,”getMin”]<br>[[],[-2],[0],[-3],[],[],[],[]]</p>
-<p>输出：<br>[null,null,null,null,-3,null,0,-2]</p>
-<p>解释：<br>MinStack minStack = new MinStack();<br>minStack.push(-2);<br>minStack.push(0);<br>minStack.push(-3);<br>minStack.getMin();   –&gt; 返回 -3.<br>minStack.pop();<br>minStack.top();      –&gt; 返回 0.<br>minStack.getMin();   –&gt; 返回 -2.</p>
+      <h1 id="位1的个数"><a href="#位1的个数" class="headerlink" title="位1的个数"></a>位1的个数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。 </p>
+<p>示例 1：</p>
+<p>输入：00000000000000000000000000001011<br>输出：3<br>解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 ‘1’。<br>示例 2：</p>
+<p>输入：00000000000000000000000010000000<br>输出：1<br>解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 ‘1’。<br>示例 3：</p>
+<p>输入：11111111111111111111111111111101<br>输出：31<br>解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 ‘1’。</p>
 <p>提示：</p>
-<p>pop、top 和 getMin 操作总是在 非空栈 上调用。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这题没啥说的，就是为了让你熟悉栈数据结构，并且能够用辅助栈来保存最小值。</p>
-<p>直接上代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinStack</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; stack;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; min_stack;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pointer;</span><br><span class="line">    <span class="comment">/** initialize your data structure here. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MinStack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stack = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        min_stack = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        min_stack.add(Integer.MAX_VALUE);</span><br><span class="line">        pointer = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        stack.add(x);</span><br><span class="line">        pointer++;</span><br><span class="line">        <span class="keyword">if</span> (x &lt; min_stack.get(pointer))</span><br><span class="line">        &#123;</span><br><span class="line">           min_stack.add(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            min_stack.add(min_stack.get(pointer));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            stack.remove(pointer);</span><br><span class="line">            min_stack.remove(pointer + <span class="number">1</span>);</span><br><span class="line">            pointer--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> stack.get(pointer);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> min_stack.get(pointer + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your MinStack object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * MinStack obj = new MinStack();</span></span><br><span class="line"><span class="comment"> * obj.push(x);</span></span><br><span class="line"><span class="comment"> * obj.pop();</span></span><br><span class="line"><span class="comment"> * int param_3 = obj.top();</span></span><br><span class="line"><span class="comment"> * int param_4 = obj.getMin();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。<br>在 Java 中，编译器使用二进制补码记法来表示有符号整数。因此，在上面的 示例 3 中，输入表示有符号整数 -3。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这算简单题？？？又是被秀一脸的一天，每次的题解都让人茅塞顿开，每次的评论区都让人叹为观止。。。</p>
+<h3 id="法一：循环和位移动"><a href="#法一：循环和位移动" class="headerlink" title="法一：循环和位移动"></a>法一：循环和位移动</h3><p>具体做法就是遍历数字的每一位，是1就将计数器加一。</p>
+<p>实现的时候不太一样，这里用了一个叫位掩码的东西，一开始定为1，在32位uint下即为<br>00000000000000000000000000000001，将这个掩码与数字进行与运算，那么很明显可以得到数字的最后一位，如果运算结果不为0那么计数器加一，接着将这个位掩码左移一位，也就是检查整数的第二位。</p>
+<p>具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> bits = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mask = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((n &amp; mask) != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            bits++;</span><br><span class="line">        &#125;</span><br><span class="line">        mask &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> bits;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法二：位操作的小技巧"><a href="#法二：位操作的小技巧" class="headerlink" title="法二：位操作的小技巧"></a>法二：位操作的小技巧</h3><p>还没到高能呢，别急，虽然这个方法已经秀我一脸了。</p>
+<p>我们将整数n减一，即为n - 1，那么在二进制看来，减一操作之后原本整数中最后一个1会变成0，1后面的所有0会变成1，那么将这两个数进行与运算，我们会发现结果变成0了，那么每一次结果为0都说明有一个1，直到整数为0，结束循环。</p>
+<img src="/2020/07/11/leetcode-191/191_1.jpg" class title="位操作">
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sum++;</span><br><span class="line">        n = n &amp; (n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法三：采用swar算法"><a href="#法三：采用swar算法" class="headerlink" title="法三：采用swar算法"></a>法三：采用swar算法</h3><p>这个算法我觉得应该是密码学的算法，密码学经常用来统计数字中某个数的个数。</p>
+<p>思路就是先记下每两位中1的个数，接着由它推出每4位中1的个数，以此类推，直到结束。</p>
+<img src="/2020/07/11/leetcode-191/191_2.jpg" class title="swar算法">
+
+<p>看是看懂了，不知道以后有没有用到它的机会@_@</p>
+<p>直接放代码吧，看起来怪吓人的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        n = (n &amp; (<span class="number">0x55555555</span>)) + ((n &gt;&gt; <span class="number">1</span>) &amp; (<span class="number">0x55555555</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x33333333</span>)) + ((n &gt;&gt; <span class="number">2</span>) &amp; (<span class="number">0x33333333</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x0F0F0F0F</span>)) + ((n &gt;&gt; <span class="number">4</span>) &amp; (<span class="number">0x0F0F0F0F</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x00FF00FF</span>)) + ((n &gt;&gt; <span class="number">8</span>) &amp; (<span class="number">0x00FF00FF</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x0000FFFF</span>)) + ((n &gt;&gt; <span class="number">16</span>) &amp; (<span class="number">0x0000FFFF</span>));</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
       
       <!-- reward -->
       
@@ -150,7 +166,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/10/leetcode-155/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/11/leetcode-191/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -168,19 +184,10 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/07/11/leetcode-412/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            leetcode-412
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/07/10/leetcode-384/" class="article-nav-link">
+      <a href="/2020/07/11/leetcode-326/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">leetcode-384</div>
+        <div class="article-nav-title">leetcode-326</div>
       </a>
     
   </nav>

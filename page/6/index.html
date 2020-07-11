@@ -75,6 +75,249 @@
     
     
     
+    <article id="post-leetcode-24" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/29/leetcode-24/"
+    >leetcode-24</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/29/leetcode-24/" class="article-date">
+  <time datetime="2020-05-29T12:57:41.830Z" itemprop="datePublished">2020-05-29</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="两两交换链表中的节点"><a href="#两两交换链表中的节点" class="headerlink" title="两两交换链表中的节点"></a>两两交换链表中的节点</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</p>
+<p>你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+<p>示例:</p>
+<p>给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题一开始我没啥好的思路，就觉得应该搞两个指针，然后交换节点，但是这样一来就有个问题，<br>设pre = head，p = head.next，接着交换，那到下一次交换pre和p的顺序就反过来了，也就是说奇偶不同，<br>这样情况就比较复杂。</p>
+<p>那我就开始想，能不能简化过程呢。有一说一，这道题我想出来还是很开心的，毕竟第一次自己分析并写出了递归的代码，  虽然中间因为想不到发了很久的呆，哈哈哈。</p>
+<p>采用递归的思想，首先不看边界情况，也就是链表为奇数个，或者直接为空。<br>我们让pre = head，p = head.next，那么交换后，想要让剩下来的链表继续交换就得把剩下的链表传到函数里，再次调用。<br>但要注意和现在的链表不能断开，因此写出head.next = swapPairs(head.next);  </p>
+<p>考虑完边界情况之后，写出代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode pre = head;</span><br><span class="line">        <span class="keyword">if</span> (pre == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode p = head.next;</span><br><span class="line">        <span class="keyword">if</span> ( p == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> pre;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( p != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">        pre.next = p.next;</span><br><span class="line">        p.next = pre;</span><br><span class="line">        head.next = swapPairs(head.next);</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No solution"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看题解之后的简化代码如下，哎，路还很长，啥时候能写出这样的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the list has no node or has only one node left.</span></span><br><span class="line">        <span class="keyword">if</span> ((head == <span class="keyword">null</span>) || (head.next == <span class="keyword">null</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Nodes to be swapped</span></span><br><span class="line">        ListNode firstNode = head;</span><br><span class="line">        ListNode secondNode = head.next;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Swapping</span></span><br><span class="line">        firstNode.next  = swapPairs(secondNode.next);</span><br><span class="line">        secondNode.next = firstNode;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Now the head is the second node</span></span><br><span class="line">        <span class="keyword">return</span> secondNode;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-02" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/28/leetcode-02/"
+    >leetcode-02</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/28/leetcode-02/" class="article-date">
+  <time datetime="2020-05-28T13:55:50.300Z" itemprop="datePublished">2020-05-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="两数相加"><a href="#两数相加" class="headerlink" title="两数相加"></a>两数相加</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。</p>
+<p>如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。</p>
+<p>您可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
+<p>示例：</p>
+<p>输入：(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)<br>输出：7 -&gt; 0 -&gt; 8<br>原因：342 + 465 = 807</p>
+<h2 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h2><p>这题整体思路十分清晰，首先是本位和等于（两个数据加上的地位的进位）mod 10<br>然后有几点不能忘记：<br>一个是两个数的位数不一定相等，所以当对应位数加完时应判断两个指针是否都为空。<br>另一个是最高位的进位不能丢失，第一次提交时我就丢失了。</p>
+<p>下面给出代码(有一说一，内存占的有点多）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">addTwoNumbers</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">        ListNode p = l1;</span><br><span class="line">        ListNode q = l2;</span><br><span class="line">        ListNode l3 = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode t = l3;</span><br><span class="line">        <span class="keyword">while</span> (p != <span class="keyword">null</span> &amp;&amp; q != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode s = <span class="keyword">new</span> ListNode((p.val + q.val + carry) % <span class="number">10</span>);</span><br><span class="line">            t.next = s;</span><br><span class="line">            carry = (p.val + q.val + carry) / <span class="number">10</span>;</span><br><span class="line">            t = t.next;</span><br><span class="line">            p = p.next;</span><br><span class="line">            q = q.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (q == <span class="keyword">null</span> &amp;&amp; p != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">             ListNode s = <span class="keyword">new</span> ListNode((p.val + carry) % <span class="number">10</span>);</span><br><span class="line">             t.next = s;</span><br><span class="line">             carry = (p.val + carry) / <span class="number">10</span>;</span><br><span class="line">             t = t.next;</span><br><span class="line">             p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (p == <span class="keyword">null</span> &amp;&amp; q != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">             ListNode s = <span class="keyword">new</span> ListNode((q.val + carry) % <span class="number">10</span>);</span><br><span class="line">             t.next = s;</span><br><span class="line">             carry = (q.val + carry) / <span class="number">10</span>;</span><br><span class="line">             t = t.next;</span><br><span class="line">             q = q.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (carry &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode s = <span class="keyword">new</span> ListNode(carry % <span class="number">10</span>);</span><br><span class="line">            t.next = s;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> l3.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-19" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/28/leetcode-19/"
+    >leetcode-19</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/28/leetcode-19/" class="article-date">
+  <time datetime="2020-05-28T11:52:37.492Z" itemprop="datePublished">2020-05-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="删除链表的倒数第N个节点"><a href="#删除链表的倒数第N个节点" class="headerlink" title="删除链表的倒数第N个节点"></a>删除链表的倒数第N个节点</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">给定一个链表: 1-&gt;2-&gt;3-&gt;4-&gt;5, 和 n &#x3D; 2.</span><br><span class="line"></span><br><span class="line">当删除了倒数第二个节点后，链表变为 1-&gt;2-&gt;3-&gt;5.</span><br></pre></td></tr></table></figure>
+
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>刚看到这个题，第一眼肯定会想到将链表遍历一边，记下节点数，然后反推正数的序号，接着删除。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">  Definition <span class="keyword">for</span> singly-linked list.</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> val;</span><br><span class="line">       ListNode next;</span><br><span class="line">       ListNode(<span class="keyword">int</span> x) &#123; val = x; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> m = <span class="number">0</span>;</span><br><span class="line">       ListNode p = head;</span><br><span class="line">       <span class="keyword">while</span> (p != <span class="keyword">null</span>)</span><br><span class="line">       &#123;</span><br><span class="line">           m++;</span><br><span class="line">           p = p.next;</span><br><span class="line">       &#125;</span><br><span class="line">       p = head;</span><br><span class="line">       <span class="keyword">if</span> (n == m)</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="keyword">return</span> head.next;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">       &#123;</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m-n-<span class="number">1</span>; i++)</span><br><span class="line">         &#123;</span><br><span class="line">            p = p.next;</span><br><span class="line">         &#125;</span><br><span class="line">         p.next = p.next.next;</span><br><span class="line">         <span class="keyword">return</span> head;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="进阶分析"><a href="#进阶分析" class="headerlink" title="进阶分析"></a>进阶分析</h2><p>事实上，可以优化上述算法从而实现只对链表进行一次遍历。<br><strong>我们可以使用两个指针而不是一个。第一个指针从列表的开头向前移动 n + 1 步，而第二个指针将从列表的开头出发。<br>即两个指针被 n 个结点分开，接着我们通过让两个指针同时移动来保持他们之间的间距，直到第一个指针到达最后一个结点。</strong>  </p>
+<p>注意：<br>1，我们需要建立哑节点，否则该规则不满足<br>2，建立哑节点之后的边界情况（N = M 或 N = 1）易证均满足</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">           ListNode dummy = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">           dummy.next = head;</span><br><span class="line">           ListNode first = dummy;</span><br><span class="line">           ListNode second = dummy;</span><br><span class="line">           </span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n + <span class="number">1</span>; i++)</span><br><span class="line">           &#123;</span><br><span class="line">               first = first.next;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">while</span> (first != <span class="keyword">null</span>)</span><br><span class="line">           &#123;</span><br><span class="line">               first = first.next;</span><br><span class="line">               second = second.next;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           second.next = second.next.next;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="来自大佬的代码"><a href="#来自大佬的代码" class="headerlink" title="来自大佬的代码"></a>来自大佬的代码</h2><h3 id="采用哈希表存储结点数-即键值为索引，值为节点地址"><a href="#采用哈希表存储结点数-即键值为索引，值为节点地址" class="headerlink" title="采用哈希表存储结点数,即键值为索引，值为节点地址"></a>采用哈希表存储结点数,即键值为索引，值为节点地址</h3><p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        ListNode temp = head;</span><br><span class="line">        Map&lt;Integer, ListNode&gt; m = <span class="keyword">new</span> Hashmap&lt;Integer, ListNode&gt;();</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//存储到哈希表中</span></span><br><span class="line">        <span class="keyword">while</span> (temp != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            m.put(index++, temp);</span><br><span class="line">            temp = temp.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> size = m.size();</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            m.get(size - <span class="number">1</span>).next = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (n == size)</span><br><span class="line">        &#123;</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            m.get(size - n).next = m.get(size - n + <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="采用递归法"><a href="#采用递归法" class="headerlink" title="采用递归法"></a>采用递归法</h3><p>利用递归执行顺序的特点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> cur=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeNthFromEnd</span><span class="params">(ListNode head, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!head) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        head.next = removeNthFromEnd(head.next, n);</span><br><span class="line">        cur++;</span><br><span class="line">        <span class="keyword">if</span> (n == cur)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-21" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -631,234 +874,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF%E6%B3%95/" rel="tag">回溯法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-TSP问题" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/02/TSP%E9%97%AE%E9%A2%98/"
-    >TSP问题</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/02/TSP%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2020-05-02T14:40:25.026Z" itemprop="datePublished">2020-05-02</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="TSP问题"><a href="#TSP问题" class="headerlink" title="TSP问题"></a>TSP问题</h1><h2 id="TSP问题的简介"><a href="#TSP问题的简介" class="headerlink" title="TSP问题的简介"></a>TSP问题的简介</h2><p>TSP问题即旅行商问题，该问题是在寻求单一旅行者由起点出发，通过所有给定的需求点之后，最后再回到原点的最短路径</p>
-<h2 id="建立问题模型"><a href="#建立问题模型" class="headerlink" title="建立问题模型"></a>建立问题模型</h2><p>用图来表示该问题的模型，设图 G = (V, E),顶点代表城市，边的权值代表城市之间的路径长度。<br>用二维数组 g[i][j]来表示该图，g[i][j]表示从点 i 到点 j 的权值，若 i 与 j 不相邻，那么g[i][j] = -1，若相邻则表示权值。<br>数组x[i]用来表示解向量。</p>
-<h2 id="问题的解空间"><a href="#问题的解空间" class="headerlink" title="问题的解空间"></a>问题的解空间</h2><p>该问题显然解空间为排列树，大小为n！</p>
-<h2 id="剪枝函数"><a href="#剪枝函数" class="headerlink" title="剪枝函数"></a>剪枝函数</h2><p>显然城市之间首先应该相邻，即 <strong>g[x[t-1]][x[t]] != -1</strong>，其次最后一个城市与第一个城市也得有路径相连，即 <strong>g[x[n]][x[1]] != -1</strong>。<br>设 cp 表示当前走过的路径的长度，bestp 表示以前找到的最短路径的长度。显然，若 cp &gt; bestp，那么没有必要在这条路线上继续搜索下去。</p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>一开始自己写，有一说一，我是真的菜，分析了一下原因在于回溯后状态应该变为原来的状态，而且若不采用m数组，那么状态无法恢复，而我忘记了这件事，改好后的代码如下。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">//g数组表示图G (V, E)</span></span><br><span class="line"><span class="keyword">int</span> g[<span class="number">5</span>][<span class="number">5</span>] = &#123; &#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">                &#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">20</span>,<span class="number">6</span>,<span class="number">4</span>&#125;,</span><br><span class="line">                &#123;<span class="number">0</span>,<span class="number">20</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">10</span>&#125;,</span><br><span class="line">                &#123;<span class="number">0</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">0</span>,<span class="number">15</span>&#125;,</span><br><span class="line">                &#123;<span class="number">0</span>,<span class="number">4</span>,<span class="number">10</span>,<span class="number">15</span>,<span class="number">0</span>&#125; &#125;;</span><br><span class="line"><span class="comment">//bestp表示最优路径值</span></span><br><span class="line"><span class="keyword">int</span> bestp = <span class="number">100</span>;</span><br><span class="line"><span class="comment">//x[5]数组暂存最优解</span></span><br><span class="line"><span class="keyword">int</span> x[<span class="number">5</span>] = &#123; <span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span> &#125;;</span><br><span class="line"><span class="comment">//cp表示当前路径之和</span></span><br><span class="line"><span class="keyword">int</span> cp = <span class="number">0</span>;</span><br><span class="line"><span class="comment">//m数组表示每个点是否被选过，1说明被选过，0则没有</span></span><br><span class="line"><span class="keyword">int</span> m[<span class="number">5</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"><span class="comment">//k数组最终存放最优解</span></span><br><span class="line"><span class="keyword">int</span> k[<span class="number">5</span>];</span><br><span class="line"><span class="comment">//递归用回溯法解决tsp问题</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TSP</span><span class="params">(<span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//递归出口</span></span><br><span class="line">    <span class="keyword">if</span> (t &gt; <span class="number">5</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//处理边界问题即最后一个结点回到第一个结点的问题</span></span><br><span class="line">    <span class="keyword">if</span> (t == <span class="number">5</span> &amp;&amp; g[x[t - <span class="number">1</span>]][x[<span class="number">1</span>]] &gt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (cp + g[x[t - <span class="number">1</span>]][x[<span class="number">1</span>]] &lt;= bestp)</span><br><span class="line">        &#123;</span><br><span class="line">            bestp = cp + g[x[t - <span class="number">1</span>]][x[<span class="number">1</span>]];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">4</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                k[i] = x[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (m[i] == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            x[t] = i; </span><br><span class="line">            <span class="comment">//标记已被访问过的结点</span></span><br><span class="line">            m[i] = <span class="number">1</span>;</span><br><span class="line">            <span class="comment">//满足约束条件</span></span><br><span class="line">            <span class="keyword">if</span> ((g[x[t - <span class="number">1</span>]][x[t]] &gt;= <span class="number">0</span>) &amp;&amp; (cp + g[x[t - <span class="number">1</span>]][x[t]] &lt; bestp))</span><br><span class="line">            &#123;</span><br><span class="line">                cp += g[x[t - <span class="number">1</span>]][x[t]];</span><br><span class="line">                TSP(t + <span class="number">1</span>);</span><br><span class="line">                <span class="comment">//回溯</span></span><br><span class="line">                cp -= g[x[t - <span class="number">1</span>]][x[t]];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//回溯</span></span><br><span class="line">            m[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出最优值与最优解</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Display</span><span class="params">(<span class="keyword">int</span> x[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, bestp);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>, k[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    TSP(<span class="number">2</span>);</span><br><span class="line">    Display(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="代码改进-参照书本"><a href="#代码改进-参照书本" class="headerlink" title="代码改进(参照书本)"></a>代码改进(参照书本)</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM 101</span></span><br><span class="line"><span class="keyword">int</span> MAXINT = <span class="number">9999999</span>;  <span class="comment">//无穷大表示不相邻</span></span><br><span class="line"><span class="keyword">int</span> bestx[NUM];</span><br><span class="line"><span class="keyword">int</span> g[NUM][NUM];</span><br><span class="line"><span class="keyword">int</span> x[NUM];</span><br><span class="line"><span class="keyword">int</span> bestc = MAXINT;</span><br><span class="line"><span class="keyword">int</span> cl = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> m;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>* a, <span class="keyword">int</span>* b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t;</span><br><span class="line">    t = *a;</span><br><span class="line">    *a = *b;</span><br><span class="line">    *b = t;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">travelingREC</span><span class="params">(<span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//递归出口</span></span><br><span class="line">    <span class="keyword">if</span> (t == n)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (g[x[n - <span class="number">1</span>]][x[n]] &lt; MAXINT &amp;&amp; g[x[n]][x[<span class="number">1</span>]] &lt; MAXINT &amp;&amp; cl + g[x[n - <span class="number">1</span>]][x[n]] + g[x[n]][x[<span class="number">1</span>]] &lt; bestc)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                bestx[i] = x[i];</span><br><span class="line">            &#125;</span><br><span class="line">            bestc = cl + g[x[n - <span class="number">1</span>]][x[n]] + g[x[n]][x[<span class="number">1</span>]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//尝试解</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = t; i &lt;= n; i++)   <span class="comment">//从t开始避免重复</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (g[x[t - <span class="number">1</span>]][x[i]] &lt; MAXINT &amp;&amp; cl + g[x[t - <span class="number">1</span>]][x[i]] &lt; bestc)</span><br><span class="line">            &#123;</span><br><span class="line">                swap(&amp;x[t], &amp;x[i]);</span><br><span class="line">                cl = cl + g[x[t - <span class="number">1</span>]][x[t]];</span><br><span class="line">                travelingREC(t + <span class="number">1</span>);</span><br><span class="line">                cl = cl - g[x[t - <span class="number">1</span>]][x[t]];</span><br><span class="line">                swap(&amp;x[t], &amp;x[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="number">4</span>;</span><br><span class="line">    m = <span class="number">6</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; NUM; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; NUM; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            g[i][j] = MAXINT;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    g[<span class="number">1</span>][<span class="number">2</span>] = g[<span class="number">2</span>][<span class="number">1</span>] = <span class="number">20</span>;</span><br><span class="line">    g[<span class="number">1</span>][<span class="number">4</span>] = g[<span class="number">4</span>][<span class="number">1</span>] = <span class="number">4</span>;</span><br><span class="line">    g[<span class="number">1</span>][<span class="number">3</span>] = g[<span class="number">3</span>][<span class="number">1</span>] = <span class="number">6</span>;</span><br><span class="line">    g[<span class="number">2</span>][<span class="number">3</span>] = g[<span class="number">3</span>][<span class="number">2</span>] = <span class="number">5</span>;</span><br><span class="line">    g[<span class="number">2</span>][<span class="number">4</span>] = g[<span class="number">4</span>][<span class="number">2</span>] = <span class="number">10</span>;</span><br><span class="line">    g[<span class="number">3</span>][<span class="number">4</span>] = g[<span class="number">4</span>][<span class="number">3</span>] = <span class="number">15</span>;</span><br><span class="line">    <span class="comment">//初始化解向量顺序，顺序不唯一但不能全为 0 </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        x[i] = i;</span><br><span class="line">    &#125;</span><br><span class="line">    travelingREC(<span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"最短路径为: %d\n解向量为: "</span>, bestc);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d, "</span>, bestx[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF%E6%B3%95/" rel="tag">回溯法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-n-皇后问题" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/27/n-%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/"
-    >n-皇后问题</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/27/n-%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2020-04-27T13:17:39.503Z" itemprop="datePublished">2020-04-27</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="n-皇后问题"><a href="#n-皇后问题" class="headerlink" title="n-皇后问题"></a>n-皇后问题</h1><p>在解决n皇后问题之前，我们先说明一下回溯法</p>
-<h2 id="回溯法解决问题的一般步骤及回溯法的特征"><a href="#回溯法解决问题的一般步骤及回溯法的特征" class="headerlink" title="回溯法解决问题的一般步骤及回溯法的特征"></a>回溯法解决问题的一般步骤及回溯法的特征</h2><p>1，针对给出问题，给出解空间；  </p>
-<p>2，确定易于搜索的解空间组织结构；  </p>
-<p>3，以深度优先的方式搜索解空间，并在搜索中使用剪枝函数避免不必要的搜索。（回溯时可采用递归回溯与迭代回溯）  </p>
-<p>用回溯法解题显著特征为在搜索过程中动态产生问题的解空间（分为排列树与子集树），任何时刻，算法只保存从根结点到当前扩展结点的路径。</p>
-<h2 id="n-皇后问题的解空间"><a href="#n-皇后问题的解空间" class="headerlink" title="n-皇后问题的解空间"></a>n-皇后问题的解空间</h2><p>数组 x[i] 代表第 i 行的皇后放置在第 x[i] 列上  </p>
-<p>若显式约束为 i != j 时，x[i] != x[j]，那么显然皇后问题解空间为n!种排列，因此构造的树为排列树。</p>
-<h2 id="n-皇后问题排列树采用剪枝函数压缩结点数"><a href="#n-皇后问题排列树采用剪枝函数压缩结点数" class="headerlink" title="n-皇后问题排列树采用剪枝函数压缩结点数"></a>n-皇后问题排列树采用剪枝函数压缩结点数</h2><p>剪枝函数为：<strong>0 &lt;= i, j &lt;= n, if i != j, then x[i] != x[j] &amp;&amp; |x[i] - x[j]| != |i-j|</strong></p>
-<h2 id="采用递归算法实现回溯法解决n-皇后问题"><a href="#采用递归算法实现回溯法解决n-皇后问题" class="headerlink" title="采用递归算法实现回溯法解决n-皇后问题"></a>采用递归算法实现回溯法解决n-皇后问题</h2><p>代码如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">//判断皇后摆放是否冲突，即剪枝函数</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">place</span><span class="params">(<span class="keyword">int</span> x[], <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//从 1 到 t - 1 行分别判断是否冲突</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt; t; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//若满足if判断条件则说明皇后摆放冲突</span></span><br><span class="line">        <span class="keyword">if</span>((x[i] == x[t]) || <span class="built_in">abs</span>(t - i) == <span class="built_in">abs</span>(x[t] - x[i]))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nQueensRec</span><span class="params">(<span class="keyword">int</span> x[], <span class="keyword">int</span> t, <span class="keyword">int</span> N)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//输出一个可行解</span></span><br><span class="line">    <span class="keyword">if</span>(t &gt; N)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d, "</span>,x[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//一个一个尝试皇后的摆放</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            x[t] = i;</span><br><span class="line">            <span class="comment">//若不冲突，则继续摆放下一行的皇后</span></span><br><span class="line">            <span class="keyword">if</span>(place(x, t))</span><br><span class="line">            &#123;</span><br><span class="line">                nQueensRec(x, t + <span class="number">1</span>, N);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//保存皇后的位置</span></span><br><span class="line">    <span class="keyword">int</span> x[<span class="number">9</span>];</span><br><span class="line">    nQueensRec(x, <span class="number">1</span>, <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%9E%E6%BA%AF%E6%B3%95/" rel="tag">回溯法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-ACM经典数塔问题" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/24/ACM%E7%BB%8F%E5%85%B8%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98/"
-    >ACM经典数塔问题</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/24/ACM%E7%BB%8F%E5%85%B8%E6%95%B0%E5%A1%94%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2020-04-24T13:28:32.277Z" itemprop="datePublished">2020-04-24</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%88%86%E6%9E%90/">算法设计与分析</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="ACM经典数塔问题"><a href="#ACM经典数塔问题" class="headerlink" title="ACM经典数塔问题"></a>ACM经典数塔问题</h1><p>此题为动态规划法的简单训练题。  </p>
-<h2 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h2><p>我们假设数组 p[i][j] 来表示数塔中的数，m[i][j] 表示从数塔顶端开始到第 i 行第 j 列的最大路径长度。<br>由题意可知，每一步只能沿左斜线向下或右斜线向下，那么很容易得到<br><strong>m[i][j] = max{m[i-1][j-1], m[i-1][j]} + p[i][j]</strong><br>注意不要忘记边界条件，即 <strong>j = 1</strong> 或 <strong>j = i</strong> 时，<br><strong>m[i][j] = m[i-1][j] + p[i][j]</strong></p>
-<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> M 50</span></span><br><span class="line"><span class="keyword">int</span> m[M][M]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> p[M][M]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">max</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b ? a : b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mathTower</span><span class="params">(<span class="keyword">int</span> (*m)[M], <span class="keyword">int</span> (*p)[M],<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(j == <span class="number">1</span> || j == i)</span><br><span class="line">            &#123;</span><br><span class="line">                m[i][j] = m[i<span class="number">-1</span>][j] + p[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                m[i][j] = <span class="built_in">max</span>(m[i<span class="number">-1</span>][j<span class="number">-1</span>], m[i<span class="number">-1</span>][j]) + p[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,k;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;p[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    mathTower(m,p,n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d "</span>,m[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    k = m[n][<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( m[n][j] &gt;= k)</span><br><span class="line">        &#123;</span><br><span class="line">            k = m[n][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>, k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="对数塔问题的优化"><a href="#对数塔问题的优化" class="headerlink" title="对数塔问题的优化"></a>对数塔问题的优化</h2><p>由以上分析可知，我们在解决数塔问题时采用的是由顶向下的路线，我们可以反过来<strong>自下而上</strong>考虑。<br>对于问题规模 n = 2 的数塔，共有两条路径。<br>对于问题规模 n = 3 的数塔，我们可以将其看作两个规模为 n = 2的数塔加上塔顶。<br>以此类推。。。<br>此时数塔问题可以用一个式子来刻画<br><strong>m[i][j] += max(m[i+1][j], m[i+1][j+1])</strong><br>m[i][j]数组既保存了数塔中的数，又在动态规划过程中逐步形成最优解，即<strong>m[1][1]</strong></p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li></ul>
 
 
     </footer>
