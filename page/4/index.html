@@ -75,6 +75,265 @@
     
     
     
+    <article id="post-leetcode-48" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/28/leetcode-48/"
+    >leetcode-48</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/28/leetcode-48/" class="article-date">
+  <time datetime="2020-06-28T12:42:13.101Z" itemprop="datePublished">2020-06-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="旋转图像"><a href="#旋转图像" class="headerlink" title="旋转图像"></a>旋转图像</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个 n × n 的二维矩阵表示一个图像。</p>
+<p>将图像顺时针旋转 90 度。</p>
+<p>说明：</p>
+<p>你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。</p>
+<p>示例 1:</p>
+<p>给定 matrix =<br>[<br>  [1,2,3],<br>  [4,5,6],<br>  [7,8,9]<br>],</p>
+<p>原地旋转输入矩阵，使其变为:<br>[<br>  [7,4,1],<br>  [8,5,2],<br>  [9,6,3]<br>]<br>示例 2:</p>
+<p>给定 matrix =<br>[<br>  [ 5, 1, 9,11],<br>  [ 2, 4, 8,10],<br>  [13, 3, 6, 7],<br>  [15,14,12,16]<br>], </p>
+<p>原地旋转输入矩阵，使其变为:<br>[<br>  [15,13, 2, 5],<br>  [14, 3, 4, 1],<br>  [12, 6, 8, 9],<br>  [16, 7,10,11]<br>]</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><h3 id="方法一：转置加翻转"><a href="#方法一：转置加翻转" class="headerlink" title="方法一：转置加翻转"></a>方法一：转置加翻转</h3><p>这个方法有一说一完全想不到啊，好烦啊，感觉自己的智商完全不够用。</p>
+<p>这个方法是先转置矩阵，接着翻转每一行。时间复杂度为O(n)。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rotate</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = matrix.length;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; n; j++) &#123;</span><br><span class="line">                <span class="keyword">int</span> temp = matrix[j][i];</span><br><span class="line">                matrix[j][i] = matrix[i][j];</span><br><span class="line">                matrix[i][j] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n / <span class="number">2</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">int</span> tmp = matrix[i][j];</span><br><span class="line">                matrix[i][j] = matrix[i][n - j - <span class="number">1</span>];</span><br><span class="line">                matrix[i][n - j - <span class="number">1</span>] = tmp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法二：旋转四个元素的矩形"><a href="#方法二：旋转四个元素的矩形" class="headerlink" title="方法二：旋转四个元素的矩形"></a>方法二：旋转四个元素的矩形</h3><p>做法如图所示：</p>
+<img src="/2020/06/28/leetcode-48/48_1.jpg" class title="旋转矩形">
+
+<p>这个方法不难想到，但是细节很多，特别是每一个元素转移前与转移后的坐标需要搞清楚。<br>我觉得自己还缺乏一定的耐心，要灵活变通一点。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rotate</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp;</span><br><span class="line">        <span class="keyword">int</span> n = matrix.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n / <span class="number">2</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; n - <span class="number">1</span> - i; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                temp = matrix[n - <span class="number">1</span> - j][i];</span><br><span class="line">                matrix[n - <span class="number">1</span> - j][i] = matrix[n - <span class="number">1</span> - i][n - <span class="number">1</span> - j];</span><br><span class="line">                matrix[n - <span class="number">1</span> - i][n - <span class="number">1</span> - j] = matrix[j][n - <span class="number">1</span> - i];</span><br><span class="line">                matrix[j][n - <span class="number">1</span> - i] = matrix[i][j];</span><br><span class="line">                matrix[i][j] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-36" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/28/leetcode-36/"
+    >leetcode-36</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/28/leetcode-36/" class="article-date">
+  <time datetime="2020-06-28T04:59:15.718Z" itemprop="datePublished">2020-06-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="有效的数独"><a href="#有效的数独" class="headerlink" title="有效的数独"></a>有效的数独</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。</p>
+<p>数字 1-9 在每一行只能出现一次。<br>数字 1-9 在每一列只能出现一次。<br>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。</p>
+<img src="/2020/06/28/leetcode-36/36_1.jpg" class title="数独">
+
+<p>上图是一个部分填充的有效的数独。</p>
+<p>数独部分空格内已填入了数字，空白格用 ‘.’ 表示。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题拿到手之后，大概想了一想肯定是用哈希表来保存数独中的元素，行，列，和九宫格内都不能出现重复的数字，我一开始想的是遍历数组三次，然后每次将行和列还有九宫格内的元素分别添加进哈希表中，接着判重，但是在将九宫格内的元素添加进哈希表时出现了问题，有很多数字需要去凑，导致很麻烦。</p>
+<p>先贴一下自己的代码吧，太菜了qaq。</p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValidSudoku</span><span class="params">(<span class="keyword">char</span>[][] board)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>,j = <span class="number">0</span>,m = <span class="number">0</span>;</span><br><span class="line">        Map&lt;Character,Integer&gt; map = <span class="keyword">new</span> HashMap&lt;Character,Integer&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; board.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; board[i].length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (board[i][j] != <span class="string">'.'</span>)  &#123;</span><br><span class="line">                    <span class="keyword">if</span> (map.containsKey(board[i][j])) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> map.put(board[i][j], <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">             map = <span class="keyword">new</span> HashMap&lt;Character,Integer&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; board.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; board[i].length; j++) &#123;</span><br><span class="line">                 <span class="keyword">if</span> (board[j][i] != <span class="string">'.'</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (map.containsKey(board[j][i])) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> map.put(board[j][i], <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            map = <span class="keyword">new</span> HashMap&lt;Character,Integer&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (m &lt; <span class="number">9</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; (m - m % <span class="number">3</span>) + <span class="number">3</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">while</span> (j &lt; (<span class="number">3</span> * (m % <span class="number">3</span>)) + <span class="number">3</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (board[i][j] != <span class="string">'.'</span>)  &#123;</span><br><span class="line">                        <span class="keyword">if</span> (map.containsKey(board[i][j])) &#123;</span><br><span class="line">                            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> map.put(board[i][j], <span class="number">1</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    j++;</span><br><span class="line">                &#125;</span><br><span class="line">                i++;</span><br><span class="line">                j = <span class="number">3</span> * (m % <span class="number">3</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            m++;</span><br><span class="line">            j = (m % <span class="number">3</span> == <span class="number">0</span>)? <span class="number">0</span> : <span class="number">3</span> * (m % <span class="number">3</span>);</span><br><span class="line">            i = m - m % <span class="number">3</span>;</span><br><span class="line">            map = <span class="keyword">new</span> HashMap&lt;Character,Integer&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后一部分九宫格凑数属实感觉自己像个智障。</p>
+<h2 id="官方题解"><a href="#官方题解" class="headerlink" title="官方题解"></a>官方题解</h2><p>其实我们可以换一个思路，多牺牲一点空间，只遍历一次数组。</p>
+<p>那么如何做到只遍历一次数组呢？</p>
+<p>我们需要考虑数组的每一个元素应该放到哈希表的哪里，而不是去考虑哈希表接下来应该放数组的哪个元素。</p>
+<p>在遍历到每一个元素时，去判断该元素应该添加进哪一个哈希表中，或是哪一个九宫格中。</p>
+<p>这里我们用到了哈希表数组，这是我没有想到过的，其实遍历一次肯定要多牺牲一点空间的,这里对空间的利用很巧妙，我觉得可以学到挺多的。</p>
+<p>我们给出算法的思路：</p>
+<p>·遍历数独<br>·计算每一个数组的元素应该放置到哈希表的位置，放置时判断哈希表中是否含有改元素，若没有，将其次数计为1，若有则return false</p>
+<p>给出官方代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValidSudoku</span><span class="params">(<span class="keyword">char</span>[][] board)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建了三个哈希数组来分别保存行列以及九宫格中的元素。</span></span><br><span class="line">        HashMap&lt;Integer, Integer&gt; [] rows = <span class="keyword">new</span> HashMap[<span class="number">9</span>];</span><br><span class="line">        HashMap&lt;Integer, Integer&gt; [] columns = <span class="keyword">new</span> HashMap[<span class="number">9</span>];</span><br><span class="line">        HashMap&lt;Integer, Integer&gt; [] boxes = <span class="keyword">new</span> HashMap[<span class="number">9</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            rows[i] = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">            columns[i] = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">            boxes[i] = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; i++) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">9</span>; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">char</span> num = board[i][j];</span><br><span class="line">                <span class="keyword">if</span> (num != <span class="string">'.'</span>) </span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">int</span> n = (<span class="keyword">int</span>)num;</span><br><span class="line">                    <span class="keyword">int</span> box_index = (i / <span class="number">3</span>) * <span class="number">3</span> + j / <span class="number">3</span>;</span><br><span class="line">                    </span><br><span class="line">                    rows[i].put(n, rows[i].getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">                    columns[j].put(n, columns[j].getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">if</span> (rows[i].get(n) &gt; <span class="number">1</span> || columns[j].get(n) &gt; <span class="number">1</span> || boxes[box_index].get(n) &gt; <span class="number">1</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-278" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/27/leetcode-278/"
+    >leetcode-278</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/27/leetcode-278/" class="article-date">
+  <time datetime="2020-06-27T09:13:51.097Z" itemprop="datePublished">2020-06-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="第一个错误的版本"><a href="#第一个错误的版本" class="headerlink" title="第一个错误的版本"></a>第一个错误的版本</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。</p>
+<p>假设你有 n 个版本 [1, 2, …, n]，你想找出导致之后所有版本出错的第一个错误的版本。</p>
+<p>你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。</p>
+<p>示例:</p>
+<p>给定 n = 5，并且 version = 4 是第一个错误的版本。</p>
+<p>调用 isBadVersion(3) -&gt; false<br>调用 isBadVersion(5) -&gt; true<br>调用 isBadVersion(4) -&gt; true</p>
+<p>所以，4 是第一个错误的版本。 </p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这个题目比较简单，但是还是体现出我编程功底的薄弱。。。</p>
+<p>这道题所用的算法很显然，为二分法。</p>
+<p>但是有几个细节值得注意，一个是二分时若采用 (left + right) / 2 的方法计算，当int 很大时很容易溢出，我们用 left+(right−left) / 2 来代替前者。</p>
+<p>第二个细节是，假如isBadVersion(mid)为真，也就是 mid 为假版本，那么就是说 mid 之后都为假版本，并且 mid + 1 到 n 不可能是第一个错误的版本，但是mid是可能的，所以说此时应该搜索 left 到 mid ，也就是将 mid 的值给 right。</p>
+<p>写下代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The isBadVersion API is defined in the parent class VersionControl.</span></span><br><span class="line"><span class="comment">      boolean isBadVersion(int version); */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> <span class="keyword">extends</span> <span class="title">VersionControl</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">firstBadVersion</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> right = n;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (left &lt; right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (isBadVersion(mid))</span><br><span class="line">            &#123;</span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-283" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -655,334 +914,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-122" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/21/leetcode-122/"
-    >leetcode-122</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/21/leetcode-122/" class="article-date">
-  <time datetime="2020-06-21T12:03:25.119Z" itemprop="datePublished">2020-06-21</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="买卖股票的最佳时机-II"><a href="#买卖股票的最佳时机-II" class="headerlink" title="买卖股票的最佳时机 II"></a>买卖股票的最佳时机 II</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
-<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。</p>
-<p>注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
-<p>示例 1:</p>
-<p>输入: [7,1,5,3,6,4]<br>输出: 7<br>解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。<br>     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。<br>示例 2:</p>
-<p>输入: [1,2,3,4,5]<br>输出: 4<br>解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。<br>     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。<br>     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。<br>示例 3:</p>
-<p>输入: [7,6,4,3,1]<br>输出: 0<br>解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这一题其实很简单，方法二方法三我都想到了，但是做复杂了，我发现了，数组的题目在数组内操作是很繁琐的，看了题解之后发现很多这样的题目都是新建变量来保存数组里的东西，我们直接看题解吧。</p>
-<p>先把自己的代码贴了：有一说一，又多又烂:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        List&lt;Integer&gt; buy = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        List&lt;Integer&gt; sell = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> k = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> k0;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (prices.length == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> sum;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (k &lt; prices.length &amp;&amp; prices[k] == prices[k - <span class="number">1</span>])</span><br><span class="line">        &#123;</span><br><span class="line">            k++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (k == prices.length)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> sum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (prices[k - <span class="number">1</span>] &lt; prices[k])</span><br><span class="line">        &#123;</span><br><span class="line">            buy.add(prices[k - <span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; prices.length - <span class="number">1</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            k0 = j;</span><br><span class="line">            <span class="keyword">while</span> (k0 &lt; prices.length - <span class="number">1</span> &amp;&amp; prices[k0 + <span class="number">1</span>] == prices[k0])</span><br><span class="line">            &#123;</span><br><span class="line">                k0++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (k0 &lt; prices.length - <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (prices[k0] &lt; prices[j - <span class="number">1</span>] &amp;&amp; prices[k0] &lt; prices[k0 + <span class="number">1</span>])</span><br><span class="line">                &#123;</span><br><span class="line">                    buy.add(prices[k0]);</span><br><span class="line">                &#125;</span><br><span class="line">            </span><br><span class="line">                <span class="keyword">if</span> (prices[k0] &gt; prices[j - <span class="number">1</span>] &amp;&amp; prices[k0] &gt; prices[k0 + <span class="number">1</span>])</span><br><span class="line">                &#123;</span><br><span class="line">                    sell.add(prices[k0]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (prices[j - <span class="number">1</span>] &lt; prices[prices.length - <span class="number">1</span>])</span><br><span class="line">                &#123;</span><br><span class="line">                    sell.add(prices[prices.length - <span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; buy.size(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sum += (sell.get(i) - buy.get(i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="官方题解"><a href="#官方题解" class="headerlink" title="官方题解"></a>官方题解</h2><img src="/2020/06/21/leetcode-122/122_1.jpg" class title="题解1">
-<p>个人觉得关键的地方就是vally与peak两个变量记下了当前的峰与谷，这样一来遍历一次数组就可以得到最大利润。<br>写下代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> vally = prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> peak = prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> maxProfit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; prices.length - <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; prices.length - <span class="number">1</span> &amp;&amp; prices[i] &gt;= prices[i + <span class="number">1</span>]) </span><br><span class="line">                i++;</span><br><span class="line">            vally = prices[i];</span><br><span class="line">            <span class="keyword">while</span> (i &lt; prices.length - <span class="number">1</span> &amp;&amp; prices[i] &lt;= prices[i + <span class="number">1</span>])</span><br><span class="line">                i++;</span><br><span class="line">            peak = prices[i];</span><br><span class="line">            maxProfit += peak - vally;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxProfit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="/2020/06/21/leetcode-122/122_2.jpg" class title="题解2">
-<p>这个方法其实我一开始就想到了，但是没有仔细想下去，简单来说就是把交易拆成单次的就比如 3 - 1 = (2 - 1) + (3 - 2)。唉，每次都把问题复杂化。<br>代码十分简洁：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span>[] prices)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> maxprofit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (prices[i] &gt; prices[i - <span class="number">1</span>])</span><br><span class="line">                maxprofit += prices[i] - prices[i - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxprofit;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-easy/" rel="tag">leetcode-easy</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-linux学习" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/"
-    >Linux常用命令</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2020-06-17T06:47:53.194Z" itemprop="datePublished">2020-06-17</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a>Linux常用命令</h1><h2 id="文件处理命令"><a href="#文件处理命令" class="headerlink" title="文件处理命令"></a>文件处理命令</h2><h3 id="命令格式与目录处理命令ls"><a href="#命令格式与目录处理命令ls" class="headerlink" title="命令格式与目录处理命令ls"></a>命令格式与目录处理命令ls</h3><p>ls -a 列出目录所有文件，包含以.开始的隐藏文件<br>ls -A 列出除.及..的其它文件<br>ls -r 反序排列<br>ls -t 以文件修改时间排序<br>ls -S 以文件大小排序<br>ls -h 以易读大小显示<br>ls -l 除了文件名之外，还将文件的权限、所有者、文件大小等信息详细列出来<br>ls -i iNode  </p>
-<h3 id="目录处理命令"><a href="#目录处理命令" class="headerlink" title="目录处理命令"></a>目录处理命令</h3><h3 id="文件处理命令-1"><a href="#文件处理命令-1" class="headerlink" title="文件处理命令"></a>文件处理命令</h3><h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><p>命令所在路径：/bin/touch<br>执行权限：所有用户<br>语法:touch [文件名]<br>功能描述：创建空文件<br>范例：touch haha.list  touch “program files”  </p>
-<h4 id="cat-tac"><a href="#cat-tac" class="headerlink" title="cat tac"></a>cat tac</h4><p>命令所在路径：/bin/cat<br>语法：cat [文件名]<br>功能描述：显示文件内容<br>         -n 显示行号<br>范例: cat /etc/issue<br>      cat -n /etc/services<br>tac 为反向显示  </p>
-<h4 id="more"><a href="#more" class="headerlink" title="more"></a>more</h4><p>语法: more [文件名]<br>功能描述：分页显示文件内容<br>实例： more /etc/services<br>使用 space或f 翻页<br>     enter  换行<br>     q或Q 退出  </p>
-<h4 id="less"><a href="#less" class="headerlink" title="less"></a>less</h4><p>功能描述：向上翻页或查找</p>
-<h4 id="head"><a href="#head" class="headerlink" title="head"></a>head</h4><p>功能描述：查看文件的前几行<br>语法：head -n 行数 文件路径<br>默认为10行</p>
-<h4 id="tail"><a href="#tail" class="headerlink" title="tail"></a>tail</h4><p>功能描述：查看文件的前几行<br>语法：tail -n 行数 文件路径<br>      tail -f 动态显示文件内容</p>
-<h3 id="链接命令"><a href="#链接命令" class="headerlink" title="链接命令"></a>链接命令</h3><h4 id="ln"><a href="#ln" class="headerlink" title="ln"></a>ln</h4><p>命令英文原意：link<br>命令所在路径：/bin/ln<br>语法：ln -s [原文件] [目标文件]<br>       -s 创建软链接（类似于windows快捷方式）<br>功能描述：生成链接文件<br>硬链接与cp -p区别：<br>1、硬链接文件与原文件同步更新<br>2、硬链接文件与原文件iNode值相同<br>3、硬链接不能跨分区<br>4、不能针对目录使用</p>
-<h2 id="权限管理命令"><a href="#权限管理命令" class="headerlink" title="权限管理命令"></a>权限管理命令</h2><h3 id="权限管理命令chmod"><a href="#权限管理命令chmod" class="headerlink" title="权限管理命令chmod"></a>权限管理命令chmod</h3><p>命令英文原意：change the permissions mode of a file<br>语法：chmod [{ugoa} {+-=} {rwx}] [文件或目录]<br>            [mode=421] [文件或目录]（r = 4，w = 2，x = 1）<br>            -R 递归修改<br>            将目录与其下文件权限均修改<br>功能描述：改变文件或目录权限<br>注意：<strong>对文件来说 r权限说明我们可以查看文件内容 对目录来说 可以列出目录中的内容<br>                w权限可以修改文件内容                  可以在目录中创建、删除文件<br>                x权限可以执行文件                      可以进入目录</strong></p>
-<h3 id="其他权限管理命令"><a href="#其他权限管理命令" class="headerlink" title="其他权限管理命令"></a>其他权限管理命令</h3><h4 id="chown"><a href="#chown" class="headerlink" title="chown"></a>chown</h4><p>命令英文原意：change owner<br>语法：chown [用户][文件或目录]<br>功能描述：改变文件或目录的所有者（只允许root用户改变）<br>范例 chown cmq /root/tmp/haha</p>
-<h4 id="chgrp"><a href="#chgrp" class="headerlink" title="chgrp"></a>chgrp</h4><p>命令功能：改变文件或目录的所属组</p>
-<h4 id="umask"><a href="#umask" class="headerlink" title="umask"></a>umask</h4><p>命令英文原意：the user file-creation mask<br>命令所在路径：Shell内置命令<br>执行权限：所有用户<br>语法 umask [-S]<br>     -S表示以rwx形式显示新建文件缺省权限<br>注意： <strong>touch的文件不具备可执行权限但mkdir的目录具有</strong></p>
-<h2 id="文件搜索命令"><a href="#文件搜索命令" class="headerlink" title="文件搜索命令"></a>文件搜索命令</h2><h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><p>命令名称：find<br>命令所在路径：/bin/find<br>执行权限：所有用户<br>语法：find [搜索范围][匹配条件]<br>功能描述：文件搜索<br>示例：find / -name - iname（不区分大小写） -size(参数为+多少则为大于，-多少则为小于)  -user [..]<br>      find /etc -cmin -amin -mmin(change文件属性, access访问时间, modify文件内容) -5(5分钟)<br>      -a -o 分别为连接符表示与和或<br>      -inum 文件的i结点<br>find /etc -name inittab -exec ls -l {} ;</p>
-<h3 id="locate"><a href="#locate" class="headerlink" title="locate"></a>locate</h3><p>命令所在路径：/usr/bin/locate<br>语法：locate 文件名<br>功能描述：在文件资料库中查找文件<br>示例：locate inittab<br>拓展： updatedb命令用来更新文件资料库<br>       locate -i 命令可以不区分大小写搜索文件<br>注：<strong>文件资料库不收录tmp文件夹下的文件</strong></p>
-<h3 id="which"><a href="#which" class="headerlink" title="which"></a>which</h3><p>命令路径：/usr/bin/which<br>语法：which 命令<br>功能描述：搜索命令所在目录及别名信息<br>范例：which ls</p>
-<h3 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h3><p>功能描述：搜索命令所在目录及帮助文档路径</p>
-<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><p>命令所在路径：/bin/grep<br>执行权限:所有用户<br>语法：grep -iv [指定子串][文件]<br>功能描述：在文件中搜寻字串匹配的行并输出<br>         -i 不区分大小写<br>         -v 排除指定子串<br>范例：grep mysql /root/install.log<br>      grep -v ^# /etc/inittab</p>
-<h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><h3 id="man"><a href="#man" class="headerlink" title="man"></a>man</h3><p>命令原意：manual<br>命令所在路径：/usr/bin/man<br>语法：man [命令或配置文件]<br>功能描述：获得帮助信息<br>范例：man ls<br>     查看ls命令的帮助信息<br>     man services<br>     查看配置文件services的帮助信息</p>
-<h3 id="whatis"><a href="#whatis" class="headerlink" title="whatis"></a>whatis</h3><p>功能：查看命令功能</p>
-<h3 id="apropos"><a href="#apropos" class="headerlink" title="apropos"></a>apropos</h3><p>功能：查看配置文件帮助</p>
-<h3 id="命令-–help-也可以获得帮助"><a href="#命令-–help-也可以获得帮助" class="headerlink" title="命令+ –help 也可以获得帮助"></a>命令+ –help 也可以获得帮助</h3><h3 id="info命令与man命令大同小异"><a href="#info命令与man命令大同小异" class="headerlink" title="info命令与man命令大同小异"></a>info命令与man命令大同小异</h3><h3 id="help"><a href="#help" class="headerlink" title="help"></a>help</h3><p>命令所在路径:shell内置命令<br>语法：help 命令<br>功能：获得Shell内置命令的帮助信息<br>范例 ：help umask<br>拓展：我们使用的shell为bash，shell为指令解释器</p>
-<h2 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h2><h3 id="useradd"><a href="#useradd" class="headerlink" title="useradd"></a>useradd</h3><p>命令所在路径：/usr/sbin/useradd<br>执行权限：root<br>语法：useradd 用户名<br>功能描述：添加新用户</p>
-<h3 id="passwd"><a href="#passwd" class="headerlink" title="passwd"></a>passwd</h3><p>命令所在路径：/usr/bin/passwd<br>执行权限：所有用户<br>语法：passwd 用户名<br>功能：设置用户密码</p>
-<h3 id="who"><a href="#who" class="headerlink" title="who"></a>who</h3><p>命令所在路径:/usr/bin/who<br>执行权限：所有用户<br>语法：who<br>功能：查看登录用户信息</p>
-<h3 id="w"><a href="#w" class="headerlink" title="w"></a>w</h3><p>命令所在路径：/usr/bin/w<br>执行权限：所有用户<br>语法：w<br>功能：查看登录用户详细信息</p>
-<h2 id="压缩解压命令"><a href="#压缩解压命令" class="headerlink" title="压缩解压命令"></a>压缩解压命令</h2><h3 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h3><p>命令英文原意：GNU zip<br>命令所在路径：/bin/gzip<br>执行权限：所有用户<br>语法：gzip [文件]<br>功能描述：压缩文件(不能压缩目录)<br>压缩后文件格式：.gz</p>
-<h3 id="gunzip"><a href="#gunzip" class="headerlink" title="gunzip"></a>gunzip</h3><p>命令英文原意：GNU unzip<br>命令所在路径：/bin/gunzip<br>执行权限:所有用户<br>语法：gunzip [压缩文件]<br>功能描述：解压缩.gz的压缩文件<br>拓展：使用 gzip -d同理 </p>
-<h3 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h3><p>命令所在路径：/bin/tar<br>执行权限：所有用户<br>语法：tar 选项[-z -c -f -v] [压缩后文件名] [目录]<br>     -c 打包<br>     -v 显示详细信息<br>     -f 指定文件名<br>     -z 打包同时压缩<br>     -j 打包同时压缩bzip2<br>功能描述：打包目录<br>压缩后文件格式：.tar.gz<br>拓展：打包和压缩的区别<br>      相同点：打包和压缩都可以将多个文件生成一个文件存储<br>      不同点：压缩操作不但要生成一个文件，还要通过压缩工具对文件进行压缩，来减少文件占用的存储空间大小。</p>
-<h3 id="tar命令解压缩"><a href="#tar命令解压缩" class="headerlink" title="tar命令解压缩"></a>tar命令解压缩</h3><p>-x 解包<br>-v 显示详细信息<br>-f 指定压缩文件<br>-z 解压缩<br>-j 解压缩bzip2<br>例：tar -zxvf Japan.tar.gz</p>
-<h3 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h3><p>命令所在路径：/usr/bin/zip<br>执行权限：所有用户<br>语法：zip [-r] [压缩后的文件名] [需要压缩的文件或目录]<br>      -r 压缩目录<br>功能描述： 压缩文件或目录<br>压缩后文件格式：.zip<br>解压缩：unzip</p>
-<h3 id="bzip2"><a href="#bzip2" class="headerlink" title="bzip2"></a>bzip2</h3><p>命令所在路径：/usr/bin/bzip2<br>执行权限：所有用户<br>语法：bzip [-k] [文件]<br>      -k 产生压缩文件后保留原文件<br>功能：压缩文件(推荐压缩较大文件)<br>压缩后文件格式：.bz2<br>范例：tar -cjf ***.tar.bz2 ***<br>解压缩： bunzip2 -k [文件名.bz2]<br>        tar -xjf [文件名.tar.bz2]</p>
-<h2 id="网络命令"><a href="#网络命令" class="headerlink" title="网络命令"></a>网络命令</h2><h3 id="write"><a href="#write" class="headerlink" title="write"></a>write</h3><p>命令所在路径：/usr/bin/write<br>执行权限：所有用户<br>语法：write &lt;用户名&gt;<br>功能描述：给用户发信息，以Ctrl + D保存结束<br>前提条件所有用户都得登录在服务器上</p>
-<h3 id="wall"><a href="#wall" class="headerlink" title="wall"></a>wall</h3><p>命令所在路径：/usr/bin/wall<br>命令英文原意：write all<br>执行权限：所有用户<br>语法：wall [message]<br>功能描述：发广播信息</p>
-<h3 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h3><p>命令名称：ping<br>命令所在路径：/bin/ping<br>执行权限：所有用户<br>语法：ping 选项 IP地址<br>           -c 指定发送次数<br>功能描述：测试网络连通性</p>
-<h3 id="ifconfig"><a href="#ifconfig" class="headerlink" title="ifconfig"></a>ifconfig</h3><p>命令名称：ifconfig<br>命令英文原意：interface configure<br>命令所在路径：/sbin/ifconfig<br>执行权限:root<br>语法：ifconfig 网卡名称 IP地址<br>功能描述：查看和设置网卡信息</p>
-<h3 id="mail"><a href="#mail" class="headerlink" title="mail"></a>mail</h3><p>命令名称：mail<br>命令所在路径：/bin/mail<br>执行权限：所有用户<br>语法：mail [用户名]<br>功能描述：查看和发送电子邮件</p>
-<h3 id="last"><a href="#last" class="headerlink" title="last"></a>last</h3><p>命令所在路径：/usr/bin/last<br>执行权限：所有用户<br>语法：last</p>
-<h3 id="lastlog"><a href="#lastlog" class="headerlink" title="lastlog"></a>lastlog</h3><p>命令所在路径：/usr/bin/lastlog<br>执行权限：所有用户<br>语法：lastlog<br>功能：检查某特定用户上次登录的时间<br>拓展：last -u 512 -u意为uid</p>
-<h3 id="traceroute"><a href="#traceroute" class="headerlink" title="traceroute"></a>traceroute</h3><p>命令所在路径：/bin/traceroute<br>执行权限：所有用户<br>语法：traceroute<br>功能描述：显示数据包到主机间的路径<br>例：traceroute <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></p>
-<h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>命令所在路径：/bin/netstat<br>执行权限：所有用户<br>语法：netstat [选项]<br>              -t  tcp协议<br>              -u  UDP协议<br>              -l  监听<br>              -r  路由<br>              -n  显示IP地址和端口号<br>功能描述：显示网络相关信息<br>范例：netstat -tlun 查看本机监听的端口<br>      netstat -an 查看本机所有的网络连接<br>      netstat -rn 查看本机路由表</p>
-<h3 id="setup"><a href="#setup" class="headerlink" title="setup"></a>setup</h3><p>命令所在路径：/usr/bin/setup<br>执行权限：root<br>语法：setup<br>功能描述：配置网络<br>范例：setup</p>
-<h3 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h3><p>命令位置：/bin/mount<br>执行权限：所有用户<br>命令语法：mount [-t 文件系统] 设备文件名 挂载点<br>命令功能：挂载设备<br>范例： mount -t iso9660 /dev/sr0 /mnt/cdrom<br>设备卸载：umount /dev/sr0</p>
-<h2 id="关机重启命令"><a href="#关机重启命令" class="headerlink" title="关机重启命令"></a>关机重启命令</h2><h3 id="shutdown"><a href="#shutdown" class="headerlink" title="shutdown"></a>shutdown</h3><p>语法：shutdown [选项] 时间选项<br>      选项：  -c  取消前一个关机命令<br>              -h  关机(halt)<br>              -r  重启(reboot)<br>例：shutdown -h now<br>    shutdown -r now<br>拓展：<br>其他关机命令：halt  poweroff  init 0<br>其他重启命令：reboot  init 6<br>系统运行级别：0  关机<br>             1  单用户<br>             2  不完全多用户，不含NFS服务(网络文件系统，用于两个linux之间的文件共享)<br>             3  完全多用户<br>             4  未分配<br>             5  图形界面<br>             6  重启<br>退出登录命令：logout</p>
-<h2 id="文本编辑器Vim"><a href="#文本编辑器Vim" class="headerlink" title="文本编辑器Vim"></a>文本编辑器Vim</h2><h3 id="Vim常用操作"><a href="#Vim常用操作" class="headerlink" title="Vim常用操作"></a>Vim常用操作</h3><img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_1.jpg" class title="Vim命令模式命令1">
-<p>命令模式输入冒号进入编辑模式，输入iao进入插入模式</p>
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_2.jpg" class title="Vim命令模式命令2">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_3.jpg" class title="Vim命令模式删除命令">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_4.jpg" class title="Vim复制与剪切命令">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_5.jpg" class title="Vim替换或取消命令">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_6.jpg" class title="Vim搜索和替换命令">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_7.jpg" class title="Vim保存修改命令">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_8.jpg" class title="Vim常用操作">
-
-<h2 id="软件包管理"><a href="#软件包管理" class="headerlink" title="软件包管理"></a>软件包管理</h2><h3 id="软件包的分类"><a href="#软件包的分类" class="headerlink" title="软件包的分类"></a>软件包的分类</h3><p>1，源码包（未编译，开源，速度相对较慢）<br>   1.1 脚本安装包（写好界面的源码包 install.sh)<br>2，二进制包（已编译，无法看到源码，速度相对较快）</p>
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_9.jpg" class title="源码包优点">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_10.jpg" class title="源码包缺点">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_11.jpg" class title="rpm包优点">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_12.jpg" class title="rpm包缺点">
-<h3 id="RPM包管理"><a href="#RPM包管理" class="headerlink" title="RPM包管理"></a>RPM包管理</h3><p>对于yum命令和apt-get命令区别的解释：</p>
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_15.jpg" class title="yum与apt-get的区别">
-<h4 id="rpm命令管理"><a href="#rpm命令管理" class="headerlink" title="rpm命令管理"></a>rpm命令管理</h4><img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_13.jpg" class title="rpm包命名规则">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_14.jpg" class title="rpm包依赖性">
-<h5 id="rpm包安装"><a href="#rpm包安装" class="headerlink" title="rpm包安装"></a>rpm包安装</h5><p>rpm -ivh 包全名<br>选项： -i(install)  安装<br>-v(verbose)  显示详细信息<br>-h(hash)    显示进度<br>–nodeps    不检测依赖性</p>
-<h5 id="rpm包升级"><a href="#rpm包升级" class="headerlink" title="rpm包升级"></a>rpm包升级</h5><p>rpm -Uvh 包全名<br>选项： -U(upgrade)   升级</p>
-<h5 id="rpm包卸载"><a href="#rpm包卸载" class="headerlink" title="rpm包卸载"></a>rpm包卸载</h5><p>rpm -e 包名<br>选项： -e(erase) 卸载<br>–nodeps 不检查依赖性</p>
-<h5 id="查询rpm包是否安装"><a href="#查询rpm包是否安装" class="headerlink" title="查询rpm包是否安装"></a>查询rpm包是否安装</h5><p>rpm -q 包名<br>选项： -q  查询(query)<br>rpm -qa<br>选项： -a  所有(all)</p>
-<h5 id="查询软件包详细信息"><a href="#查询软件包详细信息" class="headerlink" title="查询软件包详细信息"></a>查询软件包详细信息</h5><p>rpm -qi 包名<br>选项： -i 查询软件信息(information)<br>       -p 查询未安装包信息(package)</p>
-<h5 id="查询软件包中文件安装位置"><a href="#查询软件包中文件安装位置" class="headerlink" title="查询软件包中文件安装位置"></a>查询软件包中文件安装位置</h5><p>rpm -ql 包名<br>选项： -l 列表(list)<br>      -p 查询未安装包信息(package)</p>
-<h5 id="查询系统文件属于哪个rpm包"><a href="#查询系统文件属于哪个rpm包" class="headerlink" title="查询系统文件属于哪个rpm包"></a>查询系统文件属于哪个rpm包</h5><p>rpm -qf 系统文件名<br>选项： -f 查询系统文件属于哪个软件包(file)</p>
-<h5 id="查询软件包的依赖性"><a href="#查询软件包的依赖性" class="headerlink" title="查询软件包的依赖性"></a>查询软件包的依赖性</h5><p>rpm -qR 包名<br>选项： -R  查询软件包的依赖性(requires)<br>      -p  查询未安装包的信息(package)</p>
-<h5 id="rpm包校验"><a href="#rpm包校验" class="headerlink" title="rpm包校验"></a>rpm包校验</h5><p>rpm -V 已安装的包名<br>选项： -V 校验指定RPM包中的文件(verify)<br>校验结果中的8个信息具体内容：</p>
-
-<h5 id="rpm包中文件提取"><a href="#rpm包中文件提取" class="headerlink" title="rpm包中文件提取"></a>rpm包中文件提取</h5><p>rpm2cpio 包全名 | <br>cpio -idv .文件绝对路径</p>
-<p>rpm2cpio 为将rpm包转换为cpio格式的命令</p>
-<p>cpio为标准工具，它用于创建软件档案文件和从档案文件中提取文件</p>
-<p>cpio命令：<br>cpio 选项 &lt;[文件|设备]<br>选项： -i copy-in模式，还原<br>       -d 还原时自动新建目录<br>       -v 显示还原过程</p>
-<h3 id="源码包管理"><a href="#源码包管理" class="headerlink" title="源码包管理"></a>源码包管理</h3><h4 id="源码包与rpm包区别"><a href="#源码包与rpm包区别" class="headerlink" title="源码包与rpm包区别"></a>源码包与rpm包区别</h4><p>安装前概念不同，安装后安装位置不同</p>
-<h4 id="rpm包安装位置"><a href="#rpm包安装位置" class="headerlink" title="rpm包安装位置"></a>rpm包安装位置</h4><img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_17.jpg" class title="rpm包安装默认位置">
-<h4 id="源码包安装位置"><a href="#源码包安装位置" class="headerlink" title="源码包安装位置"></a>源码包安装位置</h4><img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_18.jpg" class title="源码包安装位置">
-<h4 id="安装位置不同带来的影响"><a href="#安装位置不同带来的影响" class="headerlink" title="安装位置不同带来的影响"></a>安装位置不同带来的影响</h4><img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_19.jpg" class title="安装位置影响">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_20.jpg" class title="安装位置影响">
-<img src="/2020/06/17/linux%E5%AD%A6%E4%B9%A0/Linux_21.jpg" class title="源码包的卸载">
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-71" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/17/leetcode-71/"
-    >leetcode-71</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/17/leetcode-71/" class="article-date">
-  <time datetime="2020-06-17T06:47:36.182Z" itemprop="datePublished">2020-06-17</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="简化路径"><a href="#简化路径" class="headerlink" title="简化路径"></a>简化路径</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>以 Unix 风格给出一个文件的绝对路径，你需要简化它。或者换句话说，将其转换为规范路径。</p>
-<p>在 Unix 风格的文件系统中，一个点（.）表示当前目录本身；此外，两个点 （..） 表示将目录切换到上一级（指向父目录）；两者都可以是复杂相对路径的组成部分。更多信息请参阅：Linux / Unix中的绝对路径 vs 相对路径</p>
-<p>请注意，返回的规范路径必须始终以斜杠 / 开头，并且两个目录名之间必须只有一个斜杠 /。最后一个目录名（如果存在）不能以 / 结尾。此外，规范路径必须是表示绝对路径的最短字符串。</p>
-<p>示例 1：</p>
-<p>输入：”/home/“<br>输出：”/home”<br>解释：注意，最后一个目录名后面没有斜杠。<br>示例 2：</p>
-<p>输入：”/../“<br>输出：”/“<br>解释：从根目录向上一级是不可行的，因为根是你可以到达的最高级。<br>示例 3：</p>
-<p>输入：”/home//foo/“<br>输出：”/home/foo”<br>解释：在规范路径中，多个连续斜杠需要用一个斜杠替换。<br>示例 4：</p>
-<p>输入：”/a/./b/../../c/“<br>输出：”/c”<br>示例 5：</p>
-<p>输入：”/a/../../b/../c//.//“<br>输出：”/c”<br>示例 6：</p>
-<p>输入：”/a//b////c/d//././/..”<br>输出：”/a/b/c”</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这题思路不难，但题目有点坑，像/…这种测试案例很无语。。</p>
-<p>像这种题我觉得自己对于许多java中的容器方法都不是很了解，慢慢来吧。</p>
-<p>自己写的代码(不适用于/…这种情形)：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">simplifyPath</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">        Stack&lt;Character&gt; stack = <span class="keyword">new</span> Stack&lt;Character&gt;();</span><br><span class="line">        List&lt;Character&gt; list = <span class="keyword">new</span> ArrayList&lt;Character&gt;();</span><br><span class="line"></span><br><span class="line">        stack.push(path.charAt(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; path.length(); i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (path.charAt(i) == <span class="string">'/'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                     <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; stack.peek() == <span class="string">'.'</span>) </span><br><span class="line">                     &#123;</span><br><span class="line">                         stack.pop();</span><br><span class="line">                     &#125;</span><br><span class="line">                     <span class="keyword">else</span> <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; stack.peek() == <span class="string">'/'</span>)</span><br><span class="line">                     &#123;</span><br><span class="line">                         <span class="keyword">continue</span>;</span><br><span class="line">                     &#125;</span><br><span class="line">                     <span class="keyword">else</span> stack.push(path.charAt(i));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (path.charAt(i) == <span class="string">'.'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; stack.peek() == <span class="string">'.'</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        stack.pop();</span><br><span class="line">                        stack.pop();</span><br><span class="line">                        <span class="keyword">while</span>(!stack.isEmpty())</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">if</span> (stack.peek() == <span class="string">'/'</span> || stack.peek() == <span class="string">'.'</span>)</span><br><span class="line">                            &#123;</span><br><span class="line">                               <span class="keyword">break</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">else</span> stack.pop();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        stack.push(path.charAt(i));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> stack.push(path.charAt(i));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!stack.isEmpty() &amp;&amp; (stack.peek() == <span class="string">'/'</span> || stack.peek() == <span class="string">'.'</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                stack.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (stack.isEmpty())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"/"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (!stack.isEmpty())</span><br><span class="line">            &#123;</span><br><span class="line">            list.add(stack.pop());</span><br><span class="line">            &#125;</span><br><span class="line">            Collections.reverse(list);</span><br><span class="line">            <span class="keyword">char</span>[] ans = <span class="keyword">new</span> <span class="keyword">char</span>[list.size()];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++)</span><br><span class="line">            &#123;</span><br><span class="line">                ans[i] = list.get(i);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> String(ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="代码改进"><a href="#代码改进" class="headerlink" title="代码改进"></a>代码改进</h2><p>看了大佬的题解之后，学到了挺多的。</p>
-<p>路径的简化本质上是获得每一层路径的名称</p>
-<p>字符串中的/不入栈，靠它来分割路径名称</p>
-<p>如果是 “..” 还要再判断是否为空才能弹出栈</p>
-<p>如果是 “.” 则什么也不要做</p>
-<p>如果不为空也不为 “.” 这说明当前元素是路径信息，入栈即可</p>
-<p>最后遍历完之后，先判断栈中是否有元素，没有则返回 “/”</p>
-<p>如果有元素，则使用 StringBuilder 来存放可变字符串，最后返回 ans 即可。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">simplifyPath</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">        Stack&lt;String&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="comment">// 首先将字符串以 “/” 分隔存储到新的字符数组 str 中</span></span><br><span class="line">        String[] str = path.split(<span class="string">"/"</span>);</span><br><span class="line">        <span class="keyword">for</span> (String s : str) &#123;</span><br><span class="line">            <span class="comment">// 如果数组非空,且访问到的是 “..” 则说明要返回上一级,要将当前元素出栈</span></span><br><span class="line">            <span class="keyword">if</span> ( s.equals(<span class="string">".."</span>) ) &#123;</span><br><span class="line">                <span class="comment">// 这里用到增强型 for 循环不能同时判断，需要再次判空</span></span><br><span class="line">                <span class="comment">// 而普通 for 循环则可写成( !stack.isEmpty() &amp;&amp; s.equals("..") )</span></span><br><span class="line">                <span class="keyword">if</span> ( !stack.isEmpty() ) &#123;</span><br><span class="line">                    stack.pop();</span><br><span class="line">                &#125;                </span><br><span class="line">            <span class="comment">// 如果数组非空并且当前元素不是 “.” 说明当前元素是路径信息，要入栈</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( !s.equals(<span class="string">""</span>) &amp;&amp; !s.equals(<span class="string">"."</span>) ) &#123;</span><br><span class="line">                stack.push(s);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果栈内没有元素说明没有路径信息，返回 “/” 即可</span></span><br><span class="line">        <span class="keyword">if</span> ( stack.isEmpty() ) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"/"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 这里用到 StringBuilder 操作字符串，效率高</span></span><br><span class="line">        StringBuilder ans = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; stack.size(); i++) &#123;</span><br><span class="line">            ans.append( <span class="string">"/"</span> + stack.get(i) );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-medium/" rel="tag">leetcode-medium</a></li></ul>
 
 
     </footer>
