@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    15-三数之和 |  Se1ze_The_Day
+    5-最长回文子串 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-15-三数之和" class="article article-type-post" itemscope
+  <article id="post-5-最长回文子串" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  15-三数之和
+  5-最长回文子串
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/12/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" class="article-date">
-  <time datetime="2020-07-12T14:51:50.703Z" itemprop="datePublished">2020-07-12</time>
+      <a href="/2020/07/14/5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="article-date">
+  <time datetime="2020-07-14T12:42:49.458Z" itemprop="datePublished">2020-07-14</time>
 </a>
       
   <div class="article-category">
@@ -86,20 +86,15 @@
       
 
       
-      <h1 id="三数之和"><a href="#三数之和" class="headerlink" title="三数之和"></a>三数之和</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</p>
-<p>注意：答案中不可以包含重复的三元组。</p>
-<p>示例：</p>
-<p>给定数组 nums = [-1, 0, 1, 2, -1, -4]，</p>
-<p>满足要求的三元组集合为：<br>[<br>  [-1, 0, 1],<br>  [-1, -1, 2]<br>]</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>继初级算法之后，我们迎来了中级算法。</p>
-<p>这道题一开始我想的是套用两数之和的思路，也就是采用哈希表，但是对于结果的重复情况不能清晰的判断，因此换了一种思路，先排序，然后利用双指针。</p>
-<h3 id="排序-双指针"><a href="#排序-双指针" class="headerlink" title="排序+双指针"></a>排序+双指针</h3><p>我自己说的没有题解来的清晰，这里就偷懒一下，直接贴上题解的图了。</p>
-<img src="/2020/07/12/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/15_1.jpg" class title="避免重复">
-<img src="/2020/07/12/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/15_2.jpg" class title="减少时间复杂度">
-<img src="/2020/07/12/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/15_3.jpg" class title="双指针思路">
-<p>最后代码中别忘了second &lt; third的条件。</p>
-<p>贴上代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> first = <span class="number">0</span>; first &lt; nums.length; first++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (first == <span class="number">0</span> || nums[first] != nums[first - <span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> second = first + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">int</span> third = nums.length - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">while</span> (second &lt; third)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (second == first + <span class="number">1</span> || nums[second] != nums[second - <span class="number">1</span>])</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">while</span> (second &lt; third &amp;&amp; nums[first] + nums[second] + nums[third] &gt; <span class="number">0</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            third--;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">if</span> (second == third)</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">if</span> (nums[first] + nums[second] + nums[third] == <span class="number">0</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">                            list.add(nums[first]);</span><br><span class="line">                            list.add(nums[second]);</span><br><span class="line">                            list.add(nums[third]);</span><br><span class="line">                            ans.add(list);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    second++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      <h1 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。</p>
+<p>示例 1：</p>
+<p>输入: “babad”<br>输出: “bab”<br>注意: “aba” 也是一个有效答案。<br>示例 2：</p>
+<p>输入: “cbbd”<br>输出: “bb”</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>唉，突然感觉自己好笨，想了半天也想不到去用动态规划，自己只能想到暴力法，或者就是从外向里，而动态规划法和中心扩散法都是由内向外的。</p>
+<h3 id="最长回文子串动态规划法"><a href="#最长回文子串动态规划法" class="headerlink" title="最长回文子串动态规划法"></a>最长回文子串动态规划法</h3><p>回文串因为其自生的原因就可以写出动态转移方程：<br><strong>P(i, j) = P(i + 1, j - 1) &amp;&amp; (s[i] == s[j])</strong><br>其中P(i, j) 的值为true或者false，当S[i..j]为回文串时，其值为true，否则为false。<br>根据这一性质写出的代码如下：<br>注意循环的顺序，如果将i放在外面那么将不符合动态规划自底向上的构建。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">boolean</span>[][] dp = <span class="keyword">new</span> <span class="keyword">boolean</span>[s.length()][s.length()];</span><br><span class="line">        <span class="keyword">int</span> maxd = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxi = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//注意循环顺序，先从距离为0的算起</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> d = <span class="number">0</span>; d &lt; s.length(); d++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; d + i &lt; s.length(); i++) &#123;</span><br><span class="line">                <span class="keyword">int</span> j = d + i;</span><br><span class="line">                <span class="keyword">if</span> (d == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i][j] = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (d == <span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i][j] = (s.charAt(i) == s.charAt(j));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i][j] = (dp[i + <span class="number">1</span>][j - <span class="number">1</span>]) &amp;&amp; (s.charAt(i) == s.charAt(j));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (dp[i][j] &amp;&amp; d &gt; maxd)</span><br><span class="line">                &#123;</span><br><span class="line">                    maxi = i;</span><br><span class="line">                    maxd = d;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substring(maxi, maxi + maxd + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="最长回文子串中心扩散法"><a href="#最长回文子串中心扩散法" class="headerlink" title="最长回文子串中心扩散法"></a>最长回文子串中心扩散法</h3><p>每一个回文串都可以看作是由回文串的中心字符向两边的扩展，那么我们对字符串中的每一个字符都进行奇数串和偶数串的扩展，最后记下最长的那个子串，即为所求的子串。此方法空间复杂度为O(1)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>, end = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//每个点都按奇数串和偶数串向两边扩散</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> len1 = expandAroundCenter(s, i, i);</span><br><span class="line">            <span class="keyword">int</span> len2 = expandAroundCenter(s, i, i + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">int</span> maxlength = Math.max(len1, len2);</span><br><span class="line">            <span class="keyword">if</span> (maxlength &gt; end - start + <span class="number">1</span>) &#123;</span><br><span class="line">                start = i - (len - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">                end = i + len / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substring(start, end + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从中心向两边扩散</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">expandAroundCenter</span><span class="params">(String s, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> L = left;</span><br><span class="line">        <span class="keyword">int</span> R = right;</span><br><span class="line">        <span class="keyword">while</span> (L &gt;= <span class="number">0</span> &amp;&amp; R &lt; s.length() &amp;&amp; s.charAt(L) == s.charAt(R))</span><br><span class="line">        &#123;</span><br><span class="line">            L--;</span><br><span class="line">            R++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> R - L - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -153,7 +148,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/12/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/14/5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -171,19 +166,10 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/07/13/73-%E7%9F%A9%E9%98%B5%E7%BD%AE%E9%9B%B6/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            73-矩阵置零
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/07/12/268-%E7%BC%BA%E5%A4%B1%E7%9A%84%E6%95%B0%E5%AD%97/" class="article-nav-link">
+      <a href="/2020/07/14/3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">268-缺失的数字</div>
+        <div class="article-nav-title">3-无重复字符的最长子串</div>
       </a>
     
   </nav>

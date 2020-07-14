@@ -75,6 +75,361 @@
     
     
     
+    <article id="post-5-最长回文子串" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/14/5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/"
+    >5-最长回文子串</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/14/5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="article-date">
+  <time datetime="2020-07-14T12:42:49.458Z" itemprop="datePublished">2020-07-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。</p>
+<p>示例 1：</p>
+<p>输入: “babad”<br>输出: “bab”<br>注意: “aba” 也是一个有效答案。<br>示例 2：</p>
+<p>输入: “cbbd”<br>输出: “bb”</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>唉，突然感觉自己好笨，想了半天也想不到去用动态规划，自己只能想到暴力法，或者就是从外向里，而动态规划法和中心扩散法都是由内向外的。</p>
+<h3 id="最长回文子串动态规划法"><a href="#最长回文子串动态规划法" class="headerlink" title="最长回文子串动态规划法"></a>最长回文子串动态规划法</h3><p>回文串因为其自生的原因就可以写出动态转移方程：<br><strong>P(i, j) = P(i + 1, j - 1) &amp;&amp; (s[i] == s[j])</strong><br>其中P(i, j) 的值为true或者false，当S[i..j]为回文串时，其值为true，否则为false。<br>根据这一性质写出的代码如下：<br>注意循环的顺序，如果将i放在外面那么将不符合动态规划自底向上的构建。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">boolean</span>[][] dp = <span class="keyword">new</span> <span class="keyword">boolean</span>[s.length()][s.length()];</span><br><span class="line">        <span class="keyword">int</span> maxd = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxi = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//注意循环顺序，先从距离为0的算起</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> d = <span class="number">0</span>; d &lt; s.length(); d++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; d + i &lt; s.length(); i++) &#123;</span><br><span class="line">                <span class="keyword">int</span> j = d + i;</span><br><span class="line">                <span class="keyword">if</span> (d == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i][j] = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (d == <span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i][j] = (s.charAt(i) == s.charAt(j));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i][j] = (dp[i + <span class="number">1</span>][j - <span class="number">1</span>]) &amp;&amp; (s.charAt(i) == s.charAt(j));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (dp[i][j] &amp;&amp; d &gt; maxd)</span><br><span class="line">                &#123;</span><br><span class="line">                    maxi = i;</span><br><span class="line">                    maxd = d;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substring(maxi, maxi + maxd + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="最长回文子串中心扩散法"><a href="#最长回文子串中心扩散法" class="headerlink" title="最长回文子串中心扩散法"></a>最长回文子串中心扩散法</h3><p>每一个回文串都可以看作是由回文串的中心字符向两边的扩展，那么我们对字符串中的每一个字符都进行奇数串和偶数串的扩展，最后记下最长的那个子串，即为所求的子串。此方法空间复杂度为O(1)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>, end = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//每个点都按奇数串和偶数串向两边扩散</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> len1 = expandAroundCenter(s, i, i);</span><br><span class="line">            <span class="keyword">int</span> len2 = expandAroundCenter(s, i, i + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">int</span> maxlength = Math.max(len1, len2);</span><br><span class="line">            <span class="keyword">if</span> (maxlength &gt; end - start + <span class="number">1</span>) &#123;</span><br><span class="line">                start = i - (len - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">                end = i + len / <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substring(start, end + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从中心向两边扩散</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">expandAroundCenter</span><span class="params">(String s, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> L = left;</span><br><span class="line">        <span class="keyword">int</span> R = right;</span><br><span class="line">        <span class="keyword">while</span> (L &gt;= <span class="number">0</span> &amp;&amp; R &lt; s.length() &amp;&amp; s.charAt(L) == s.charAt(R))</span><br><span class="line">        &#123;</span><br><span class="line">            L--;</span><br><span class="line">            R++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> R - L - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-3-无重复字符的最长子串" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/14/3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/"
+    >3-无重复字符的最长子串</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/14/3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" class="article-date">
+  <time datetime="2020-07-14T07:22:09.340Z" itemprop="datePublished">2020-07-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="无重复字符的最长子串"><a href="#无重复字符的最长子串" class="headerlink" title="无重复字符的最长子串"></a>无重复字符的最长子串</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。</p>
+<p>示例 1:</p>
+<p>输入: “abcabcbb”<br>输出: 3<br>解释: 因为无重复字符的最长子串是 “abc”，所以其长度为 3。<br>示例 2:</p>
+<p>输入: “bbbbb”<br>输出: 1<br>解释: 因为无重复字符的最长子串是 “b”，所以其长度为 1。<br>示例 3:</p>
+<p>输入: “pwwkew”<br>输出: 3<br>解释: 因为无重复字符的最长子串是 “wke”，所以其长度为 3。<br>     请注意，你的答案必须是 子串 的长度，”pwke” 是一个子序列，不是子串。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题一开始我想的是双重循环遍历判断，但是时间复杂度太高，后来想了一下其实一重循环就可以解决问题了，在这儿先贴上代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> maxlength = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        HashMap&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (i &lt; s.length())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!map.containsKey(s.charAt(i)))</span><br><span class="line">            &#123;</span><br><span class="line">                count++;</span><br><span class="line">                maxlength = Math.max(maxlength, count);</span><br><span class="line">                map.put(s.charAt(i), <span class="number">1</span>);</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                i = i - count + <span class="number">1</span>;</span><br><span class="line">                map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">                count = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxlength;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>但是看了题解之后发现一个更好的方法就是双指针法，利用双指针进行窗口的滑动。</p>
+<p>这里先介绍题解的算法，待会还有更好的算法。</p>
+<img src="/2020/07/14/3-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/3_1.jpg" class title="滑动窗口思想">
+
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        Set&lt;Character&gt; set = <span class="keyword">new</span> HashSet&lt;Character&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> n = s.length();</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">0</span>, ans = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                set.remove(s.charAt(i - <span class="number">1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (j &lt; n &amp;&amp; !set.contains(s.charAt(j)))</span><br><span class="line">            &#123;</span><br><span class="line">                set.add(s.charAt(j));</span><br><span class="line">                j++;</span><br><span class="line">            &#125;</span><br><span class="line">            ans = Math.max(ans, j - i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>时间复杂度为O(n),但是空间复杂度为O(k),k为串长。</p>
+<p><strong>其实仔细一想，题解的方法还是很暴力的，每一次的i都只是向后移动了一格，但其实我们细心一点可以发现，如果j遇到了与i之后相重复的字符，我们设它的下标为index，那么之后i应该跳至index + 1处，因为我们所允许的最大串里面不会出现重复元素。</strong></p>
+<p><strong>那么这样一来，就诞生了一个新的思想，我觉得这个思想和KMP思想很相似，对了，KMP思想本质上也是滑动窗口。</strong></p>
+<p><strong>我就暂且将它叫做改进的滑动窗口法</strong></p>
+<h3 id="改进的滑动窗口法"><a href="#改进的滑动窗口法" class="headerlink" title="改进的滑动窗口法"></a>改进的滑动窗口法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxlength = <span class="number">0</span>;</span><br><span class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//用j做外循环，因为j无论如何都要向后移动一格</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; s.length(); j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!map.containsKey(s.charAt(j)))</span><br><span class="line">            &#123;</span><br><span class="line">                maxlength = Math.max(maxlength, j - i + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//当出现重复时首先判断重复元素的下标是否在i~j范围内，如果在，那么进行i的跳转</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (map.get(s.charAt(j)) &gt;= i)</span><br><span class="line">                &#123;</span><br><span class="line">                    i = map.get(s.charAt(j)) + <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                maxlength = Math.max(maxlength, j - i + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//更新元素的下标，这里重复元素也需要更新，因为重复元素之后可能会再次出现。</span></span><br><span class="line">            map.put(s.charAt(j), j);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxlength;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码逻辑简化后如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxlength = <span class="number">0</span>;</span><br><span class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; s.length(); j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(s.charAt(j)) &amp;&amp; map.get(s.charAt(j)) &gt;= i)</span><br><span class="line">            &#123;</span><br><span class="line">                i = map.get(s.charAt(j)) + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            maxlength = Math.max(maxlength, j - i + <span class="number">1</span>);</span><br><span class="line">            map.put(s.charAt(j), j);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxlength;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="刷题心得"><a href="#刷题心得" class="headerlink" title="刷题心得"></a>刷题心得</h2><p>遇到字符串，数组，链表问题双指针还是不能忘记的，需要考虑是否能使用。</p>
+<p>一直以来我都觉得学习数据结构与算法对提升自己的能力十分有效，但是需要不断地坚持，坚持才能看到效果，做题掌握多一种方法，遇到问题就多一种解决办法，希望自己在将来能够不忘初心。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-49-字母异位词分组" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/13/49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/"
+    >49-字母异位词分组</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/13/49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" class="article-date">
+  <time datetime="2020-07-13T12:01:00.295Z" itemprop="datePublished">2020-07-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="字母异位词分组"><a href="#字母异位词分组" class="headerlink" title="字母异位词分组"></a>字母异位词分组</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。</p>
+<p>示例:</p>
+<p>输入: [“eat”, “tea”, “tan”, “ate”, “nat”, “bat”]<br>输出:<br>[<br>  [“ate”,”eat”,”tea”],<br>  [“nat”,”tan”],<br>  [“bat”]<br>]<br>说明：</p>
+<p>所有输入均为小写字母。<br>不考虑答案输出的顺序。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>现在的题目都是medium难度了，感觉代码写起来比之前繁琐多了。</p>
+<h3 id="哈希表记录字符出现次数并对比"><a href="#哈希表记录字符出现次数并对比" class="headerlink" title="哈希表记录字符出现次数并对比"></a>哈希表记录字符出现次数并对比</h3><p>这道题我一开始想用哈希表，但是遍历的每一个字符串都要重新构建哈希表，时间复杂度十分高。</p>
+<p>这里直接给出代码了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) &#123;</span><br><span class="line">        List&lt;List&lt;String&gt;&gt; answer = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (strs[i] == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">            List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            list.add(strs[i]);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; strs.length; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (strs[j] == <span class="keyword">null</span> || strs[j].length() != strs[i].length()) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span> (equals(strs[i], strs[j])) &#123;</span><br><span class="line">                    list.add(strs[j]);</span><br><span class="line">                    strs[j] = <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            answer.add(list);</span><br><span class="line">            strs[i] = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> answer;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(String a, String b)</span> </span>&#123;</span><br><span class="line">        HashMap&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length(); i++) &#123;</span><br><span class="line">            map.put(a.charAt(i), map.getOrDefault(a.charAt(i), <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; b.length(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(b.charAt(i)) &amp;&amp; map.get(b.charAt(i)) &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                map.put(b.charAt(i), map.get(b.charAt(i)) - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="接下来介绍几种映射的方法"><a href="#接下来介绍几种映射的方法" class="headerlink" title="接下来介绍几种映射的方法"></a>接下来介绍几种映射的方法</h3><p>这些方法有个共同点，就是建立的哈希表的value值为一个链表，即一个key对应一个链表。这样就可以在判断key的同时判断是否需要接上链表，而且只需要一层循环。</p>
+<p>如果不这样做，还是像前面介绍的方法一样直接对比映射值是否相同，那么需要采用两层循环。</p>
+<h4 id="排序后的字符串作为key"><a href="#排序后的字符串作为key" class="headerlink" title="排序后的字符串作为key"></a>排序后的字符串作为key</h4><p>因为字母异位词排序后一定是相等的，因此我们可以才采用这个方法。</p>
+<p>这里直接贴上代码了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) &#123;</span><br><span class="line">        HashMap&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.length; i++) &#123;</span><br><span class="line">            <span class="keyword">char</span>[] s2a = strs[i].toCharArray();</span><br><span class="line">            Arrays.sort(s2a);</span><br><span class="line">            String key = String.valueOf(s2a);</span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(key))</span><br><span class="line">            &#123;</span><br><span class="line">                map.get(key).add(strs[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                List&lt;String&gt; tmp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">                tmp.add(strs[i]);</span><br><span class="line">                map.put(key, tmp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;List&lt;String&gt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="利用正整数唯一分解定理"><a href="#利用正整数唯一分解定理" class="headerlink" title="利用正整数唯一分解定理"></a>利用正整数唯一分解定理</h4><p>这个方法很骚气，将字符串中的每一个字符都映射成对应的质数，求出它们的积，根据这个定理，每一个大于1的自然数，要么本身就是质数，要么可以写成两个以上质数的乘积，而且是唯一的。</p>
+<img src="/2020/07/13/49-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/49_1.jpg" class title="质数乘积">
+
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) &#123;</span><br><span class="line">    HashMap &lt;Integer, List&lt;String&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span>[] prime = &#123; <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>, <span class="number">23</span>, <span class="number">29</span>, <span class="number">31</span>, <span class="number">37</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">53</span>, <span class="number">59</span>, <span class="number">61</span>, <span class="number">67</span>, <span class="number">71</span>, <span class="number">73</span>, <span class="number">79</span>, <span class="number">83</span>, <span class="number">89</span>, <span class="number">97</span>, <span class="number">101</span>, <span class="number">103</span> &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> key = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; strs[i].length; j++) &#123;</span><br><span class="line">            key *= prime[strs[i].charAt(j) - <span class="string">'a'</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">            map.get(key).add(strs[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            List&lt;String&gt; temp = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">            temp.add(strs[i]);</span><br><span class="line">            map.put(key, temp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;List&lt;String&gt;&gt;(map.values());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="将字符串中字符出现的字数组成字符串作为key"><a href="#将字符串中字符出现的字数组成字符串作为key" class="headerlink" title="将字符串中字符出现的字数组成字符串作为key"></a>将字符串中字符出现的字数组成字符串作为key</h4><p>首先初始化 key = “0#0#0#0#0#”，数字分别代表 abcde 出现的次数，# 用来分割。</p>
+<p>这样的话，”abb” 就映射到了 “1#2#0#0#0”。</p>
+<p>“cdc” 就映射到了 “0#0#2#1#0”。</p>
+<p>“dcc” 就映射到了 “0#0#2#1#0”。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; groupAnagrams(String[] strs) &#123;</span><br><span class="line">    HashMap&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span>[] num = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">26</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; strs[i].length(); j++) &#123;</span><br><span class="line">            nums[strs[i].charAt[j] - <span class="string">'a'</span>]++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String key = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; num.length; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            key = key + num[j] + <span class="string">'#'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key))</span><br><span class="line">        &#123;</span><br><span class="line">            map.get(key).add(strs[i]);</span><br><span class="line">        &#125;</span><br><span class="line">         <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            List&lt;String&gt; temp = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">            temp.add(strs[i]);</span><br><span class="line">            map.put(key, temp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;List&lt;String&gt;&gt;(map.values());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-73-矩阵置零" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/13/73-%E7%9F%A9%E9%98%B5%E7%BD%AE%E9%9B%B6/"
+    >73-矩阵置零</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/13/73-%E7%9F%A9%E9%98%B5%E7%BD%AE%E9%9B%B6/" class="article-date">
+  <time datetime="2020-07-13T03:22:11.985Z" itemprop="datePublished">2020-07-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="矩阵置零"><a href="#矩阵置零" class="headerlink" title="矩阵置零"></a>矩阵置零</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个 m x n 的矩阵，如果一个元素为 0，则将其所在行和列的所有元素都设为 0。请使用原地算法。</p>
+<p>示例 1:</p>
+<p>输入:<br>[<br>  [1,1,1],<br>  [1,0,1],<br>  [1,1,1]<br>]<br>输出:<br>[<br>  [1,0,1],<br>  [0,0,0],<br>  [1,0,1]<br>]<br>示例 2:</p>
+<p>输入:<br>[<br>  [0,1,2,0],<br>  [3,4,5,2],<br>  [1,3,1,5]<br>]<br>输出:<br>[<br>  [0,0,0,0],<br>  [0,4,5,0],<br>  [0,3,1,0]<br>]<br>进阶:<br>一个直接的解决方案是使用  O(mn) 的额外空间，但这并不是一个好的解决方案。<br>一个简单的改进方案是使用 O(m + n) 的额外空间，但这仍然不是最好的解决方案。<br>你能想出一个常数空间的解决方案吗？</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题目最一般的想法肯定是遍历一遍矩阵，将为零元素的行与列记录下来，存放在一个空间中，比如数组，接着遍历那个空间进行置0。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setZeroes</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">        Stack&lt;Pair&lt;Integer, Integer&gt;&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; matrix.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; matrix[<span class="number">0</span>].length; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (matrix[i][j] == <span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    stack.push(<span class="keyword">new</span> Pair(i, j));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!stack.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            Pair&lt;Integer, Integer&gt; cur_pair = stack.pop();</span><br><span class="line">            <span class="keyword">int</span> cur_i = cur_pair.getKey();</span><br><span class="line">            <span class="keyword">int</span> cur_j = cur_pair.getValue();</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; matrix[<span class="number">0</span>].length; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                matrix[cur_i][j] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; matrix.length; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                matrix[i][cur_j] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然而这样会有O(m*n)的时间复杂度，因为存放的是元素的坐标，并没有对相同行或者列的元素做优化。</p>
+<p><strong>那么第一种方法就来了，利用哈希集合的特性，没有重复元素，遍历矩阵后记下为0元素的行和列，因为不允许重复元素出现的原因，所以两个hashset中保存的即为需要置零的行与列号，最后遍历置零即可，这种方法的空间复杂度降为了O(m + n)。</strong></p>
+<p>先写上这种方法的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setZeroes</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> R = matrix.length;</span><br><span class="line">    <span class="keyword">int</span> C = matrix[<span class="number">0</span>].length;</span><br><span class="line">    Set&lt;Integer&gt; rows = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line">    Set&lt;Integer&gt; cols = <span class="keyword">new</span> HashSet&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Essentially, we mark the rows and columns that are to be made zero</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; R; i++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; C; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix[i][j] == <span class="number">0</span>) &#123;</span><br><span class="line">          rows.add(i);</span><br><span class="line">          cols.add(j);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; R; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; C; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (rows.contains(i) || cols.contains(j)) &#123;</span><br><span class="line">                matrix[i][j] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>那么我们继续思考，如何让空间复杂度降为O(1)呢，也就是没有额外空间的辅助，而我们手中只有一个矩阵，那么很明显的要么定义常数级变量，要么做标记，如果采用定义变量，一次只能记录一个元素的行和列，如果提前置零，那么会影响到其他元素的置零判断。因此我们采用做标记的方法，首先我们还是遍历矩阵，因为如果不进行遍历肯定是无法知晓那些元素为0的，接着我们将为零的元素的行与列中*</strong>不为零<strong>*的元素置为一个我们做的标记，为什么要这么做呢，因为如果全置零的话会影响到其他元素是否为零的判断。</strong></p>
+<p><strong>那么这样一来，一次遍历结束之后我们只需要将矩阵中被标记的元素置零即可</strong><br><strong>这种方法的缺陷就是如果矩阵中的元素原本的值就与标记值一致那么就会出现不正确的情况</strong><br>写下代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setZeroes</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> MODIFIED = -<span class="number">1000000</span>;</span><br><span class="line">    <span class="keyword">int</span> R = matrix.length;</span><br><span class="line">    <span class="keyword">int</span> C = matrix[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; R; r++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; C; c++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix[r][c] == <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="comment">// We modify the corresponding rows and column elements in place.</span></span><br><span class="line">          <span class="comment">// Note, we only change the non zeroes to MODIFIED</span></span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; C; k++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (matrix[r][k] != <span class="number">0</span>) &#123;</span><br><span class="line">              matrix[r][k] = MODIFIED;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; R; k++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (matrix[k][c] != <span class="number">0</span>) &#123;</span><br><span class="line">              matrix[k][c] = MODIFIED;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; R; r++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; C; c++) &#123;</span><br><span class="line">        <span class="comment">// Make a second pass and change all MODIFIED elements to 0 """</span></span><br><span class="line">        <span class="keyword">if</span> (matrix[r][c] == MODIFIED) &#123;</span><br><span class="line">          matrix[r][c] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方法的空间复杂度比较高，因为对于每一个为零的元素我们都要遍历以它为中心的行与列，因此时间复杂度为O(m*n*(m + n))</p>
+<p><strong>那么我们更进一步想，做标记能不能更简便一些呢，答案是可以的，与其让为零元素的行与列中非零元素全做标记，不如让为零元素的行与列的开头第一个元素为零即可，注意第一行与第一列的标记是相同的，所以需要另外的元素进行标记</strong></p>
+<p>写下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setZeroes</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span> </span>&#123;</span><br><span class="line">        Boolean isCol = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">int</span> R = matrix.length;</span><br><span class="line">        <span class="keyword">int</span> C = matrix[<span class="number">0</span>].length;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; R; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][<span class="number">0</span>] == <span class="number">0</span>) &#123;</span><br><span class="line">                isCol = <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; C; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (matrix[i][j] == <span class="number">0</span>) &#123;</span><br><span class="line">                    matrix[<span class="number">0</span>][j] = <span class="number">0</span>;</span><br><span class="line">                    matrix[i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; R; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; C; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix[i][<span class="number">0</span>] == <span class="number">0</span> || matrix[<span class="number">0</span>][j] == <span class="number">0</span>) &#123;</span><br><span class="line">          matrix[i][j] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">        <span class="keyword">if</span> (matrix[<span class="number">0</span>][<span class="number">0</span>] == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; C; j++) &#123;</span><br><span class="line">                matrix[<span class="number">0</span>][j] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isCol) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; R; i++) &#123;</span><br><span class="line">                matrix[i][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法时间复杂度为O(m*n)</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-15-三数之和" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -587,349 +942,13 @@
 
 </article>
     
-    <article id="post-leetcode-155" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/10/leetcode-155/"
-    >leetcode-155</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/10/leetcode-155/" class="article-date">
-  <time datetime="2020-07-10T13:36:23.518Z" itemprop="datePublished">2020-07-10</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="最小栈"><a href="#最小栈" class="headerlink" title="最小栈"></a>最小栈</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。</p>
-<p>push(x) —— 将元素 x 推入栈中。<br>pop() —— 删除栈顶的元素。<br>top() —— 获取栈顶元素。<br>getMin() —— 检索栈中的最小元素。</p>
-<p>示例:</p>
-<p>输入：<br>[“MinStack”,”push”,”push”,”push”,”getMin”,”pop”,”top”,”getMin”]<br>[[],[-2],[0],[-3],[],[],[],[]]</p>
-<p>输出：<br>[null,null,null,null,-3,null,0,-2]</p>
-<p>解释：<br>MinStack minStack = new MinStack();<br>minStack.push(-2);<br>minStack.push(0);<br>minStack.push(-3);<br>minStack.getMin();   –&gt; 返回 -3.<br>minStack.pop();<br>minStack.top();      –&gt; 返回 0.<br>minStack.getMin();   –&gt; 返回 -2.</p>
-<p>提示：</p>
-<p>pop、top 和 getMin 操作总是在 非空栈 上调用。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这题没啥说的，就是为了让你熟悉栈数据结构，并且能够用辅助栈来保存最小值。</p>
-<p>直接上代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinStack</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; stack;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Integer&gt; min_stack;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pointer;</span><br><span class="line">    <span class="comment">/** initialize your data structure here. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MinStack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stack = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        min_stack = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        min_stack.add(Integer.MAX_VALUE);</span><br><span class="line">        pointer = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        stack.add(x);</span><br><span class="line">        pointer++;</span><br><span class="line">        <span class="keyword">if</span> (x &lt; min_stack.get(pointer))</span><br><span class="line">        &#123;</span><br><span class="line">           min_stack.add(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            min_stack.add(min_stack.get(pointer));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            stack.remove(pointer);</span><br><span class="line">            min_stack.remove(pointer + <span class="number">1</span>);</span><br><span class="line">            pointer--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> stack.get(pointer);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointer &gt;= <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> min_stack.get(pointer + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your MinStack object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * MinStack obj = new MinStack();</span></span><br><span class="line"><span class="comment"> * obj.push(x);</span></span><br><span class="line"><span class="comment"> * obj.pop();</span></span><br><span class="line"><span class="comment"> * int param_3 = obj.top();</span></span><br><span class="line"><span class="comment"> * int param_4 = obj.getMin();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-384" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/10/leetcode-384/"
-    >leetcode-384</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/10/leetcode-384/" class="article-date">
-  <time datetime="2020-07-10T12:36:13.888Z" itemprop="datePublished">2020-07-10</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="打乱数组"><a href="#打乱数组" class="headerlink" title="打乱数组"></a>打乱数组</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>打乱一个没有重复元素的数组。</p>
-<p>示例:</p>
-<p>// 以数字集合 1, 2 和 3 初始化数组。<br>int[] nums = {1,2,3};<br>Solution solution = new Solution(nums);</p>
-<p>// 打乱数组 [1,2,3] 并返回结果。任何 [1,2,3]的排列返回的概率应该相同。<br>solution.shuffle();</p>
-<p>// 重设数组到它的初始状态[1,2,3]。<br>solution.reset();</p>
-<p>// 随机返回数组[1,2,3]打乱后的结果。<br>solution.shuffle();</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>看到这个随机打乱数组想到算法实验的产生随机数填入数组，就按照那个想法实现了一遍，没想到看完题解之后这个方法就是题解中的好方法，他还有个高大上的名字Fisher-Yates洗牌算法</p>
-<h2 id="Fisher-Yates洗牌算法"><a href="#Fisher-Yates洗牌算法" class="headerlink" title="Fisher-Yates洗牌算法"></a>Fisher-Yates洗牌算法</h2><img src="/2020/07/10/leetcode-384/384_1.jpg" class title="Fisher-Yates算法">
-
-<p>贴上自己写的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] origin;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        origin = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            origin[i] = nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Resets the array to its original configuration and return it. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] reset() &#123;</span><br><span class="line">        <span class="keyword">return</span> origin;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Returns a random shuffling of the array. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] shuffle() &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[origin.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; origin.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            array[i] = origin[i];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] shuffledArray = <span class="keyword">new</span> <span class="keyword">int</span>[array.length];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> r = (<span class="keyword">int</span>)(Math.random() * (array.length - i));</span><br><span class="line">            shuffledArray[i] = array[r];</span><br><span class="line">            <span class="keyword">int</span> temp = array[array.length - i - <span class="number">1</span>];</span><br><span class="line">            array[array.length - i - <span class="number">1</span>] = array[r];</span><br><span class="line">            array[r] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> shuffledArray;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * Solution obj = new Solution(nums);</span></span><br><span class="line"><span class="comment"> * int[] param_1 = obj.reset();</span></span><br><span class="line"><span class="comment"> * int[] param_2 = obj.shuffle();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
-
-<p>贴上官方的代码:<br>ps:这里学到了对象clone()的用法，明白了什么是浅拷贝和深拷贝。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] array;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] original;</span><br><span class="line"></span><br><span class="line">    Random rand = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">randRange</span><span class="params">(<span class="keyword">int</span> min, <span class="keyword">int</span> max)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> rand.nextInt(max - min) + min;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swapAt</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = array[i];</span><br><span class="line">        array[i] = array[j];</span><br><span class="line">        array[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        array = nums;</span><br><span class="line">        original = nums.clone();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] reset() &#123;</span><br><span class="line">        array = original;</span><br><span class="line">        original = original.clone();</span><br><span class="line">        <span class="keyword">return</span> original;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] shuffle() &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">            swapAt(i, randRange(i, array.length));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> array;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-121" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/09/leetcode-121/"
-    >leetcode-121</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/09/leetcode-121/" class="article-date">
-  <time datetime="2020-07-09T13:11:43.035Z" itemprop="datePublished">2020-07-09</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="买卖股票的最佳时机"><a href="#买卖股票的最佳时机" class="headerlink" title="买卖股票的最佳时机"></a>买卖股票的最佳时机</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
-<p>如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。</p>
-<p>注意：你不能在买入股票前卖出股票。</p>
-<p>示例 1:</p>
-<p>输入: [7,1,5,3,6,4]<br>输出: 5<br>解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。<br>     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。<br>示例 2:</p>
-<p>输入: [7,6,4,3,1]<br>输出: 0<br>解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题自己想的是暴力法，看到题目的tag是动态规划，看完题解之后觉得和dp并没有太大的关系，到时候把dp再仔细看一遍吧，唉。</p>
-<p>大致思路就是像滑动窗口，记下到prices[i]为止的最小价格，接着去看最大价格和最小价格的差，保存下来就是利润。</p>
-<p>解法如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> prices[])</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> minprice = Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">int</span> maxprofit = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (prices[i] &lt; minprice)</span><br><span class="line">            &#123;</span><br><span class="line">                minprice = prices[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (prices[i] - minprice &gt; maxprofit)</span><br><span class="line">            &#123;</span><br><span class="line">                maxprofit = prices[i] - minprice;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxprofit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-53" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/09/leetcode-53/"
-    >leetcode-53</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/09/leetcode-53/" class="article-date">
-  <time datetime="2020-07-09T11:00:21.470Z" itemprop="datePublished">2020-07-09</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="最大子序和"><a href="#最大子序和" class="headerlink" title="最大子序和"></a>最大子序和</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<p>示例:</p>
-<p>输入: [-2,1,-3,4,-1,2,1,-5,4],<br>输出: 6<br>解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。<br>进阶:</p>
-<p>如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的分治法求解。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题我记得在算法设计与分析书上见过，当时老师讲的是用分治法，没有具体讲怎么实现，现在leetcode刷到这个题，给的tag是动态规划，又因为这道题是动态规划的间接求法（是我这么叫的），想仔细研究一番。</p>
-<p>首先常规动态规划思路肯定是用一个dp数组，dp[i]表示从nums[0]到nums[i]所有元素的最大子序和，那么很容易有以下的思路:</p>
-<p>dp[i + 1]的最大子序要么依旧是dp[i]，要么就以这个nums[i + 1]结尾，那么我们用一个变量finishIndex来表示dp[i]最大子序的最后一个元素位置，再用currentValue来表示从finishIndex到i + 1元素之和，maxValue表示从i + 1倒退到finishIndex + 1的位置为止最大的值。</p>
-<p>那么很明显有四种情况，直接在代码中给出：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (currentValue &gt; <span class="number">0</span>)</span><br><span class="line">   &#123;</span><br><span class="line">       dp[i + <span class="number">1</span>] = Math.max(maxValue, currentValue + dp[i]);</span><br><span class="line">       finishIndex = i + <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">   &#123;</span><br><span class="line">       <span class="keyword">if</span> (maxValue &gt; dp[i]) </span><br><span class="line">       &#123;</span><br><span class="line">           dp[i + <span class="number">1</span>] = maxValue;</span><br><span class="line">           finishIndex = i + <span class="number">1</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">       &#123;</span><br><span class="line">           dp[i + <span class="number">1</span>] = dp[i];</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>这是常规思路，但是很麻烦，先把代码贴了：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">        <span class="keyword">int</span> currentValue = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxValue = Integer.MIN_VALUE;</span><br><span class="line">        <span class="keyword">int</span> finishIndex = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &gt;= finishIndex + <span class="number">1</span>;j--)</span><br><span class="line">            &#123;</span><br><span class="line">                currentValue += nums[j];</span><br><span class="line">                <span class="keyword">if</span> (currentValue &gt; maxValue)</span><br><span class="line">                &#123;</span><br><span class="line">                    maxValue = currentValue;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (currentValue &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                dp[i + <span class="number">1</span>] = Math.max(maxValue, currentValue + dp[i]);</span><br><span class="line">                finishIndex = i + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (maxValue &gt; dp[i]) </span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i + <span class="number">1</span>] = maxValue;</span><br><span class="line">                    finishIndex = i + <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i + <span class="number">1</span>] = dp[i];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            currentValue = <span class="number">0</span>;</span><br><span class="line">            maxValue = Integer.MIN_VALUE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[nums.length - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="间接的动态规划法"><a href="#间接的动态规划法" class="headerlink" title="间接的动态规划法"></a>间接的动态规划法</h2><p>我所谓的间接的意思，就是答案不一定在dp数组的最后一个元素中，一般的dp问题，在自底向上的构造过程中，构造到dp数组的最后一个元素时，即为所要求的答案，但这个问题为了求解方便，我们将dp[i]定义为<strong>以nums[i]结尾的最大子序和</strong>，那么这样一定义，问题显然就清晰了很多，我们只需要考虑dp[i]与dp[i - 1]的关系，当dp[i - 1] + nums[i] 比nums[i]小时，我们就应该取nums[i],否则取前者。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">        dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> max = dp[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            dp[i] = Math.max(dp[i - <span class="number">1</span>] + nums[i], nums[i]);</span><br><span class="line">            <span class="keyword">if</span> (dp[i] &gt; max)</span><br><span class="line">            &#123;</span><br><span class="line">                max = dp[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>ps：感觉不是常人的思维，有点难理解。</p>
-<h2 id="法二：分治法"><a href="#法二：分治法" class="headerlink" title="法二：分治法"></a>法二：分治法</h2><p>依稀记得上课时算法老师讲的分治法，按他的讲法实现了一遍，发现其实也没那么难。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> maxSubArray(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left &lt; right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line">            <span class="keyword">int</span> left_count = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> right_count = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> left_sum = nums[mid];</span><br><span class="line">            <span class="keyword">int</span> right_sum = nums[mid + <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">int</span> left_max = maxSubArray(nums, left, mid);</span><br><span class="line">            <span class="keyword">int</span> right_max = maxSubArray(nums, mid + <span class="number">1</span>, right);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = mid; i &gt;= left; i--)</span><br><span class="line">            &#123;</span><br><span class="line">                left_count += nums[i];</span><br><span class="line">                <span class="keyword">if</span> (left_count &gt; left_sum)</span><br><span class="line">                &#123;</span><br><span class="line">                    left_sum = left_count;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = mid + <span class="number">1</span>; i &lt;= right; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                right_count += nums[i];</span><br><span class="line">                <span class="keyword">if</span> (right_count &gt; right_sum)</span><br><span class="line">                &#123;</span><br><span class="line">                    right_sum = right_count;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> Math.max(Math.max(right_sum + left_sum, left_max),right_max);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums[left];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但是看完题解之后发现有更系统的做法，叫做线段树。<br>至于为什么叫线段树，可以参考这一篇博客：<br><a href="https://www.cnblogs.com/jason2003/p/9676729.html" target="_blank" rel="noopener">https://www.cnblogs.com/jason2003/p/9676729.html</a></p>
-<p>这里就简单的按照题解的做法理一遍：<br>对于线段树的每一个结点，在这个问题中我们都会维护四个变量，以左区间为端点的最大字段和，以右区间为端点的最大字段和，区间所有数的和以及区间的最大字段和。</p>
-<p>有了这四个变量之后，我们可以通过递归来构造每一个线段树的结点的这些变量的值。<br>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">//建立线段树数据结构</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">wTree</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lSum;   <span class="comment">// 以左区间为端点的最大子段和</span></span><br><span class="line">        <span class="keyword">int</span> rSum;   <span class="comment">// 以右区间为端点的最大子段和</span></span><br><span class="line">        <span class="keyword">int</span> iSum;   <span class="comment">// 区间所有数的和</span></span><br><span class="line">        <span class="keyword">int</span> mSum;   <span class="comment">// 该区间的最大子段和</span></span><br><span class="line"></span><br><span class="line">        wTree(<span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> i, <span class="keyword">int</span> m)</span><br><span class="line">        &#123;</span><br><span class="line">            lSum = l;</span><br><span class="line">            rSum = r;</span><br><span class="line">            iSum = i;</span><br><span class="line">            mSum = m;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> len = nums.length;</span><br><span class="line">        <span class="keyword">return</span> getInfo(nums, <span class="number">0</span>, len - <span class="number">1</span>).mSum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 递归建立和获得输入区间所有子段的结构</span></span><br><span class="line">    <span class="function">wTree <span class="title">getInfo</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left == right) <span class="keyword">return</span> <span class="keyword">new</span> wTree(nums[left],nums[left],nums[left],nums[left]);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line"></span><br><span class="line">        wTree leftT = getInfo(nums, left, mid);</span><br><span class="line">        wTree rightT = getInfo(nums, mid + <span class="number">1</span>, right);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新子段的lSum等于左区间的lSum或者左区间的 区间和 加上右区间的lSum</span></span><br><span class="line">        <span class="keyword">int</span> l = Math.max(leftT.lSum, leftT.iSum + rightT.lSum);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新子段的rSum等于右区间的rSum或者右区间的 区间和 加上左区间的rSum</span></span><br><span class="line">        <span class="keyword">int</span> r = Math.max(leftT.rSum + rightT.iSum, rightT.rSum);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新子段的区间和等于左右区间的区间和之和</span></span><br><span class="line">        <span class="keyword">int</span> i = leftT.iSum + rightT.iSum;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新子段的最大子段和，其子段有可能穿过左右区间，或左区间，或右区间</span></span><br><span class="line">        <span class="keyword">int</span> m = Math.max(leftT.rSum + rightT.lSum, Math.max(leftT.mSum, rightT.mSum));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> wTree(l, r, i, m);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个解法相比之前的分治解法多维护了两个变量，通过这些变量来存储信息。<br>ps：有一说一，我是真想不到这种解法。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
   
 </section>
