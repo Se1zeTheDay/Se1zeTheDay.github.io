@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    希尔排序 |  Se1ze_The_Day
+    二叉树的moris中序遍历 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-希尔排序" class="article article-type-post" itemscope
+  <article id="post-moris中序遍历" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  希尔排序
+  二叉树的moris中序遍历
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/16/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/" class="article-date">
-  <time datetime="2020-07-16T12:19:02.097Z" itemprop="datePublished">2020-07-16</time>
+      <a href="/2020/07/17/moris%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/" class="article-date">
+  <time datetime="2020-07-17T07:03:54.223Z" itemprop="datePublished">2020-07-17</time>
 </a>
       
   <div class="article-category">
@@ -86,15 +86,24 @@
       
 
       
-      <h1 id="希尔排序的简单介绍"><a href="#希尔排序的简单介绍" class="headerlink" title="希尔排序的简单介绍"></a>希尔排序的简单介绍</h1><p>希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。</p>
-<p>简单插入排序很循规蹈矩，不管数组分布是怎么样的，依然一步一步的对元素进行比较，移动，插入，比如[5,4,3,2,1,0]这种倒序序列，数组末端的0要回到首位置很是费劲，比较和移动元素均需n-1次。<br>插入排序代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> temp;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        temp = array[i];</span><br><span class="line">        <span class="keyword">for</span> (j = i - <span class="number">1</span>; j &gt;= <span class="number">0</span> &amp;&amp; array[j] &gt; temp; j--) &#123;</span><br><span class="line">            array[j + <span class="number">1</span>] = array[j];</span><br><span class="line">        &#125;</span><br><span class="line">        array[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>而希尔排序在数组中采用跳跃式分组的策略，通过某个增量将数组元素划分为若干组，然后分组进行插入排序，随后逐步缩小增量，继续按组进行插入排序操作，直至增量为1。希尔排序通过这种策略使得整个数组在初始阶段达到从宏观上看基本有序，小的基本在前，大的基本在后。然后缩小增量，到增量为1时，其实多数情况下只需微调即可，不会涉及过多的数据移动。</p>
-<p>我们来看下希尔排序的基本步骤，在此我们选择增量gap=length/2，缩小增量继续以gap = gap/2的方式，这种增量选择我们可以用一个序列来表示，{n/2,(n/2)/2…1}，称为增量序列。希尔排序的增量序列的选择与证明是个数学难题，我们选择的这个增量序列是比较常用的，也是希尔建议的增量，称为希尔增量，但其实这个增量序列不是最优的。此处我们做示例使用希尔增量。</p>
-<img src="/2020/07/16/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/ShellSort.png" class title="ShellSort">
+      <h1 id="二叉树的moris中序遍历"><a href="#二叉树的moris中序遍历" class="headerlink" title="二叉树的moris中序遍历"></a>二叉树的moris中序遍历</h1><p>在二叉树的中序遍历中，我们一般使用递归，因为这样能够简化代码，不用考虑复杂的循环判断条件，原因是我们使用到了系统的栈，这样很方便，但是占用了O(n)的空间复杂度。</p>
+<p>接着我们考虑采用迭代，一般来说树遍历的迭代也需要采用栈或队列，因为每一次处理的数据量是不同的，先给出使用栈的代码吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (!stack.isEmpty() || cur != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (cur != <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                stack.push(cur);</span><br><span class="line">                cur = cur.left;</span><br><span class="line">            &#125;</span><br><span class="line">            TreeNode cur = stack.pop();</span><br><span class="line">            ans.add(cur.val);</span><br><span class="line">            cur = cur.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>希尔排序代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> gap = array.length / <span class="number">2</span>; gap &gt; <span class="number">0</span>; gap = gap / <span class="number">2</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = gap; i &lt; array.length; i++) &#123;</span><br><span class="line">                    <span class="keyword">int</span> temp = array[i];</span><br><span class="line">                    <span class="keyword">int</span> j = i - gap;</span><br><span class="line">                    <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; array[j] &gt; temp)</span><br><span class="line">                    &#123;</span><br><span class="line">                        array[j + gap] = array[j];</span><br><span class="line">                        j -= gap;</span><br><span class="line">                    &#125;</span><br><span class="line">                    array[j + gap] = temp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>那么有没有一种方法可以降低空间复杂度呢，答案是有的，这个方法知道的人好像不多，叫做<strong>莫里斯遍历</strong>。</p>
+<p>接下来详细地介绍它，莫里斯遍历采用到了<strong>线索二叉树</strong>这个数据结构，为了解决从子节点找到父节点的问题，需要临时修改树的结构，在遍历完成之后复原成原来的树结构。</p>
+<p>整个遍历过程只需要两个指针————指向当前结点的指针cur和临时前驱指针prev，具体的过程如下：</p>
+<ol>
+<li>如果cur的左子节点<strong>为空</strong>，那么直接输出当前节点，并将cur指针指向右子节点</li>
+<li>如果cur的左子节点<strong>不为空</strong>，那么我们需要利用prev遍历cur的左子树，找到其中最右侧的节点，在寻找到这个节点后可能出现两种情况：<br>· 如果遍历到的这个节点的右子节点为空，那么将此节点的右子节点指向cur，并将cur移入左子结点。<br>· 如果遍历到的这个节点的右子节点已经是cur节点了，那么说明已经建立好了线索，这时候只需要输出cur并还原树原本的结构就可以了，也就是先输出cur，接着置prev节点的右子节点为空，最后cur向右移就可以了。</li>
+<li>重复以上步骤直到当前节点为空</li>
+</ol>
+<p>其中最不好理解的是第二步，遍历左子树的右节点的过程中，只有当左子树没有建立到父节点的连接的时候，才能最后遍历到尽头，达到尽头之后需要和父节点连接起来，当cur遍历到这个叶节点的时候才能回到正确的父节点的位置。</p>
+<p>当当前节点cur遍历完了左子树回到父节点的时候，多余的连接还是存在的，需要移除这个连接，而方法就是和建立连接一样遍历左子树找到最右侧节点，这个时候判断的依据就不能是右节点为空，必须是左子节点的最右节点等于当前节点，相当于找到循环的起点，然后在这个地方切断联系。</p>
+<img src="/2020/07/17/moris%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/moris.gif" class title="莫里斯遍历算法">
+
+<p>最后写下该算法的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    TreeNode cur = root;</span><br><span class="line">    List&lt;Integer&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (cur != <span class="keyword">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//左子树为空</span></span><br><span class="line">        <span class="keyword">if</span> (cur.left == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            res.add(cur.val);</span><br><span class="line">            cur = cur.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//prev寻找左子树中的最右侧节点</span></span><br><span class="line">            TreeNode prev = cur.left;</span><br><span class="line">            <span class="keyword">while</span> (prev.right != <span class="keyword">null</span> &amp;&amp; prev.right != cur) &#123;</span><br><span class="line">                prev = prev.right;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//若找到的节点的右子节点为空或者已连接至cur</span></span><br><span class="line">            <span class="keyword">if</span> (prev.right == <span class="keyword">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                prev.right = cur;</span><br><span class="line">                cur = cur.left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                res.add(cur.val);</span><br><span class="line">                prev.right = <span class="keyword">null</span>;</span><br><span class="line">                cur = cur.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -148,7 +157,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/16/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/17/moris%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -166,19 +175,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/07/17/moris%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/" class="article-nav-link">
+      <a href="/2020/07/17/103-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%94%AF%E9%BD%BF%E5%BD%A2%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            二叉树的moris中序遍历
+            103-二叉树的锯齿形层次遍历
           
         </div>
       </a>
     
     
-      <a href="/2020/07/16/160-%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/" class="article-nav-link">
+      <a href="/2020/07/16/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">160-相交链表</div>
+        <div class="article-nav-title">希尔排序</div>
       </a>
     
   </nav>
