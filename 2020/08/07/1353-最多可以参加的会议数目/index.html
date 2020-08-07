@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    380-常数时间插入、删除和获取随机元素 |  Se1ze_The_Day
+    1353-最多可以参加的会议数目 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-380-常数时间插入、删除和获取随机元素" class="article article-type-post" itemscope
+  <article id="post-1353-最多可以参加的会议数目" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  380-常数时间插入、删除和获取随机元素
+  1353-最多可以参加的会议数目
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/31/380-%E5%B8%B8%E6%95%B0%E6%97%B6%E9%97%B4%E6%8F%92%E5%85%A5%E3%80%81%E5%88%A0%E9%99%A4%E5%92%8C%E8%8E%B7%E5%8F%96%E9%9A%8F%E6%9C%BA%E5%85%83%E7%B4%A0/" class="article-date">
-  <time datetime="2020-07-31T08:05:35.308Z" itemprop="datePublished">2020-07-31</time>
+      <a href="/2020/08/07/1353-%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%8F%82%E5%8A%A0%E7%9A%84%E4%BC%9A%E8%AE%AE%E6%95%B0%E7%9B%AE/" class="article-date">
+  <time datetime="2020-08-07T14:12:55.405Z" itemprop="datePublished">2020-08-07</time>
 </a>
       
   <div class="article-category">
@@ -86,20 +86,24 @@
       
 
       
-      <h1 id="常数时间插入、删除和获取随机元素"><a href="#常数时间插入、删除和获取随机元素" class="headerlink" title="常数时间插入、删除和获取随机元素"></a>常数时间插入、删除和获取随机元素</h1><h2 id="题目描绘"><a href="#题目描绘" class="headerlink" title="题目描绘"></a>题目描绘</h2><p>设计一个支持在平均 时间复杂度 O(1) 下，执行以下操作的数据结构。</p>
-<p>insert(val)：当元素 val 不存在时，向集合中插入该项。<br>remove(val)：元素 val 存在时，从集合中移除该项。<br>getRandom：随机返回现有集合中的一项。每个元素应该有相同的概率被返回。<br>示例 :</p>
-<p>// 初始化一个空的集合。<br>RandomizedSet randomSet = new RandomizedSet();</p>
-<p>// 向集合中插入 1 。返回 true 表示 1 被成功地插入。<br>randomSet.insert(1);</p>
-<p>// 返回 false ，表示集合中不存在 2 。<br>randomSet.remove(2);</p>
-<p>// 向集合中插入 2 。返回 true 。集合现在包含 [1,2] 。<br>randomSet.insert(2);</p>
-<p>// getRandom 应随机返回 1 或 2 。<br>randomSet.getRandom();</p>
-<p>// 从集合中移除 1 ，返回 true 。集合现在包含 [2] 。<br>randomSet.remove(1);</p>
-<p>// 2 已在集合中，所以返回 false 。<br>randomSet.insert(2);</p>
-<p>// 由于 2 是集合中唯一的数字，getRandom 总是返回 2 。<br>randomSet.getRandom();</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>题目需要三个操作：插入、删除、随机取元素都在时间复杂度O(1)，那么如果我们使用哈希表,能够满足前两个操作的要求但是不能满足随机取元素的时间复杂度的要求，如果我们使用动态数组，那么删除元素不能满足，因此我们准备把两者结合起来。</p>
-<p>我们使用动态数组保存数据，并使用哈希表保存动态数组中数据与下标的映射，那么在删除操作时我们只需要将需要删除的元素与最后一个元素进行交换，最后修改哈希表中对应的下标值即可。</p>
+      <h1 id="最多可以参加的会议数目"><a href="#最多可以参加的会议数目" class="headerlink" title="最多可以参加的会议数目"></a>最多可以参加的会议数目</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个数组 events，其中 events[i] = [startDayi, endDayi] ，表示会议 i 开始于 startDayi ，结束于 endDayi 。</p>
+<p>你可以在满足 startDayi &lt;= d &lt;= endDayi 中的任意一天 d 参加会议 i 。注意，一天只能参加一个会议。</p>
+<p>请你返回你可以参加的 最大 会议数目。</p>
+<p>示例 1：</p>
+<p>输入：events = [[1,2],[2,3],[3,4]]<br>输出：3<br>解释：你可以参加所有的三个会议。<br>安排会议的一种方案如上图。<br>第 1 天参加第一个会议。<br>第 2 天参加第二个会议。<br>第 3 天参加第三个会议。<br>示例 2：</p>
+<p>输入：events= [[1,2],[2,3],[3,4],[1,2]]<br>输出：4<br>示例 3：</p>
+<p>输入：events = [[1,4],[4,4],[2,2],[3,4],[1,1]]<br>输出：4<br>示例 4：</p>
+<p>输入：events = [[1,100000]]<br>输出：1<br>示例 5：</p>
+<p>输入：events = [[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7]]<br>输出：7</p>
+<p>提示：</p>
+<p>1 &lt;= events.length &lt;= 10^5<br>events[i].length == 2<br>1 &lt;= events[i][0] &lt;= events[i][1] &lt;= 10^5</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题我只想到了暴力解法，遍历会议并判断每一个会议的每一天是否有空参加，时间复杂度最坏为O(n^2)，在最后一个用例超时了。</p>
 <p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomizedSet</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Map&lt;Integer,Integer&gt; map;</span><br><span class="line">    List&lt;Integer&gt; list;</span><br><span class="line">    Random rdm = <span class="keyword">new</span> Random();</span><br><span class="line">    <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RandomizedSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Inserts a value to the set. Returns true if the set did not already contain the specified element. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(val)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        map.put(val, list.size());</span><br><span class="line">        list.add(list.size(), val);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Removes a value from the set. Returns true if the set contained the specified element. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!map.containsKey(val)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">int</span> index = map.get(val);</span><br><span class="line">        <span class="keyword">int</span> lastElement = list.get(list.size() - <span class="number">1</span>);</span><br><span class="line">        list.set(index, lastElement);</span><br><span class="line">        map.put(lastElement, index);</span><br><span class="line">        list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">        map.remove(val);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Get a random element from the set. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRandom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> list.get(rdm.nextInt(list.size()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your RandomizedSet object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * RandomizedSet obj = new RandomizedSet();</span></span><br><span class="line"><span class="comment"> * boolean param_1 = obj.insert(val);</span></span><br><span class="line"><span class="comment"> * boolean param_2 = obj.remove(val);</span></span><br><span class="line"><span class="comment"> * int param_3 = obj.getRandom();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxEvents</span><span class="params">(<span class="keyword">int</span>[][] events)</span> </span>&#123;</span><br><span class="line">        Arrays.sort(events, <span class="keyword">new</span> Comparator&lt;<span class="keyword">int</span>[]&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">int</span>[] o1, <span class="keyword">int</span>[] o2)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(o1[<span class="number">1</span>]!=o2[<span class="number">1</span>]) <span class="keyword">return</span> o1[<span class="number">1</span>]-o2[<span class="number">1</span>];</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> o1[<span class="number">0</span>]-o2[<span class="number">0</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">boolean</span>[] isBusy = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">100005</span>];</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] arr : events)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = arr[<span class="number">0</span>]; i &lt;= arr[<span class="number">1</span>]; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!isBusy[i])</span><br><span class="line">                &#123;</span><br><span class="line">                    isBusy[i] = <span class="keyword">true</span>;</span><br><span class="line">                    count++;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="优先队列法"><a href="#优先队列法" class="headerlink" title="优先队列法"></a>优先队列法</h2><p>后来看了题解之后有个优先队列的做法，先将会议按照开始时间排好序，然后将开始时间相同的会议添加进优先队列中，为小根堆，那么堆顶即为最早结束的会议，判断会议的结束时间是否在当前天数之前，如果是，那么说明此会议已经过期，否则说明还可以参加，此方法最坏时间复杂度为O(nlogn)。</p>
+<p>不过是真的难想到，仔细分析可以发现这个方法遍历的是天数，而不是会议，是根据天数来判断会议是否能参加，因此就不用重复计算，而遍历会议的话，因为会议的时间是有重合的，因此其实我们重复计算了许多。</p>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxEvents</span><span class="params">(<span class="keyword">int</span>[][] events)</span> </span>&#123;</span><br><span class="line">    Arrays.sort(events, (o1, o2) -&gt; (o1[<span class="number">0</span>], o2[<span class="number">0</span>]));</span><br><span class="line"></span><br><span class="line">    PriorityQueue&lt;Integer&gt; pq = <span class="keyword">new</span> PriorityQueue&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> day = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> n = events.length;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; n || !pq.isEmpty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//将开始时间相同的会议加到优先队列中，按结束时间排序</span></span><br><span class="line">        <span class="keyword">while</span> (i &lt; n &amp;&amp; events[i][<span class="number">0</span>] == day)</span><br><span class="line">        &#123;</span><br><span class="line">            pq.add(events[i][<span class="number">1</span>]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//删除已结束的会议</span></span><br><span class="line">        <span class="keyword">while</span> (!pq.isEmpty() &amp;&amp; pq.peek() &lt; day)</span><br><span class="line">        &#123;</span><br><span class="line">            pq.poll();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//参加会议</span></span><br><span class="line">        <span class="keyword">if</span> (!pq.isEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            pq.poll();</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//天数加一</span></span><br><span class="line">        day++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -153,7 +157,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/31/380-%E5%B8%B8%E6%95%B0%E6%97%B6%E9%97%B4%E6%8F%92%E5%85%A5%E3%80%81%E5%88%A0%E9%99%A4%E5%92%8C%E8%8E%B7%E5%8F%96%E9%9A%8F%E6%9C%BA%E5%85%83%E7%B4%A0/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/08/07/1353-%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%8F%82%E5%8A%A0%E7%9A%84%E4%BC%9A%E8%AE%AE%E6%95%B0%E7%9B%AE/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -171,19 +175,10 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/08/02/150-%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            150-逆波兰表达式求值
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/07/31/297-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-nav-link">
+      <a href="/2020/08/07/%E7%BA%BF%E6%AE%B5%E6%A0%91/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">297-二叉树的序列化和反序列化</div>
+        <div class="article-nav-title">线段树</div>
       </a>
     
   </nav>

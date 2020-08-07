@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    380-常数时间插入、删除和获取随机元素 |  Se1ze_The_Day
+    150-逆波兰表达式求值 |  Se1ze_The_Day
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -41,7 +41,7 @@
   <div id="app">
     <main class="content on">
       <section class="outer">
-  <article id="post-380-常数时间插入、删除和获取随机元素" class="article article-type-post" itemscope
+  <article id="post-150-逆波兰表达式求值" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -49,7 +49,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  380-常数时间插入、删除和获取随机元素
+  150-逆波兰表达式求值
 </h1>
  
 
@@ -58,8 +58,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/31/380-%E5%B8%B8%E6%95%B0%E6%97%B6%E9%97%B4%E6%8F%92%E5%85%A5%E3%80%81%E5%88%A0%E9%99%A4%E5%92%8C%E8%8E%B7%E5%8F%96%E9%9A%8F%E6%9C%BA%E5%85%83%E7%B4%A0/" class="article-date">
-  <time datetime="2020-07-31T08:05:35.308Z" itemprop="datePublished">2020-07-31</time>
+      <a href="/2020/08/02/150-%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/" class="article-date">
+  <time datetime="2020-08-02T08:53:43.947Z" itemprop="datePublished">2020-08-02</time>
 </a>
       
   <div class="article-category">
@@ -86,20 +86,24 @@
       
 
       
-      <h1 id="常数时间插入、删除和获取随机元素"><a href="#常数时间插入、删除和获取随机元素" class="headerlink" title="常数时间插入、删除和获取随机元素"></a>常数时间插入、删除和获取随机元素</h1><h2 id="题目描绘"><a href="#题目描绘" class="headerlink" title="题目描绘"></a>题目描绘</h2><p>设计一个支持在平均 时间复杂度 O(1) 下，执行以下操作的数据结构。</p>
-<p>insert(val)：当元素 val 不存在时，向集合中插入该项。<br>remove(val)：元素 val 存在时，从集合中移除该项。<br>getRandom：随机返回现有集合中的一项。每个元素应该有相同的概率被返回。<br>示例 :</p>
-<p>// 初始化一个空的集合。<br>RandomizedSet randomSet = new RandomizedSet();</p>
-<p>// 向集合中插入 1 。返回 true 表示 1 被成功地插入。<br>randomSet.insert(1);</p>
-<p>// 返回 false ，表示集合中不存在 2 。<br>randomSet.remove(2);</p>
-<p>// 向集合中插入 2 。返回 true 。集合现在包含 [1,2] 。<br>randomSet.insert(2);</p>
-<p>// getRandom 应随机返回 1 或 2 。<br>randomSet.getRandom();</p>
-<p>// 从集合中移除 1 ，返回 true 。集合现在包含 [2] 。<br>randomSet.remove(1);</p>
-<p>// 2 已在集合中，所以返回 false 。<br>randomSet.insert(2);</p>
-<p>// 由于 2 是集合中唯一的数字，getRandom 总是返回 2 。<br>randomSet.getRandom();</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>题目需要三个操作：插入、删除、随机取元素都在时间复杂度O(1)，那么如果我们使用哈希表,能够满足前两个操作的要求但是不能满足随机取元素的时间复杂度的要求，如果我们使用动态数组，那么删除元素不能满足，因此我们准备把两者结合起来。</p>
-<p>我们使用动态数组保存数据，并使用哈希表保存动态数组中数据与下标的映射，那么在删除操作时我们只需要将需要删除的元素与最后一个元素进行交换，最后修改哈希表中对应的下标值即可。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomizedSet</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Map&lt;Integer,Integer&gt; map;</span><br><span class="line">    List&lt;Integer&gt; list;</span><br><span class="line">    Random rdm = <span class="keyword">new</span> Random();</span><br><span class="line">    <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RandomizedSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Inserts a value to the set. Returns true if the set did not already contain the specified element. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(val)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        map.put(val, list.size());</span><br><span class="line">        list.add(list.size(), val);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Removes a value from the set. Returns true if the set contained the specified element. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!map.containsKey(val)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">int</span> index = map.get(val);</span><br><span class="line">        <span class="keyword">int</span> lastElement = list.get(list.size() - <span class="number">1</span>);</span><br><span class="line">        list.set(index, lastElement);</span><br><span class="line">        map.put(lastElement, index);</span><br><span class="line">        list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">        map.remove(val);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Get a random element from the set. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRandom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> list.get(rdm.nextInt(list.size()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your RandomizedSet object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * RandomizedSet obj = new RandomizedSet();</span></span><br><span class="line"><span class="comment"> * boolean param_1 = obj.insert(val);</span></span><br><span class="line"><span class="comment"> * boolean param_2 = obj.remove(val);</span></span><br><span class="line"><span class="comment"> * int param_3 = obj.getRandom();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+      <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>根据 逆波兰表示法，求表达式的值。</p>
+<p>有效的运算符包括 +, -, *, / 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。</p>
+<p>说明：</p>
+<p>整数除法只保留整数部分。<br>给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。</p>
+<p>示例 1：</p>
+<p>输入: [“2”, “1”, “+”, “3”, “*“]<br>输出: 9<br>解释: 该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) = 9</p>
+<p>示例 2：</p>
+<p>输入: [“4”, “13”, “5”, “/“, “+”]<br>输出: 6<br>解释: 该算式转化为常见的中缀算术表达式为：(4 + (13 / 5)) = 6</p>
+<p>示例 3：</p>
+<p>输入: [“10”, “6”, “9”, “3”, “+”, “-11”, “*“, “/“, “*“, “17”, “+”, “5”, “+”]<br>输出: 22<br>解释:<br>该算式转化为常见的中缀算术表达式为：<br>  ((10 * (6 / ((9 + 3) * -11))) + 17) + 5<br>= ((10 * (6 / (12 * -11))) + 17) + 5<br>= ((10 * (6 / -132)) + 17) + 5<br>= ((10 * 0) + 17) + 5<br>= (0 + 17) + 5<br>= 17 + 5<br>= 22</p>
+<p>逆波兰表达式：</p>
+<p>逆波兰表达式是一种后缀表达式，所谓后缀就是指算符写在后面。</p>
+<p>平常使用的算式则是一种中缀表达式，如 ( 1 + 2 ) * ( 3 + 4 ) 。<br>该算式的逆波兰表达式写法为 ( ( 1 2 + ) ( 3 4 + ) * ) 。<br>逆波兰表达式主要有以下两个优点：</p>
+<p>去掉括号后表达式无歧义，上式即便写成 1 2 + 3 4 + * 也可以依据次序计算出正确结果。<br>适合用栈操作运算：遇到数字则入栈；遇到算符则取出栈顶两个数字进行计算，并将结果压入栈中。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这个题目挺简单的，就不多说了，直接上代码吧</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">evalRPN</span><span class="params">(String[] tokens)</span> </span>&#123;</span><br><span class="line">        Stack&lt;Integer&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; tokens.length)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (tokens[i].equals(<span class="string">"+"</span>) || tokens[i].equals(<span class="string">"-"</span>) || tokens[i].equals(<span class="string">"*"</span>) || tokens[i].equals(<span class="string">"/"</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> op2 = stack.pop();</span><br><span class="line">                <span class="keyword">int</span> op1 = stack.pop();</span><br><span class="line">                <span class="keyword">if</span> (tokens[i].equals(<span class="string">"+"</span>)) stack.push(op1 + op2);</span><br><span class="line">                <span class="keyword">if</span> (tokens[i].equals(<span class="string">"-"</span>)) stack.push(op1 - op2);</span><br><span class="line">                <span class="keyword">if</span> (tokens[i].equals(<span class="string">"*"</span>)) stack.push(op1 * op2);</span><br><span class="line">                <span class="keyword">if</span> (tokens[i].equals(<span class="string">"/"</span>)) stack.push(op1 / op2);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                stack.push(Integer.valueOf(tokens[i]));</span><br><span class="line">            &#125;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h2><p>优化：<br> ·数组最大长度为<strong>tokens.length / 2 - 1</strong><br>  证明如下：设数组长度为n,其中有m个操作数，因为逆波兰表达式一定合法，因此有m - 1个运算符，因此2*m - 1 = n,我们只需要保存操作数。<br> ·switch代替if-else,效率优化<br> ·Integer.praseInt(返回int型)代替Integer.valueOf(返回Integer型)，减少由Integer转为int的过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">evalRPN</span><span class="params">(String[] tokens)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//用数组模拟栈</span></span><br><span class="line">        <span class="keyword">int</span>[] numstack = <span class="keyword">new</span> <span class="keyword">int</span>[tokens.length / <span class="number">2</span> + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (String s : tokens) &#123;</span><br><span class="line">            <span class="keyword">switch</span> (s) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">                    numstack[index - <span class="number">2</span>] += numstack[--index];</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"-"</span>:</span><br><span class="line">                    numstack[index - <span class="number">2</span>] -= numstack[--index];</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"*"</span>:</span><br><span class="line">                    numstack[index - <span class="number">2</span>] *= numstack[--index];</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">"/"</span>:</span><br><span class="line">                    numstack[index - <span class="number">2</span>] /= numstack[--index];</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="comment">//默认为操作数</span></span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    numstack[index++] = Integer.praseInt(s);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//最终栈顶元素就是我们需要的结果</span></span><br><span class="line">        <span class="keyword">return</span> numstack[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
@@ -153,7 +157,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/07/31/380-%E5%B8%B8%E6%95%B0%E6%97%B6%E9%97%B4%E6%8F%92%E5%85%A5%E3%80%81%E5%88%A0%E9%99%A4%E5%92%8C%E8%8E%B7%E5%8F%96%E9%9A%8F%E6%9C%BA%E5%85%83%E7%B4%A0/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://se1zetheday.github.io/2020/08/02/150-%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -171,19 +175,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/08/02/150-%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC/" class="article-nav-link">
+      <a href="/2020/08/02/169-%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            150-逆波兰表达式求值
+            169-多数元素
           
         </div>
       </a>
     
     
-      <a href="/2020/07/31/297-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="article-nav-link">
+      <a href="/2020/07/31/380-%E5%B8%B8%E6%95%B0%E6%97%B6%E9%97%B4%E6%8F%92%E5%85%A5%E3%80%81%E5%88%A0%E9%99%A4%E5%92%8C%E8%8E%B7%E5%8F%96%E9%9A%8F%E6%9C%BA%E5%85%83%E7%B4%A0/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">297-二叉树的序列化和反序列化</div>
+        <div class="article-nav-title">380-常数时间插入、删除和获取随机元素</div>
       </a>
     
   </nav>

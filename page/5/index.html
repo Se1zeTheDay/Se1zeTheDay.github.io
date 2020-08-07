@@ -75,6 +75,436 @@
     
     
     
+    <article id="post-268-缺失的数字" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/12/268-%E7%BC%BA%E5%A4%B1%E7%9A%84%E6%95%B0%E5%AD%97/"
+    >268-缺失的数字</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/12/268-%E7%BC%BA%E5%A4%B1%E7%9A%84%E6%95%B0%E5%AD%97/" class="article-date">
+  <time datetime="2020-07-12T02:11:33.676Z" itemprop="datePublished">2020-07-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="缺失的数字"><a href="#缺失的数字" class="headerlink" title="缺失的数字"></a>缺失的数字</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个包含 0, 1, 2, …, n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。</p>
+<p>示例 1:</p>
+<p>输入: [3,0,1]<br>输出: 2<br>示例 2:</p>
+<p>输入: [9,6,4,2,3,5,7,0,1]<br>输出: 8</p>
+<p>说明:<br>你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><h3 id="求和"><a href="#求和" class="headerlink" title="求和"></a>求和</h3><p>这道题我想的是求和，但是我理解错题意了，0-n个数也有可能会出现少第n + 1个数的，因此我们保存0-n的和，再减去数组中元素的和，即为答案。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">missingNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> max = nums.length*(nums.length + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            sum += nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max - sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是在评论区看到说存在溢出的可能，想了想也是。</p>
+<p>所以介绍第二种方法，位运算。</p>
+<h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><p>思路是先将0-n的异或算出来，再和数组中的每个元素进行异或运算，那么对于没有缺失的元素而言，因为异或运算具有交换律和结合律，它们相当于与自身进行了异或，结果为0，所以所有元素异或下来的结果就是那个缺失的元素。</p>
+<p>上代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">missingNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            ans ^= (i + <span class="number">1</span>);</span><br><span class="line">            ans ^= nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至于其他两个方法这里就不细说了，分别是排序法和哈希表法，它们的时间复杂度和空间复杂度并不符合要求。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-矩阵快速幂" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/12/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/"
+    >快速幂算法</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/12/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="article-date">
+  <time datetime="2020-07-12T01:58:36.697Z" itemprop="datePublished">2020-07-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="快速幂算法"><a href="#快速幂算法" class="headerlink" title="快速幂算法"></a>快速幂算法</h1><p>参照这篇文章：<br><a href="https://zhuanlan.zhihu.com/p/95902286" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/95902286</a></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-191" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/11/leetcode-191/"
+    >leetcode-191</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/11/leetcode-191/" class="article-date">
+  <time datetime="2020-07-11T13:12:50.606Z" itemprop="datePublished">2020-07-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="位1的个数"><a href="#位1的个数" class="headerlink" title="位1的个数"></a>位1的个数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。 </p>
+<p>示例 1：</p>
+<p>输入：00000000000000000000000000001011<br>输出：3<br>解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 ‘1’。<br>示例 2：</p>
+<p>输入：00000000000000000000000010000000<br>输出：1<br>解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 ‘1’。<br>示例 3：</p>
+<p>输入：11111111111111111111111111111101<br>输出：31<br>解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 ‘1’。</p>
+<p>提示：</p>
+<p>请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。<br>在 Java 中，编译器使用二进制补码记法来表示有符号整数。因此，在上面的 示例 3 中，输入表示有符号整数 -3。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这算简单题？？？又是被秀一脸的一天，每次的题解都让人茅塞顿开，每次的评论区都让人叹为观止。。。</p>
+<h3 id="法一：循环和位移动"><a href="#法一：循环和位移动" class="headerlink" title="法一：循环和位移动"></a>法一：循环和位移动</h3><p>具体做法就是遍历数字的每一位，是1就将计数器加一。</p>
+<p>实现的时候不太一样，这里用了一个叫位掩码的东西，一开始定为1，在32位uint下即为<br>00000000000000000000000000000001，将这个掩码与数字进行与运算，那么很明显可以得到数字的最后一位，如果运算结果不为0那么计数器加一，接着将这个位掩码左移一位，也就是检查整数的第二位。</p>
+<p>具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> bits = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mask = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((n &amp; mask) != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            bits++;</span><br><span class="line">        &#125;</span><br><span class="line">        mask &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> bits;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法二：位操作的小技巧"><a href="#法二：位操作的小技巧" class="headerlink" title="法二：位操作的小技巧"></a>法二：位操作的小技巧</h3><p>还没到高能呢，别急，虽然这个方法已经秀我一脸了。</p>
+<p>我们将整数n减一，即为n - 1，那么在二进制看来，减一操作之后原本整数中最后一个1会变成0，1后面的所有0会变成1，那么将这两个数进行与运算，我们会发现结果变成0了，那么每一次结果为0都说明有一个1，直到整数为0，结束循环。</p>
+<img src="/2020/07/11/leetcode-191/191_1.jpg" class title="位操作">
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sum++;</span><br><span class="line">        n = n &amp; (n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="法三：采用swar算法"><a href="#法三：采用swar算法" class="headerlink" title="法三：采用swar算法"></a>法三：采用swar算法</h3><p>这个算法我觉得应该是密码学的算法，密码学经常用来统计数字中某个数的个数。</p>
+<p>思路就是先记下每两位中1的个数，接着由它推出每4位中1的个数，以此类推，直到结束。</p>
+<img src="/2020/07/11/leetcode-191/191_2.jpg" class title="swar算法">
+
+<p>看是看懂了，不知道以后有没有用到它的机会@_@</p>
+<p>直接放代码吧，看起来怪吓人的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        n = (n &amp; (<span class="number">0x55555555</span>)) + ((n &gt;&gt; <span class="number">1</span>) &amp; (<span class="number">0x55555555</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x33333333</span>)) + ((n &gt;&gt; <span class="number">2</span>) &amp; (<span class="number">0x33333333</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x0F0F0F0F</span>)) + ((n &gt;&gt; <span class="number">4</span>) &amp; (<span class="number">0x0F0F0F0F</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x00FF00FF</span>)) + ((n &gt;&gt; <span class="number">8</span>) &amp; (<span class="number">0x00FF00FF</span>));</span><br><span class="line">        n = (n &amp; (<span class="number">0x0000FFFF</span>)) + ((n &gt;&gt; <span class="number">16</span>) &amp; (<span class="number">0x0000FFFF</span>));</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-326" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/11/leetcode-326/"
+    >leetcode-326</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/11/leetcode-326/" class="article-date">
+  <time datetime="2020-07-11T10:59:08.916Z" itemprop="datePublished">2020-07-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="3的幂"><a href="#3的幂" class="headerlink" title="3的幂"></a>3的幂</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个整数，写一个函数来判断它是否是 3 的幂次方。</p>
+<p>示例 1:</p>
+<p>输入: 27<br>输出: true<br>示例 2:</p>
+<p>输入: 0<br>输出: false<br>示例 3:</p>
+<p>输入: 9<br>输出: true<br>示例 4:</p>
+<p>输入: 45<br>输出: false<br>进阶：<br>你能不使用循环或者递归来完成本题吗？</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>对于这道题的使用递归和循环的解法，这里直接给出代码：</p>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> n % <span class="number">3</span> == <span class="number">0</span> &amp;&amp; isPowerOfThree(n / <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;       </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (n % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            n = n / <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> n == <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>递归和循环都是锻炼基本逻辑的，只有逻辑清晰才能写出漂亮而简洁的代码。</p>
+<h3 id="基准转换"><a href="#基准转换" class="headerlink" title="基准转换"></a>基准转换</h3><p>这个方法是将所给十进制整数转化为三进制，那么这样一来如果这个整数是3的整数次幂，那么它的三进制表示形式一定为1，10，100，1000…</p>
+<p>那么我们可以利用java自带的两个函数，一个是进制改变函数，一个是利用正则表达式进行匹配的函数，进行判断。</p>
+<p>对于正则表达式，这里采用”^1*&amp;”,其中^1表示以1开头，0*表示后面跟多个零,加$号表示除规定字符外不包含其他字符。</p>
+<p>那么代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfThree</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.toString(n, <span class="number">3</span>).matches(<span class="string">"^10*$"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里分析一下这个算法的时间复杂度，对于转换进制函数而言一般是采用循环除法来进行进制转换，循环一次就算出一个余数，那么假设循环执行k次，也就是n要除以3^k，那么当n / 3^k = 1时,循环结束，此时有k = log3(n)，因此时间复杂度为O(log3(n)),空间复杂度也为O(log3(n))。</p>
+<h3 id="运算法"><a href="#运算法" class="headerlink" title="运算法"></a>运算法</h3><p>这个方法公式不好输入，直接贴图了。</p>
+<img src="/2020/07/11/leetcode-326/326_1.jpg" class title="对数">
+
+<h3 id="整数限制法"><a href="#整数限制法" class="headerlink" title="整数限制法"></a>整数限制法</h3><img src="/2020/07/11/leetcode-326/326_2.jpg" class title="整数限制">
+
+
+
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
+    <article id="post-leetcode-412" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/11/leetcode-412/"
+    >leetcode-412</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/11/leetcode-412/" class="article-date">
+  <time datetime="2020-07-11T03:46:31.549Z" itemprop="datePublished">2020-07-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
+  </div>
+
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="Fizz-Buzz"><a href="#Fizz-Buzz" class="headerlink" title="Fizz Buzz"></a>Fizz Buzz</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>写一个程序，输出从 1 到 n 数字的字符串表示。</p>
+<p>1.如果 n 是3的倍数，输出“Fizz”；</p>
+<p>2.如果 n 是5的倍数，输出“Buzz”；</p>
+<p>3.如果 n 同时是3和5的倍数，输出 “FizzBuzz”。</p>
+<p>示例：</p>
+<p>n = 15,</p>
+<p>返回:<br>[<br>    “1”,<br>    “2”,<br>    “Fizz”,<br>    “4”,<br>    “Buzz”,<br>    “Fizz”,<br>    “7”,<br>    “8”,<br>    “Fizz”,<br>    “Buzz”,<br>    “11”,<br>    “Fizz”,<br>    “13”,<br>    “14”,<br>    “FizzBuzz”<br>]</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题目应该是锻炼你基本的逻辑的，很简单，但是看完题解后也有新的收获，有时候构造合理的映射比写逻辑 要简单的多，代码的可维护性也高。</p>
+<p>这里就直接给代码了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">fizzBuzz</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (i % <span class="number">3</span> == <span class="number">0</span> &amp;&amp; i % <span class="number">5</span> == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                list.add(<span class="string">"FizzBuzz"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i % <span class="number">3</span> == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                list.add(<span class="string">"Fizz"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (i % <span class="number">5</span> == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                list.add(<span class="string">"Buzz"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> list.add(Integer.toString(i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>题解中还给出了字符串连接的方法，具体思路就是在每一个数字判断的时候，构造一个新的字符串，满足哪个条件字符串就加上哪个对应的串，都满足就都加上，这样一来就不用写复杂的逻辑判断了。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">fizzBuzz</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ans list</span></span><br><span class="line">    List&lt;String&gt; ans = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> num = <span class="number">1</span>; num &lt;= n; num++) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">boolean</span> divisibleBy3 = (num % <span class="number">3</span> == <span class="number">0</span>);</span><br><span class="line">      <span class="keyword">boolean</span> divisibleBy5 = (num % <span class="number">5</span> == <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">      String numAnsStr = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (divisibleBy3) &#123;</span><br><span class="line">        <span class="comment">// Divides by 3, add Fizz</span></span><br><span class="line">        numAnsStr += <span class="string">"Fizz"</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (divisibleBy5) &#123;</span><br><span class="line">        <span class="comment">// Divides by 5, add Buzz</span></span><br><span class="line">        numAnsStr += <span class="string">"Buzz"</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (numAnsStr.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">        <span class="comment">// Not divisible by 3 or 5, add the number</span></span><br><span class="line">        numAnsStr += Integer.toString(num);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Append the current answer str to the ans list</span></span><br><span class="line">      ans.add(numAnsStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果还有需要频繁更改映射的需求，那么可以使用哈希表。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">fizzBuzz</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ans list</span></span><br><span class="line">    List&lt;String&gt; ans = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hash map to store all fizzbuzz mappings.</span></span><br><span class="line">    HashMap&lt;Integer, String&gt; fizzBizzDict =</span><br><span class="line">        <span class="keyword">new</span> HashMap&lt;Integer, String&gt;() &#123;</span><br><span class="line">          &#123;</span><br><span class="line">            put(<span class="number">3</span>, <span class="string">"Fizz"</span>);</span><br><span class="line">            put(<span class="number">5</span>, <span class="string">"Buzz"</span>);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> num = <span class="number">1</span>; num &lt;= n; num++) &#123;</span><br><span class="line"></span><br><span class="line">      String numAnsStr = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> (Integer key : fizzBizzDict.keySet()) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the num is divisible by key,</span></span><br><span class="line">        <span class="comment">// then add the corresponding string mapping to current numAnsStr</span></span><br><span class="line">        <span class="keyword">if</span> (num % key == <span class="number">0</span>) &#123;</span><br><span class="line">          numAnsStr += fizzBizzDict.get(key);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (numAnsStr.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">        <span class="comment">// Not divisible by 3 or 5, add the number</span></span><br><span class="line">        numAnsStr += Integer.toString(num);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Append the current answer str to the ans list</span></span><br><span class="line">      ans.add(numAnsStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+</article>
+    
     <article id="post-leetcode-155" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -464,415 +894,6 @@
 <p>思路来源于追及问题，在运动场上跑圈时跑的快和跑的慢的赛跑，总有一天跑的快的会赶上跑的慢的。</p>
 <p>代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode slow = head;</span><br><span class="line">    ListNode fast = head.next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="keyword">null</span> &amp;&amp; fast.next != <span class="keyword">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-234" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/08/leetcode-234/"
-    >leetcode-234</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/08/leetcode-234/" class="article-date">
-  <time datetime="2020-07-08T03:03:01.958Z" itemprop="datePublished">2020-07-08</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="回文链表"><a href="#回文链表" class="headerlink" title="回文链表"></a>回文链表</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>请判断一个链表是否为回文链表。</p>
-<p>示例 1:</p>
-<p>输入: 1-&gt;2<br>输出: false<br>示例 2:</p>
-<p>输入: 1-&gt;2-&gt;2-&gt;1<br>输出: true<br>进阶：<br>你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这题我想的是将链表先反转，在判断和原来的相不相等。</p>
-<h3 id="法一：先翻转再比较"><a href="#法一：先翻转再比较" class="headerlink" title="法一：先翻转再比较"></a>法一：先翻转再比较</h3><p>但是一看题解后发现可以只翻转一半，再判断其中的一半与另一半是否相等，主要想不到双指针能这么用，就是快指针一次走两步，慢指针一次走1步，那当快指针走到底时，慢指针一定在链表的一半位置，这样就可以将后一半进行翻转，在与前一半进行比较。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode half = findHalf(head);</span><br><span class="line">        ListNode halfReverse = reverseList(half.next);</span><br><span class="line">        </span><br><span class="line">        ListNode p1 = head;</span><br><span class="line">        ListNode p2 = halfReverse;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">while</span> (result &amp;&amp; p2 != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (p1.val != p2.val) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            p1 = p1.next;</span><br><span class="line">            p2 = p2.next;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        half.next = reverseList(halfReverse);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode p = reverseList(head.next);</span><br><span class="line">        head.next.next = head;</span><br><span class="line">        head = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">findHalf</span><span class="params">(ListNode head)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ListNode fast = head;</span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (fast.next != <span class="keyword">null</span> &amp;&amp; fast.next.next != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="法二：递归采用双指针"><a href="#法二：递归采用双指针" class="headerlink" title="法二：递归采用双指针"></a>法二：递归采用双指针</h3><p>这个算法设计的很好，先利用的递归的特性将curentNode指针指向链表最后一个元素，然后利用递归的回溯进行后面指针的回溯，接着前面的指针也同步往后移，就可以比较了。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    ListNode frontNode;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(ListNode head)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        frontNode = head;</span><br><span class="line">        <span class="keyword">return</span> recursivelyCheck(head);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">recursivelyCheck</span><span class="params">(ListNode currentNode)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (currentNode != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!recursivelyCheck(currentNode.next)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (currentNode.val != frontNode.val) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            frontNode = frontNode.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-206" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/06/leetcode-206/"
-    >leetcode-206</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/06/leetcode-206/" class="article-date">
-  <time datetime="2020-07-06T12:04:48.721Z" itemprop="datePublished">2020-07-06</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>反转一个单链表。</p>
-<p>示例:</p>
-<p>输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL<br>输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL<br>进阶:<br>你可以迭代或递归地反转链表。你能否用两种方法解决这道题？</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>这道题我想用递归写的，想了很久，后来能递归出来但是头结点无法保存，看了题解原来就差一点点，递归还是得多练啊。</p>
-<p>题解核心部分的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode p = reverseList(head.next);</span><br><span class="line">    head.next.next = head;</span><br><span class="line">    head = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>而我自己的核心部分代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode p = reverseList(head.next);</span><br><span class="line">    p.next = head;</span><br><span class="line">    p = p.next;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>两种代码区别在于我的返回后无法找到头结点了，分析一下造成这样的原因，其实可以看出来要想返回之后头结点保存好，那么p肯定是不能改变的，在递归的每一层中，p为当前头结点，head为当前需要插入在后面的结点，光靠head其实也够了，因此只需改变head就可以了。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-237" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/06/leetcode-237/"
-    >leetcode-237</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/06/leetcode-237/" class="article-date">
-  <time datetime="2020-07-06T02:10:28.344Z" itemprop="datePublished">2020-07-06</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="删除链表中的节点"><a href="#删除链表中的节点" class="headerlink" title="删除链表中的节点"></a>删除链表中的节点</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>请编写一个函数，使其可以删除某个链表中给定的（非末尾）节点，你将只被给定要求被删除的节点。</p>
-<p>现有一个链表 – head = [4,5,1,9]，它可以表示为:</p>
-<p>示例 1:</p>
-<p>输入: head = [4,5,1,9], node = 5<br>输出: [4,1,9]<br>解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -&gt; 1 -&gt; 9.<br>示例 2:</p>
-<p>输入: head = [4,5,1,9], node = 1<br>输出: [4,5,9]<br>解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -&gt; 5 -&gt; 9.</p>
-<p>说明:</p>
-<p>链表至少包含两个节点。<br>链表中所有节点的值都是唯一的。<br>给定的节点为非末尾节点并且一定是链表中的一个有效节点。<br>不要从你的函数中返回任何结果。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>刚开始看到这个题目的时候还以为给的参数就是头节点，后来测试一看不是的，给的参数就是要删除的节点，但是平时我们在链表中删除一个节点都是将这个节点的后置节点连接到节点的前置节点上，而这里并没有给前置节点，因此我想的是将后面的值都往前移，最后只要令倒数第二个节点的next值为null就可以了。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(ListNode node)</span> </span>&#123;</span><br><span class="line">        ListNode pre = node;</span><br><span class="line">        ListNode p = node.next;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (p.next != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            pre.val = p.val;</span><br><span class="line">            pre = p;</span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">        pre.val = p.val;</span><br><span class="line">        pre.next = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="题解优化"><a href="#题解优化" class="headerlink" title="题解优化"></a>题解优化</h2><p>看了官方题解后，感觉这题变成脑筋急转弯了，我怎么就没有多想一步，其实将节点后面的值给该节点之后，我们可以将问题转化为删除node.next节点，那么node为其前置节点，node.next.next为其后置节点，这样问题就转化为了普通的删除单链表节点问题，两行代码解决问题。</p>
-<p>代码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">(ListNode node)</span> </span>&#123;</span><br><span class="line">        node.val = node.next.val;</span><br><span class="line">        node.next = node.next.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-88" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/05/leetcode-88/"
-    >leetcode-88</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/05/leetcode-88/" class="article-date">
-  <time datetime="2020-07-05T07:18:07.637Z" itemprop="datePublished">2020-07-05</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="合并两个有序数组"><a href="#合并两个有序数组" class="headerlink" title="合并两个有序数组"></a>合并两个有序数组</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</p>
-<p>说明:</p>
-<p>初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。<br>你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</p>
-<p>示例:</p>
-<p>输入:<br>nums1 = [1,2,3,0,0,0], m = 3<br>nums2 = [2,5,6],       n = 3</p>
-<p>输出: [1,2,2,3,5,6]</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>看到这类题目就是用双指针了，不过这里有个小技巧，为了避免增加额外的空间复杂度，我的想法是先将nums1数组中的元素后移nums2.length的长度，接着再从两个数组开头进行双指针。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span> m, <span class="keyword">int</span>[] nums2, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = m - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            nums1[i + n] = nums1[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i = n;</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; m + n &amp;&amp; j &lt; n)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums1[i] &lt;= nums2[j])</span><br><span class="line">            &#123;</span><br><span class="line">                nums1[k++] = nums1[i++];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">               nums1[k++] = nums2[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; m + n)</span><br><span class="line">        &#123;</span><br><span class="line">            nums1[k++] = nums1[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (j &lt; n)</span><br><span class="line">        &#123;</span><br><span class="line">            nums1[k++] = nums2[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="题解优化"><a href="#题解优化" class="headerlink" title="题解优化"></a>题解优化</h2><p>看完官方题解之后，瞬间感觉自己又像个智障了，我为什么就没有多转个弯，直接双指针从数组最后开始比呢，即找更大的数从后面填起。反正两种方法是对称的。</p>
-<p>这样一来，就不用移动了，既节省了空间复杂度，又减少了时间复杂度。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span> m, <span class="keyword">int</span>[] nums2, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// two get pointers for nums1 and nums2</span></span><br><span class="line">    <span class="keyword">int</span> p1 = m - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> p2 = n - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// set pointer for nums1</span></span><br><span class="line">    <span class="keyword">int</span> p = m + n - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// while there are still elements to compare</span></span><br><span class="line">    <span class="keyword">while</span> ((p1 &gt;= <span class="number">0</span>) &amp;&amp; (p2 &gt;= <span class="number">0</span>))</span><br><span class="line">      <span class="comment">// compare two elements from nums1 and nums2 </span></span><br><span class="line">      <span class="comment">// and add the largest one in nums1 </span></span><br><span class="line">      nums1[p--] = (nums1[p1] &lt; nums2[p2]) ? nums2[p2--] : nums1[p1--];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add missing elements from nums2</span></span><br><span class="line">    System.arraycopy(nums2, <span class="number">0</span>, nums1, <span class="number">0</span>, p2 + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ps：有一说一，题解的代码是真的简洁。。。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-%E6%8E%A2%E7%B4%A2%E5%88%9D%E7%BA%A7%E7%AE%97%E6%B3%95/" rel="tag">leetcode-探索初级算法</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-  
-  
-
-</article>
-    
-    <article id="post-leetcode-108" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/07/05/leetcode-108/"
-    >leetcode-108</a> 
-</h2>
- 
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/07/05/leetcode-108/" class="article-date">
-  <time datetime="2020-07-05T05:36:50.966Z" itemprop="datePublished">2020-07-05</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/leetcode/">leetcode</a>
-  </div>
-
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-
-      
-      <h1 id="将有序数组转化为二叉搜索树"><a href="#将有序数组转化为二叉搜索树" class="headerlink" title="将有序数组转化为二叉搜索树"></a>将有序数组转化为二叉搜索树</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。</p>
-<p>本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。</p>
-<p>示例:</p>
-<p>给定有序数组: [-10,-3,0,5,9],</p>
-<p>一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：<br>      0<br>     / <br>   -3   9<br>   /   /<br> -10  5<br>通过次数94,694提交次数129,204</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>芜湖，终于又自己写出递归了，本来没啥思路，下楼恰了个中饭不知怎么想到了二分法，哈哈。</p>
-<p>具体思路如下：<br>因为构造出的二叉搜索树一定是高度平衡的，所以考虑将题目所给的有序数组二分，这样左边就用来构造左子树，右边构造右子树，那么同理，左边那部分继续二分，。。。，这样一次类推，就有一种递归的思想在里面，每一层的操作都是相同的。</p>
-<p>递归分为递归体和递归出口，那么这个题目的递归出口就在区间左右相等的情况，也就是只剩下一个元素时。</p>
-<p>代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">sortedArrayToBST</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> createBST(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">createBST</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left == right) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(nums[left]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (left &lt; right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line">            TreeNode root = <span class="keyword">new</span> TreeNode(nums[mid]);</span><br><span class="line">            root.left = createBST(nums, left, mid - <span class="number">1</span>);</span><br><span class="line">            root.right = createBST(nums,mid + <span class="number">1</span>, right);</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="代码改进"><a href="#代码改进" class="headerlink" title="代码改进"></a>代码改进</h2><p>其实left = right的情况也可以合并到 &lt; 情况中，因为都要建立一个新结点并且left = right时mid就和left还有right都相等。</p>
-<p>那么这样一来代码就可以改成这样：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">sortedArrayToBST</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> createBST(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">createBST</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left &gt; right) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line">        TreeNode root = <span class="keyword">new</span> TreeNode(nums[mid]);</span><br><span class="line">        root.left = createBST(nums, left, mid - <span class="number">1</span>);</span><br><span class="line">        root.right = createBST(nums,mid + <span class="number">1</span>, right);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
       <!-- reward -->
       
